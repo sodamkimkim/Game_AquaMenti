@@ -1,0 +1,27 @@
+<최선을 다하기>
+** 전역변수 변수명_
+** public enum EVehicleType{CAR, MOTOCYCLE, LEN}
+storeManager.EVehicleType.CAR
+public void SearchEmpty(EVehicleType _type)
+** 자료형
+public List<String> customerList = new List<String>();
+public Queue<String>
+** 가변이지만 컴파일시점까지 자료형의 크기가 결정된다면 일반배열로 선언
+ㄴ 런타임시점도 가변이면 list
+** 프로퍼티 사용{ private get; private set;}
+** protected 적극 사용 (필요시)
+** namespace 적극 사용
+** [Header] 같은 inspector-attribute 적극 사용
+** 변수 정렬
+ㄴ 사용부에 따라서 정렬(공용은 공용끼리, 외부 입력은 최상단)
+** delegate & 람다식 적극활용
+ㄴ Init()
+** 인터페이스 & 추상클래스 적극활용
+ㄴ 어댑터패턴, 퍼사드 패턴 등 구조적 패턴 적극 활용할 수 있을 듯
+** static, 싱글톤 목적에 맞게 적절하게 사용 도전
+** 오브젝트 풀링(실시간 instance생성, instantiate 최소화)
+** 박싱 언박싱 최소화
+** 코루틴 사용
+ㄴ1. 순차적 한 사이클 실행시킬 때(호출에 따라 한 사이클이 필요할 때)
+ㄴ2. 업데이트에서 처리해야 할 것들을 코루틴으로 사용(입력 값, 예외처리 빼고는 대부분 코루틴으로 처리)
+ㄴ3. 한 프레임에서 동시에 멀티 쓰레드처럼 사용할 때
