@@ -96,7 +96,8 @@ namespace Suntail
             {
                 _lookDoor = null;
                 _lookObject = null;
-                uiPanel.gameObject.SetActive(false);
+                if(uiPanel != null)
+                    uiPanel.gameObject.SetActive(false);
             }
 
             if (Input.GetKeyDown(interactionKey))
@@ -170,7 +171,8 @@ namespace Suntail
         //Show interface elements when hovering over an object
         private void ShowDoorUI()
         {
-            uiPanel.gameObject.SetActive(true);
+            if (uiPanel != null)
+                uiPanel.gameObject.SetActive(true);
 
             if (_lookDoor.doorOpen)
             {
@@ -184,7 +186,8 @@ namespace Suntail
 
         private void ShowItemUI()
         {
-            uiPanel.gameObject.SetActive(true);
+            if (uiPanel != null)
+                uiPanel.gameObject.SetActive(true);
 
             if (_currentlyPickedUpObject == null)
             {
