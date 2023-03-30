@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Walkable
+  - Canvas_RotateControl
+  - ScreenSideTop
+  - ScreenSideBottom
+  - ScreenSideLeft
+  - ScreenSideRight
+  - Canvas_ScreenSide
   layers:
   - Default
   - TransparentFX
