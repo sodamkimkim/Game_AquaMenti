@@ -6,11 +6,7 @@ using UnityEngine;
 /// </summary>
 public interface IPlayerMovement
 {
-    /// <summary>
-    /// walk vs run이냐에 따라 _direction에 대한 moveSpeed달라짐
-    /// </summary>
-    /// <param name="_type"></param>
-    /// <param name="_direction"></param>
+
     void Walk(Vector3 _direction); // 걷기
     void Run(); // 뛰기
     void StandUp(); // 서기

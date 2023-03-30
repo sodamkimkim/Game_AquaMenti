@@ -9,27 +9,31 @@ public class PlayerKeyInput : MonoBehaviour
     {
         playerMovement_ = GetComponent<PlayerMovement>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
         // move forward
-        if(Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
-            playerMovement_.Walk(transform.forward);
+            playerMovement_.Walk(playerMovement_.GetPlayerTransform().forward);
         }
         // move backWard
-        if(Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
-            playerMovement_.Walk(-transform.forward);
+            playerMovement_.Walk(-playerMovement_.GetPlayerTransform().forward);
         }
         // move left
-        if(Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
-            playerMovement_.Walk(-transform.right);
+            playerMovement_.Walk(-playerMovement_.GetPlayerTransform().right);
         }
         // move right
-        if(Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
-            playerMovement_.Walk(transform.right);
+            playerMovement_.Walk(playerMovement_.GetPlayerTransform().right);
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            playerMovement_.Jump();
         }
     }
 } // end of class
