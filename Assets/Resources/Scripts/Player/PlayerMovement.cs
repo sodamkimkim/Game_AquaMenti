@@ -5,13 +5,26 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
-
     private Rigidbody rb_;
-    private CharacterController characterController;
-    private float walkSpeed_ = 700;
-    private float jumpPower_ = 700;
-    private float runSpeed_ = 1200;
+    private Camera mainCam;
+    private float walkSpeed_ =5f;
+    private float jumpPower_ = 10000;
+    private float runSpeed_ = 7.5f;
 
+    public bool isGround_ { get; set; }
+    public bool isLeftShiftKeyInput { get; set; }
+
+    private void Awake()
+    {
+        rb_ = this.GetComponent<Rigidbody>();
+        mainCam = Camera.main;
+        mainCam.transform.SetParent(this.transform);
+        Vector3 newCamPos = mainCam.transform.localPosition;
+        newCamPos.y = 0.66f;
+        newCamPos.z = 0.18f;
+        mainCam.transform.localPosition = newCamPos;
+        //  characterController = this.GetComponent<CharacterController>();
+    }
     public Transform GetPlayerTransform()
     {
         return this.GetComponent<Transform>();
@@ -20,39 +33,19 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     {
         return this.GetComponent<Transform>().position;
     }
-    private void Awake()
-    {
-        rb_ = this.GetComponent<Rigidbody>();
-      //  characterController = this.GetComponent<CharacterController>();
-    }
-    private void Update()
-    {
-        //public void LookAtMouseCursor()
-        //{
-        //    Vector3 mousePos = Input.mousePosition;
-        //    Vector3 playerPos = Camera.main.WorldToScreenPoint(this.transform.position);
-        //    Vector3 dir = mousePos - playerPos;
-        //    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        //    this.transform.rotation = Quaternion.AngleAxis(-angle + 90.0f, Vector3.up);
-        //}
-   
-
-
-    }
     public void Walk(Vector3 _direction)
     {
-        //float axisV = Input.GetAxis("Vertical");
-        //float axisH = Input.GetAxis("Horizontal");
-        //float axisJ = Input.GetAxis("Jump");
-        rb_.AddForce(_direction* walkSpeed_*Time.deltaTime, ForceMode.Force);
-        //characterController.Move(new Vector3(axisH * walkSpeed_ * Time.deltaTime,0f, axisV * walkSpeed_ * Time.deltaTime));
-
-
-
+        transform.position = GetPlayerPos() + _direction * walkSpeed_ * Time.deltaTime;
+        if (isLeftShiftKeyInput) { Run(_direction); }
     }
-    public void Run()
+    public void Run(Vector3 _direction)
     {
-        throw new System.NotImplementedException();
+        transform.position = GetPlayerPos() + _direction * runSpeed_ * Time.deltaTime;
+    }
+    public void Jump()
+    {
+        if (isGround_) rb_.AddForce(Vector3.up * jumpPower_ * Time.deltaTime);
+        isGround_ = false;
     }
     public void StandUp()
     {
@@ -66,17 +59,15 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     {
         throw new System.NotImplementedException();
     }
-    public void Jump()
-    {
-        //float axisJ = Input.GetAxis("Jump");
-        //      characterController.Move(Vector3.up * jumpPower * axisJ * Time.deltaTime);
-        rb_.AddForce(Vector3.up * jumpPower_ *Time.deltaTime);
-    }
+
 
     public void SetAnimation()
     {
         throw new System.NotImplementedException();
     }
-
+    public void OnCollisionEnter(Collision _collision)
+    {
+        if (_collision.gameObject.CompareTag("Walkable")) isGround_ = true;
+    }
 
 } // end of class

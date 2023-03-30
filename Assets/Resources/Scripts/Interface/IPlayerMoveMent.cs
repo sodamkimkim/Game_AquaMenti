@@ -8,7 +8,7 @@ public interface IPlayerMovement
 {
 
     void Walk(Vector3 _direction); // °È±â
-    void Run(); // ¶Ù±â
+    void Run(Vector3 _direction); // ¶Ù±â
     void StandUp(); // ¼­±â
     void SitDown(); // ¾É±â
     void KneelDown(); // ¾þµå¸®±â
