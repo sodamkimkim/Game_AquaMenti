@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private Rigidbody rb_;
     private CharacterController characterController;
-    private float walkSpeed_ = 3000;
-    private float jumpPower_ = 10000;
-    private float runSpeed_ = 5;
+    private float walkSpeed_ = 700;
+    private float jumpPower_ = 700;
+    private float runSpeed_ = 1200;
 
     public Transform GetPlayerTransform()
     {
