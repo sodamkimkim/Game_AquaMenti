@@ -11,7 +11,9 @@ public class UpperBodyLook : MonoBehaviour
         mainCam_ = Camera.main;
         mainCam_.transform.SetParent(this.transform);
         Vector3 newCamPos = mainCam_.transform.localPosition;
-        newCamPos.y = 0.66f;
+
+        newCamPos.x = -0.78f;
+        newCamPos.y = 2.94f;
         newCamPos.z = 0.18f;
         mainCam_.transform.localPosition = newCamPos;
     }
@@ -25,7 +27,7 @@ public class UpperBodyLook : MonoBehaviour
     /// </summary>
     private void RotateUpperBodyAxisX()
     {
-        Debug.Log(transform.localRotation);
+       // Debug.Log(transform.localRotation);
         // 아래로 바라보는 방향
         if (transform.localRotation.x < -0.31 )
         {

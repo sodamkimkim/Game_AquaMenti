@@ -11,6 +11,7 @@ TagManager:
   - ScreenSideLeft
   - ScreenSideRight
   - Canvas_ScreenSide
+  - Ladder
   layers:
   - Default
   - TransparentFX
