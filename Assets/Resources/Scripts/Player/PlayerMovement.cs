@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
     private Rigidbody rb_;
-    private Camera mainCam;
+
     private float walkSpeed_ =5f;
     private float jumpPower_ = 10000;
     private float runSpeed_ = 7.5f;
@@ -17,12 +17,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     private void Awake()
     {
         rb_ = this.GetComponent<Rigidbody>();
-        mainCam = Camera.main;
-        mainCam.transform.SetParent(this.transform);
-        Vector3 newCamPos = mainCam.transform.localPosition;
-        newCamPos.y = 0.66f;
-        newCamPos.z = 0.18f;
-        mainCam.transform.localPosition = newCamPos;
+
         //  characterController = this.GetComponent<CharacterController>();
     }
     public Transform GetPlayerTransform()
