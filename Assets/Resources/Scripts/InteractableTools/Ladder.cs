@@ -5,8 +5,9 @@ using UnityEngine;
 public class Ladder : MonoBehaviour, IInteractableTool
 {
     public bool isMoveable_ { get; set; }
-    public Transform GetLadderTransform() { return transform; }
-    public Vector3 GetLadderPos() { return transform.position; }
+
+    public Transform GetTransform() { return transform; }
+    public Vector3 GetPos() { return transform.position; }
     public string GetName()
     {
         return this.gameObject.name;
@@ -18,27 +19,18 @@ public class Ladder : MonoBehaviour, IInteractableTool
     /// <param name="_newPos"></param>
     public void SetLadderPos(Vector3 _newPos)
     {
-        GetLadderTransform().position = _newPos;
+        GetTransform().position = _newPos;
     }
- /// <summary>
- /// Ladder의 x position 값만 변경해 주는 메서드
- /// </summary>
- /// <param name="_x"></param>
-    public void SetLadderXPos(float _x)
+    public void RotateLadderLeft()
     {
-        Vector3 nowPos = GetLadderPos();
-        Vector3 newPos = nowPos;
-        newPos.x = _x;
+        Vector3 euler = new Vector3(0f, -45f, 0f);
+        GetTransform().Rotate(euler);
     }
-    /// <summary>
-    /// Ladder의 z position 값만 변경해 주는 메서드
-    /// </summary>
-    /// <param name="_x"></param>
-    public void SetLadderZPos(float _z)
+    public void RotateLadderRight()
     {
-        Vector3 nowPos = GetLadderPos();
-        Vector3 newPos = nowPos;
-        newPos.z = _z;
+        Vector3 euler = new Vector3(0f, 45f, 0f);
+        GetTransform().Rotate(euler);
     }
+    
 
 } // end of class

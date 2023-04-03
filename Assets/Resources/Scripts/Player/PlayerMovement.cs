@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
     public void OnCollisionEnter(Collision _collision)
     {
-        if (_collision.gameObject.CompareTag("Walkable")) isGround_ = true;
+        if (_collision.gameObject.layer ==3) isGround_ = true;
     }
 
 } // end of class
