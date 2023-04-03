@@ -5,20 +5,22 @@ using UnityEngine;
 public class WandRaySpawner : MonoBehaviour
 {
     private Ray ray_;
-    Vector3 hitPos_ = Vector3.zero;
+    public Vector3 hitPos_ { get; set; }
     private float rayMaxDistance_ = 10;
-    private LineRenderer lineRenderer_;
-
+    private Vector3 screenCenter_;
     private bool isLadder_ = false;
     private void Awake()
     {
-        lineRenderer_ = GetComponent<LineRenderer>();
-        lineRenderer_.positionCount = 2;
 
+
+    }
+    private void Start()
+    {
+        screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
     }
     private void Update()
     {
-        RayShot();
+        RayScreenCenterShot();
 
     }
     public Transform GetTransform()
@@ -33,31 +35,24 @@ public class WandRaySpawner : MonoBehaviour
     {
         return transform.localPosition;
     }
-    public Vector3 GetHitPos()
-    {
-        return hitPos_;
-    }
     public bool isLadder()
     {
         return isLadder_;
     }
 
     /// <summary>
-    /// 지팡이로부터 Ray쏴주는 메서드
+    /// 지팡이로부터 SreenCenter로 Ray쏴주는 메서드
     /// Ray 맞은 IInteractableObject 물체 인식 함.
     /// </summary>
-    private void RayShot()
+    private void RayScreenCenterShot()
     {
-        ray_.origin = GetPos();
-        ray_.direction = transform.forward;
-        //Vector3 wPos = transform.localToWorldMatrix * new Vector4(GetLocalPos().x, GetLocalPos().y, GetLocalPos().z, 1f);
-      //  lineRenderer_.SetPosition(0, wPos);
-        lineRenderer_.SetPosition(0, GetPos());
+        ray_ = Camera.main.ScreenPointToRay(screenCenter_);
+        Debug.DrawRay(GetPos(), GetTransform().forward * rayMaxDistance_, Color.red);
 
         RaycastHit hit;
-        hitPos_ = Vector3.zero;
         if (Physics.Raycast(ray_, out hit, rayMaxDistance_))
         {
+            Debug.Log("/??");
             IInteractableObject target = hit.collider.GetComponentInParent<IInteractableObject>();
             if(target != null)
             {
@@ -80,7 +75,5 @@ public class WandRaySpawner : MonoBehaviour
         {
             hitPos_ = GetPos() + GetTransform().forward * rayMaxDistance_;
         }
-        lineRenderer_.SetPosition(1, hitPos_);
-        lineRenderer_.enabled = true;
     }
 } // end of class

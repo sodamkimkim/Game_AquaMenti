@@ -13,6 +13,7 @@ TagManager:
   - Canvas_ScreenSide
   - Ladder
   - Floor
+  - Canvas_Focus
   layers:
   - Default
   - TransparentFX

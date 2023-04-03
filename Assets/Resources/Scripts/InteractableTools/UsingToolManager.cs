@@ -6,17 +6,15 @@ public class UsingToolManager : MonoBehaviour
 {
     private WandRaySpawner wandRaySpawner_;
     private Ladder ladder_;
-    private CheckLadderOnGround checkLadderOnGround_;
 
     private void Awake()
     {
         wandRaySpawner_ = GameObject.FindWithTag("Player").GetComponentInChildren<WandRaySpawner>();
         ladder_ = GameObject.FindWithTag("Ladder").GetComponent<Ladder>();
-        checkLadderOnGround_ = ladder_.gameObject.GetComponentInChildren<CheckLadderOnGround>();
     }
     private void Update()
     {
-        Vector3 rayHitPos_ = wandRaySpawner_.GetHitPos();
+        Vector3 rayHitPos_ = wandRaySpawner_.hitPos_;
         if (wandRaySpawner_.isLadder() && Input.GetKey(KeyCode.F)) ladder_.isMoveable_ = true;
 
         if (ladder_.isMoveable_)

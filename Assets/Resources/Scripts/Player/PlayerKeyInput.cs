@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 항상 유효한 키는 이 클래스에 정의.
+/// flag변수로 유효성 여부가 바뀌는 키는 상황에 따라 적절한 위치에 정의
+/// </summary>
 public class PlayerKeyInput : MonoBehaviour
 {
     private PlayerMovement playerMovement_;
@@ -47,11 +51,6 @@ public class PlayerKeyInput : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             playerMovement_.Jump();
-        }
-        // raycast line 그리기
-        if (Input.GetKey(KeyCode.R))
-        {
-            Debug.DrawLine(magicSpawner_.GetPos(), magicSpawner_.GetHitPos(), Color.green, 2f);
         }
         // 사다리 들기
         if(Input.GetKey(KeyCode.F))
