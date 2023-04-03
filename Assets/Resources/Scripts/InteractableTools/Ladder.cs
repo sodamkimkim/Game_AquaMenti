@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour, IInteractableTool
 {
+    public bool isMoveable_ { get; set; }
     public Transform GetLadderTransform() { return transform; }
     public Vector3 GetLadderPos() { return transform.position; }
     public string GetName()
     {
         return this.gameObject.name;
     }
+
     /// <summary>
     /// Ladder의 position을 바꿔주는 메서드
     /// </summary>
@@ -38,4 +40,5 @@ public class Ladder : MonoBehaviour, IInteractableTool
         Vector3 newPos = nowPos;
         newPos.z = _z;
     }
+
 } // end of class

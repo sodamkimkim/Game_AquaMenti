@@ -5,14 +5,16 @@ using UnityEngine;
 public class PlayerKeyInput : MonoBehaviour
 {
     private PlayerMovement playerMovement_;
-
+    private WandRaySpawner magicSpawner_;
 
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
+        magicSpawner_ = GetComponentInChildren<WandRaySpawner>();
     }
     private void FixedUpdate()
     {
+        // walk상태 일때 달릴 수 있음
         if(Input.GetKey(KeyCode.LeftShift))
         {
             playerMovement_.isLeftShiftKeyInput = true;
@@ -41,9 +43,21 @@ public class PlayerKeyInput : MonoBehaviour
         {
             playerMovement_.Walk(playerMovement_.GetPlayerTransform().right);
         }
+        // jump
         if (Input.GetKey(KeyCode.Space))
         {
             playerMovement_.Jump();
+        }
+        // raycast line 그리기
+        if (Input.GetKey(KeyCode.R))
+        {
+            Debug.DrawLine(magicSpawner_.GetPos(), magicSpawner_.GetHitPos(), Color.green, 2f);
+        }
+        // 사다리 들기
+        if(Input.GetKey(KeyCode.F))
+        {
+            // ray에 사다리가 충돌했으면 해당 사다리의 pos를 바꿔줌.
+
         }
     }
 } // end of class

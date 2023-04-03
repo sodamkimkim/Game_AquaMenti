@@ -13,8 +13,8 @@ public class UpperBodyLook : MonoBehaviour
         Vector3 newCamPos = mainCam_.transform.localPosition;
 
      //   newCamPos.x = -0.78f;
-        newCamPos.y = 2.94f;
-        newCamPos.z = 0.18f;
+        newCamPos.y = 0.28f;
+        newCamPos.z = 0.38f;
         mainCam_.transform.localPosition = newCamPos;
     }
     private void Update()
