@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class WandRaySpawner : MonoBehaviour
 {
+    private UIFocusPoint uIFocusPoint_;
     private Ray ray_;
     public Vector3 hitPos_ { get; set; }
     private float rayMaxDistance_ = 10;
     private Vector3 screenCenter_;
+
+    public bool isCenterFocus_ { get; set; }
+
     private bool isLadder_ = false;
+
     private void Awake()
     {
-
-
-    }
-    private void Start()
-    {
+        uIFocusPoint_ = GameObject.FindWithTag("Canvas_Focus").GetComponentInChildren<UIFocusPoint>();  
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
+        isCenterFocus_ = true;
     }
+
     private void Update()
     {
-        RayScreenCenterShot();
-
+        if (isCenterFocus_) RayScreenCenterShot();
+        else if(!isCenterFocus_) RayMoveFocusShot();
     }
     public Transform GetTransform()
     {
@@ -46,20 +49,29 @@ public class WandRaySpawner : MonoBehaviour
     /// </summary>
     private void RayScreenCenterShot()
     {
+       Debug.Log("FocusCenter()");
         ray_ = Camera.main.ScreenPointToRay(screenCenter_);
+        uIFocusPoint_.SetPos(screenCenter_);
         Debug.DrawRay(GetPos(), GetTransform().forward * rayMaxDistance_, Color.red);
-
+        RayFindObject();
+    }
+    private void RayMoveFocusShot()
+    {
+        //TODO
+     Debug.Log("FocusMove()");
+    }
+    private void RayFindObject()
+    {
         RaycastHit hit;
         if (Physics.Raycast(ray_, out hit, rayMaxDistance_))
         {
-            Debug.Log("/??");
             IInteractableObject target = hit.collider.GetComponentInParent<IInteractableObject>();
-            if(target != null)
+            if (target != null)
             {
                 Debug.Log(target.GetName());
 
                 // target이름이 Ladder이면 bool 값을 바꿔서 Ladder의 위치를 옮길 수 있음
-                if(target.GetName() == "Ladder")
+                if (target.GetName() == IInteractableTool.EInteractableTool.Ladder.ToString())
                 {
                     isLadder_ = true;
                 }
@@ -69,7 +81,7 @@ public class WandRaySpawner : MonoBehaviour
                 }
             }
             hitPos_ = hit.point;
-      
+
         }
         else
         {

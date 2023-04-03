@@ -9,17 +9,17 @@ using UnityEngine;
 public class PlayerKeyInput : MonoBehaviour
 {
     private PlayerMovement playerMovement_;
-    private WandRaySpawner magicSpawner_;
+    private WandRaySpawner wandRaySpawner_;
 
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
-        magicSpawner_ = GetComponentInChildren<WandRaySpawner>();
+        wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
     }
-    private void FixedUpdate()
+    private void Update()
     {
         // walk상태 일때 달릴 수 있음
-        if(Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             playerMovement_.isLeftShiftKeyInput = true;
         }
@@ -52,11 +52,11 @@ public class PlayerKeyInput : MonoBehaviour
         {
             playerMovement_.Jump();
         }
-        // 사다리 들기
-        if(Input.GetKey(KeyCode.F))
+        // focus Center
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            // ray에 사다리가 충돌했으면 해당 사다리의 pos를 바꿔줌.
-
+            if (wandRaySpawner_.isCenterFocus_ == true) { wandRaySpawner_.isCenterFocus_ = false; Debug.Log("IsCenterFocus_ = false"); }
+           else if (wandRaySpawner_.isCenterFocus_ == false) { wandRaySpawner_.isCenterFocus_ = true; Debug.Log("IsCenterFocus_ = true"); }
         }
     }
 } // end of class
