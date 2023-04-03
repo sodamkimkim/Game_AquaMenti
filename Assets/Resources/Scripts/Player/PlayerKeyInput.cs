@@ -58,5 +58,6 @@ public class PlayerKeyInput : MonoBehaviour
             if (wandRaySpawner_.isCenterFocus_ == true) { wandRaySpawner_.isCenterFocus_ = false; Debug.Log("IsCenterFocus_ = false"); }
            else if (wandRaySpawner_.isCenterFocus_ == false) { wandRaySpawner_.isCenterFocus_ = true; Debug.Log("IsCenterFocus_ = true"); }
         }
+
     }
 } // end of class

@@ -11,20 +11,21 @@ public class WandRaySpawner : MonoBehaviour
     private Vector3 screenCenter_;
 
     public bool isCenterFocus_ { get; set; }
-
+    public bool isEffectHorizontal { get; set; } // 마법 effect 각도 변경
     private bool isLadder_ = false;
 
     private void Awake()
     {
-        uIFocusPoint_ = GameObject.FindWithTag("Canvas_Focus").GetComponentInChildren<UIFocusPoint>();  
+        uIFocusPoint_ = GameObject.FindWithTag("Canvas_Focus").GetComponentInChildren<UIFocusPoint>();
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
         isCenterFocus_ = true;
+        isEffectHorizontal = true;
     }
 
     private void Update()
     {
         if (isCenterFocus_) RayScreenCenterShot();
-        else if(!isCenterFocus_) RayMoveFocusShot();
+        else if (!isCenterFocus_) RayMoveFocusShot();
     }
     public Transform GetTransform()
     {
@@ -49,7 +50,7 @@ public class WandRaySpawner : MonoBehaviour
     /// </summary>
     private void RayScreenCenterShot()
     {
-       Debug.Log("FocusCenter()");
+        Debug.Log("FocusCenter()");
         ray_ = Camera.main.ScreenPointToRay(screenCenter_);
         uIFocusPoint_.SetPos(screenCenter_);
         Debug.DrawRay(GetPos(), GetTransform().forward * rayMaxDistance_, Color.red);
@@ -58,7 +59,7 @@ public class WandRaySpawner : MonoBehaviour
     private void RayMoveFocusShot()
     {
         //TODO
-     Debug.Log("FocusMove()");
+        Debug.Log("FocusMove()");
     }
     private void RayFindObject()
     {
@@ -88,4 +89,5 @@ public class WandRaySpawner : MonoBehaviour
             hitPos_ = GetPos() + GetTransform().forward * rayMaxDistance_;
         }
     }
+
 } // end of class
