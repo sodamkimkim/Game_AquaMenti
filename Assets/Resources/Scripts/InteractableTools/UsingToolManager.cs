@@ -15,7 +15,7 @@ public class UsingToolManager : MonoBehaviour
     private void Update()
     {
         Vector3 rayHitPos_ = wandRaySpawner_.hitPos_;
-        if (wandRaySpawner_.isLadder() && Input.GetKey(KeyCode.F)) ladder_.isMoveable_ = true;
+        if (wandRaySpawner_.isLadder_ && Input.GetKey(KeyCode.F)) ladder_.isMoveable_ = true;
 
         if (ladder_.isMoveable_)
         { 

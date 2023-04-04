@@ -17,6 +17,7 @@ public class PlayerFocusManager : MonoBehaviour
 
     // Flag
     public bool isFocusFixed_ { get; set; }
+    public bool isFocusHorizontal_ { get; set; }
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerFocusManager : MonoBehaviour
         screenSideManager_ = GameObject.FindWithTag("Canvas_ScreenSide").GetComponent<ScreenSideManager>();
 
         isFocusFixed_ = true;
+        isFocusHorizontal_ = true;
     }
     private void Update()
     {

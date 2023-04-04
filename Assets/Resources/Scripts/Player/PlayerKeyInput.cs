@@ -58,6 +58,11 @@ public class PlayerKeyInput : MonoBehaviour
             if (playerFocusManager_.isFocusFixed_ == true) { playerFocusManager_.isFocusFixed_ = false; Debug.Log("isFocusFixed_ = false"); }
            else if (playerFocusManager_.isFocusFixed_ == false) { playerFocusManager_.isFocusFixed_ = true; Debug.Log("isFocusFixed_ = true"); }
         }
-
+        // 마법영역 Rotate
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if (playerFocusManager_.isFocusHorizontal_ == true) { playerFocusManager_.isFocusHorizontal_ = false; Debug.Log("isFocusHorizontal_ = false"); }
+            else if (playerFocusManager_.isFocusHorizontal_ == false) { playerFocusManager_.isFocusHorizontal_ = true; Debug.Log("isFocusHorizontal_ = true"); }
+        }
     }
 } // end of class

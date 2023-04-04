@@ -12,17 +12,14 @@ public class WandRaySpawner : MonoBehaviour
     private Vector3 screenCenter_;
 
 
-    private bool isLadder_ = false;
+    public bool isLadder_ { get; set; }
     private void Awake()
     {
         uIFocusPoint_ = GameObject.FindWithTag("Canvas_Focus").GetComponentInChildren<UIFocusPoint>();
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
+        isLadder_ = false;
     }
 
-    private void Update()
-    {
-
-    }
     public Transform GetTransform()
     {
         return transform;
@@ -35,10 +32,7 @@ public class WandRaySpawner : MonoBehaviour
     {
         return transform.localPosition;
     }
-    public bool isLadder()
-    {
-        return isLadder_;
-    }
+
 
     /// <summary>
     /// WandRaySpawner로부터 SreenCenter로 Ray쏴주는 메서드

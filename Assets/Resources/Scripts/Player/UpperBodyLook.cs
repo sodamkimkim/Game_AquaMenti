@@ -20,7 +20,7 @@ public class UpperBodyLook : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(transform.localRotation);
+       //Debug.Log(transform.localRotation);
     }
     public Vector3 GetEuler()
     {
