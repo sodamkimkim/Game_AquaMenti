@@ -189,14 +189,14 @@ namespace Suntail
             if (uiPanel != null)
                 uiPanel.gameObject.SetActive(true);
 
-            if (_currentlyPickedUpObject == null)
+/*            if (_currentlyPickedUpObject == null)
             {
                 panelText.text = itemPickUpText;
             }
             else if (_currentlyPickedUpObject != null)
             {
                 panelText.text = itemDropText;
-            }
+            }*/
 
         }
 

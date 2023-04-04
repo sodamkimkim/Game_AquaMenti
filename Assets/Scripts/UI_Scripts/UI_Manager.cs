@@ -14,6 +14,8 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject workSectionSelectGo = null;
     [SerializeField] private GameObject sectionDetailGo = null;
     [SerializeField] private GameObject detailGo = null;
+    [SerializeField] private UI_WorkAreaManager uI_WorkAreaManager = null;
+    [SerializeField] private UI_SectionDetailManager uI_SectionDetailManager = null;
 
     [SerializeField] private UI_MenuManager ui_menuManager = null;
 
@@ -71,6 +73,7 @@ public class UI_Manager : MonoBehaviour
         ui_menuManager.SetWorkAreaMenu();
         currentContent.SetActive(false);
         workSectionSelectGo.SetActive(true);
+        uI_WorkAreaManager.SetSectionContent(_selectedMapNum);
         currentContent = workSectionSelectGo;
     }
     public void GoToSectionDetailGo(int _selectedSectionNum)
@@ -83,6 +86,7 @@ public class UI_Manager : MonoBehaviour
         ui_menuManager.SetSectionDetailMenu();
         currentContent.SetActive(false);
         sectionDetailGo.SetActive(true);
+        uI_SectionDetailManager.SetWorkSectionDetail(selectedMapNum, _selectedSectionNum);
         currentContent = sectionDetailGo;
     }
     public void GoToWorkDetailGo()
@@ -137,5 +141,10 @@ public class UI_Manager : MonoBehaviour
         return $" UI_Manager Detail\n nickName : {nickName}\n selectedMapNum : {selectedMapNum}\n selectedSectionNum : {selectedSectionNum}\n";
     }
 
+/*    public void GetMapSectionNumber(out int _selectedMapNum, out int _selectedSectionNum)
+    {
+        _selectedMapNum = selectedMapNum;
+        _selectedSectionNum = selectedSectionNum;
+    }*/
 
 }
