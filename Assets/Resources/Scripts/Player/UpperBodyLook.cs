@@ -20,30 +20,35 @@ public class UpperBodyLook : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(transform.localRotation.eulerAngles);
+        Debug.Log(transform.localRotation);
     }
-
+    public Vector3 GetEuler()
+    {
+        return transform.localRotation.eulerAngles;
+    }
     /// <summary>
     /// FocusFixed 모드 - 상체 각도 위아래 보려고 x축 rotate
-    /// </summary>
+    /// </summary>s
     public void RotateUpperBodyAxisX(bool _para)
     {
         if (_para)
         {
             // Debug.Log(transform.localRotation);
-
-            if (transform.localRotation.x <= -0.31)
-            {
-                Quaternion q = transform.localRotation;
-                q.x = -0.31f;
-                transform.localRotation = q;
-            }
+            // # 위로 보는 회전각도 제약
             if (transform.localRotation.x >= 0.22)
             {
                 Quaternion q = transform.localRotation;
                 q.x = 0.22f;
                 transform.localRotation = q;
             }
+            // # 아래로 보는 회전각도 제약
+            if (transform.localRotation.x <= -0.31)
+            {
+                Quaternion q = transform.localRotation;
+                q.x = -0.31f;
+                transform.localRotation = q;
+            }
+
 
 
             float mouseY = Input.GetAxis("Mouse Y");
@@ -60,16 +65,17 @@ public class UpperBodyLook : MonoBehaviour
         if (_para)
         {
             Debug.Log("RotateUpperBodyAxisXUP()");
-            if (transform.localRotation.x <= -0.31)
+            if (transform.localRotation.x >= 0.22)
             {
                 Quaternion q = transform.localRotation;
-                q.x = -0.31f;
+                q.x = 0.22f;
                 transform.localRotation = q;
             }
 
             float rotAngle = 0f;
-            rotAngle = focusMoveModeOffsetAngle_;
-            transform.Rotate(-Vector3.right, rotAngle);
+            rotAngle = -focusMoveModeOffsetAngle_;
+            transform.Rotate(Vector3.right, rotAngle);
+
         }
     }
     /// <summary>
@@ -81,15 +87,17 @@ public class UpperBodyLook : MonoBehaviour
         if (_para)
         {
             Debug.Log("RotateUpperBodyAxisXDown()");
-            if (transform.localRotation.x >= 0.22)
+            if (transform.localRotation.x <= -0.31)
             {
                 Quaternion q = transform.localRotation;
-                q.x = 0.22f;
+                q.x = -0.31f;
                 transform.localRotation = q;
             }
+
             float rotAngle = 0f;
             rotAngle = focusMoveModeOffsetAngle_;
             transform.Rotate(Vector3.right, rotAngle);
+
         }
     }
 } // end of class
