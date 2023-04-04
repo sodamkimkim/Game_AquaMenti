@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UpperBodyLook : MonoBehaviour
 {
-    private float offsetAngle_ = 10f;
+    private readonly float focusFixedModeOffsetAngle_ = 10f;
+    private readonly float focusMoveModeOffsetAngle_ = 2f;
     private Camera mainCam_;
     private void Awake()
     {
@@ -12,39 +13,83 @@ public class UpperBodyLook : MonoBehaviour
         mainCam_.transform.SetParent(this.transform);
         Vector3 newCamPos = mainCam_.transform.localPosition;
 
-     //   newCamPos.x = -0.78f;
+        //   newCamPos.x = -0.78f;
         newCamPos.y = 0.28f;
         newCamPos.z = 0.38f;
         mainCam_.transform.localPosition = newCamPos;
     }
     private void Update()
     {
-
+        Debug.Log(transform.localRotation.eulerAngles);
     }
 
     /// <summary>
-    /// 상체 각도 위아래 보려고 x축 rotate
+    /// FocusFixed 모드 - 상체 각도 위아래 보려고 x축 rotate
     /// </summary>
-    public void RotateUpperBodyAxisX()
+    public void RotateUpperBodyAxisX(bool _para)
     {
-       // Debug.Log(transform.localRotation);
-        // 아래로 바라보는 방향
-        if (transform.localRotation.x <= -0.31 )
+        if (_para)
         {
-            Quaternion q = transform.localRotation;
-            q.x = -0.31f;
-            transform.localRotation = q;
-        }
-        // 위로 바라보는 방향
-        if (transform.localRotation.x>=0.22)
-        {
-            Quaternion q = transform.localRotation;
-            q.x = 0.22f;
-            transform.localRotation = q;
-        }
+            // Debug.Log(transform.localRotation);
 
-        float mouseY = Input.GetAxis("Mouse Y");
-        transform.Rotate(-mouseY * offsetAngle_, 0f, 0f);
+            if (transform.localRotation.x <= -0.31)
+            {
+                Quaternion q = transform.localRotation;
+                q.x = -0.31f;
+                transform.localRotation = q;
+            }
+            if (transform.localRotation.x >= 0.22)
+            {
+                Quaternion q = transform.localRotation;
+                q.x = 0.22f;
+                transform.localRotation = q;
+            }
+
+
+            float mouseY = Input.GetAxis("Mouse Y");
+            transform.Rotate(-mouseY * focusFixedModeOffsetAngle_, 0f, 0f);
+        }
     }
 
+    /// <summary>
+    /// FocusMove 모드에서 상체 UP방향 rotation
+    /// </summary>
+    /// <param name="_para"></param>
+    public void RotateUpperBodyUP(bool _para)
+    {
+        if (_para)
+        {
+            Debug.Log("RotateUpperBodyAxisXUP()");
+            if (transform.localRotation.x <= -0.31)
+            {
+                Quaternion q = transform.localRotation;
+                q.x = -0.31f;
+                transform.localRotation = q;
+            }
+
+            float rotAngle = 0f;
+            rotAngle = focusMoveModeOffsetAngle_;
+            transform.Rotate(-Vector3.right, rotAngle);
+        }
+    }
+    /// <summary>
+    /// FocusMove 모드에서 상체 Down방향 rotation
+    /// </summary>
+    /// <param name="_para"></param>
+    public void RotateUpperBodyDown(bool _para)
+    {
+        if (_para)
+        {
+            Debug.Log("RotateUpperBodyAxisXDown()");
+            if (transform.localRotation.x >= 0.22)
+            {
+                Quaternion q = transform.localRotation;
+                q.x = 0.22f;
+                transform.localRotation = q;
+            }
+            float rotAngle = 0f;
+            rotAngle = focusMoveModeOffsetAngle_;
+            transform.Rotate(Vector3.right, rotAngle);
+        }
+    }
 } // end of class
