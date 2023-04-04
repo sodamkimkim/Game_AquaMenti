@@ -48,7 +48,7 @@ public class PlayerKeyInput : MonoBehaviour
             playerMovement_.Walk(playerMovement_.GetPlayerTransform().right);
         }
         // jump
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             playerMovement_.Jump();
         }

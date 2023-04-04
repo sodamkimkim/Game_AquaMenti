@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     private Rigidbody rb_;
 
     private float walkSpeed_ =5f;
-    private float jumpPower_ = 10000;
+    private float jumpPower_ = 5;
     private float runSpeed_ = 7.5f;
 
     public bool isGround_ { get; set; }
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
     public void Jump()
     {
-        if (isGround_) rb_.AddForce(Vector3.up * jumpPower_ * Time.deltaTime);
+        if (isGround_) rb_.AddForce(Vector3.up * jumpPower_ , ForceMode.Impulse);
         isGround_ = false;
     }
     public void StandUp()
