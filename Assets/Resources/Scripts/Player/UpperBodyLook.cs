@@ -19,13 +19,13 @@ public class UpperBodyLook : MonoBehaviour
     }
     private void Update()
     {
-        RotateUpperBodyAxisX();
+
     }
 
     /// <summary>
     /// 상체 각도 위아래 보려고 x축 rotate
     /// </summary>
-    private void RotateUpperBodyAxisX()
+    public void RotateUpperBodyAxisX()
     {
        // Debug.Log(transform.localRotation);
         // 아래로 바라보는 방향

@@ -14,6 +14,7 @@ TagManager:
   - Ladder
   - Floor
   - Canvas_Focus
+  - PlayerFocusManager
   layers:
   - Default
   - TransparentFX

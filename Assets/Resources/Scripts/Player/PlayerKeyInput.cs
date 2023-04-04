@@ -9,12 +9,12 @@ using UnityEngine;
 public class PlayerKeyInput : MonoBehaviour
 {
     private PlayerMovement playerMovement_;
-    private WandRaySpawner wandRaySpawner_;
-
+    private PlayerFocusManager playerFocusManager_;
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
-        wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
+
+        playerFocusManager_ = GameObject.FindWithTag("PlayerFocusManager").GetComponent<PlayerFocusManager>();  
     }
     private void Update()
     {
@@ -55,8 +55,8 @@ public class PlayerKeyInput : MonoBehaviour
         // focus Center
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if (wandRaySpawner_.isCenterFocus_ == true) { wandRaySpawner_.isCenterFocus_ = false; Debug.Log("IsCenterFocus_ = false"); }
-           else if (wandRaySpawner_.isCenterFocus_ == false) { wandRaySpawner_.isCenterFocus_ = true; Debug.Log("IsCenterFocus_ = true"); }
+            if (playerFocusManager_.isFocusFixed_ == true) { playerFocusManager_.isFocusFixed_ = false; Debug.Log("isFocusFixed_ = false"); }
+           else if (playerFocusManager_.isFocusFixed_ == false) { playerFocusManager_.isFocusFixed_ = true; Debug.Log("isFocusFixed_ = true"); }
         }
 
     }
