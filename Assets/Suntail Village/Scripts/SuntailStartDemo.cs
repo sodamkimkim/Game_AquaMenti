@@ -23,14 +23,10 @@ namespace Suntail
 
         private void Start()
         {
-            if(blackScreenImage != null)
-                blackScreenImage.gameObject.SetActive(true);
-            if (blackScreenText1 != null)
-                blackScreenText1.gameObject.SetActive(true);
-            if (blackScreenText2 != null)
-                blackScreenText2.gameObject.SetActive(true);
-            if (hintText != null)
-                hintText.gameObject.SetActive(true);
+            blackScreenImage.gameObject.SetActive(true);
+            blackScreenText1.gameObject.SetActive(true);
+            blackScreenText2.gameObject.SetActive(true);
+            hintText.gameObject.SetActive(true);
             _audioMixer.SetFloat("soundsVolume", -80f);
         }
 
@@ -43,12 +39,9 @@ namespace Suntail
                 if (blackScreenDuration < 0)
                 {
                     screenTimerIsActive = false;
-                    if (blackScreenImage != null)
-                        blackScreenImage.CrossFadeAlpha(0, fadingDuration, false);
-                    if (blackScreenText1 != null)
-                        blackScreenText1.CrossFadeAlpha(0, fadingDuration, false);
-                    if (blackScreenText2 != null)
-                        blackScreenText2.CrossFadeAlpha(0, fadingDuration, false);
+                    blackScreenImage.CrossFadeAlpha(0, fadingDuration, false);
+                    blackScreenText1.CrossFadeAlpha(0, fadingDuration, false);
+                    blackScreenText2.CrossFadeAlpha(0, fadingDuration, false);
                     StartCoroutine(StartAudioFade(_audioMixer, "soundsVolume", fadingDuration, 1f));
                 }
             }
@@ -60,8 +53,7 @@ namespace Suntail
                 if (hintDuration < 0)
                 {
                     hintTimerIsActive = false;
-                    if (hintText != null)
-                        hintText.CrossFadeAlpha(0, fadingDuration, false);
+                    hintText.CrossFadeAlpha(0, fadingDuration, false);
                 }
             }
         }
