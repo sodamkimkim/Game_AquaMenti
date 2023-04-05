@@ -32,7 +32,7 @@ public class WandRaySpawner : MonoBehaviour
     {
         return transform.localPosition;
     }
-
+   
 
     /// <summary>
     /// WandRaySpawner로부터 SreenCenter로 Ray쏴주는 메서드
@@ -40,7 +40,7 @@ public class WandRaySpawner : MonoBehaviour
     /// </summary>
     public void RayScreenCenterShot()
     {
-        Debug.Log("FocusFixed()");
+        // Debug.Log("FocusFixed()");
         ray_ = Camera.main.ScreenPointToRay(screenCenter_);
         uIFocusPoint_.SetPos(screenCenter_);
         Debug.DrawRay(GetPos(), GetTransform().forward * rayMaxDistance_, Color.red);
@@ -52,8 +52,7 @@ public class WandRaySpawner : MonoBehaviour
     public void RayMoveFocusShot()
     {
         // mousePosition에 따라 화면 돌아가지 않게 해 줘야함
-        // 
-        Debug.Log("FocusMove()");
+        // Debug.Log("FocusMove()");
         Vector3 mousePos = Input.mousePosition;
         ray_ = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hit;
@@ -93,5 +92,6 @@ public class WandRaySpawner : MonoBehaviour
             hitPos_ = GetPos() + GetTransform().forward * rayMaxDistance_;
         }
     }
+
 
 } // end of class

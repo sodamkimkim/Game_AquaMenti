@@ -15,6 +15,9 @@ TagManager:
   - Floor
   - Canvas_Focus
   - PlayerFocusManager
+  - Water
+  - WaterMagic
+  - MagicManager
   layers:
   - Default
   - TransparentFX
