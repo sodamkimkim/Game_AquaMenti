@@ -29,7 +29,7 @@ namespace DataForSaveLoad
     public struct PartStatusData
     {
         private string workSectionBelong_; // part啊 家加等 worksection
-        private string partCategory_; // ex) 克寒拉倒 , 克寒
+      //  private string partCategory_; // ex) 克寒拉倒 , 克寒 -> 捞扒 惑怕 楷魂 & ui俊辑 焊咯临 锭 贸府
         private string partName_; // ex) 克寒拉倒1, 克寒拉倒2, 克寒
     } // end of structure
 
