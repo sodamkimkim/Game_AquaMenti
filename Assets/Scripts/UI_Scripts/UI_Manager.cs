@@ -13,9 +13,11 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject mapSelectGo = null;
     [SerializeField] private GameObject workSectionSelectGo = null;
     [SerializeField] private GameObject sectionDetailGo = null;
-    [SerializeField] private GameObject detailGo = null;
+    [SerializeField] private GameObject workDetailGo = null;
     [SerializeField] private UI_WorkAreaManager uI_WorkAreaManager = null;
     [SerializeField] private UI_SectionDetailManager uI_SectionDetailManager = null;
+
+    [SerializeField] private Button[] btns = null;
 
     [SerializeField] private UI_MenuManager ui_menuManager = null;
 
@@ -25,7 +27,12 @@ public class UI_Manager : MonoBehaviour
     private int selectedSectionNum = 0;
 
     private string nickName = string.Empty;
+    private Color defaultNomalColor;
 
+    private void Start()
+    {
+        defaultNomalColor = btns[0].colors.normalColor;
+    }
 
     private void OnValueChangedName(string _nickName)
     {
@@ -38,6 +45,8 @@ public class UI_Manager : MonoBehaviour
             enterPageGo.SetActive(false);
             mainBookGo.SetActive(true);
             currentContent = mainGo;
+
+            SetTapColor(0);
         }
     }
     public void GoToMain()
@@ -49,6 +58,8 @@ public class UI_Manager : MonoBehaviour
         currentContent.SetActive(false);
         mainGo.SetActive(true);
         currentContent = mainGo;
+
+        SetTapColor(0);
     }
     public void GoToMapSelect()
     {
@@ -60,6 +71,8 @@ public class UI_Manager : MonoBehaviour
         mapSelectGo.SetActive(true);
         currentContent = mapSelectGo;
 
+        SetTapColor(1);
+
     }
     public void GoToWorkSectionSelectGo(int _selectedMapNum)
     {
@@ -70,12 +83,13 @@ public class UI_Manager : MonoBehaviour
 
         if ( !ui_menuManager.IsActiveBeforeBtnGo() )
             ui_menuManager.ActiveTogleBeforeBtn();
-
+        selectedMapNum = _selectedMapNum;
         ui_menuManager.SetWorkAreaMenu();
         currentContent.SetActive(false);
         workSectionSelectGo.SetActive(true);
         uI_WorkAreaManager.SetSectionContent(_selectedMapNum);
         currentContent = workSectionSelectGo;
+        SetTapColor(2);
     }
     public void GoToSectionDetailGo(int _selectedSectionNum)
     {
@@ -89,13 +103,17 @@ public class UI_Manager : MonoBehaviour
         sectionDetailGo.SetActive(true);
         uI_SectionDetailManager.SetWorkSectionDetail(selectedMapNum, _selectedSectionNum);
         currentContent = sectionDetailGo;
+
+        SetTapColor(3);
     }
     public void GoToWorkDetailGo()
     {
-        if (currentContent == detailGo) return;
+        if (currentContent == workDetailGo) return;
         currentContent.SetActive(false);
-        detailGo.SetActive(true);
-        currentContent = detailGo;
+        workDetailGo.SetActive(true);
+        currentContent = workDetailGo;
+
+        SetTapColor(4);
     }
 
     public void GoToBeforeGo()
@@ -109,6 +127,7 @@ public class UI_Manager : MonoBehaviour
             currentContent.SetActive(false);
             mainGo.SetActive(true);
 
+            SetTapColor(0);
             currentContent = mainGo;
         }
         else if (currentContent == workSectionSelectGo)
@@ -117,6 +136,7 @@ public class UI_Manager : MonoBehaviour
             currentContent.SetActive(false);
             mapSelectGo.SetActive(true);
 
+            SetTapColor(1);
             currentContent = mapSelectGo;
         }
         else if (currentContent == sectionDetailGo)
@@ -125,19 +145,42 @@ public class UI_Manager : MonoBehaviour
             currentContent.SetActive(false);
             workSectionSelectGo.SetActive(true);
 
+            SetTapColor(2);
             currentContent = workSectionSelectGo;
         }
-        else if (currentContent == detailGo)
+        else if (currentContent == workDetailGo)
         {
             ui_menuManager.SetSectionDetailMenu();
             currentContent.SetActive(false);
             sectionDetailGo.SetActive(true);
 
+            SetTapColor(3);
             currentContent = sectionDetailGo;
         }
     }
 
+    private void SetTapColor(int _index)
+    {
 
+        for (int i = 0; i < btns.Length; ++i)
+        {
+            ColorBlock cb = btns[i].colors;
+
+            if (btns[_index] == btns[i])
+            {
+                cb.normalColor = Color.grey;
+                cb.selectedColor = Color.grey;
+                btns[i].colors = cb;
+
+            }else
+            {
+                cb.normalColor = defaultNomalColor;
+                cb.selectedColor = defaultNomalColor;
+                btns[i].colors = cb;
+            }
+
+        }
+    }
 
     public string GetScriptInfo()
     {
