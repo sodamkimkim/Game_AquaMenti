@@ -20,7 +20,6 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private UI_MenuManager ui_menuManager = null;
 
     private GameObject currentContent = null;
-    private GameObject beforeContent = null;
 
     private int selectedMapNum = 0;
     private int selectedSectionNum = 0;
@@ -39,7 +38,6 @@ public class UI_Manager : MonoBehaviour
             enterPageGo.SetActive(false);
             mainBookGo.SetActive(true);
             currentContent = mainGo;
-            beforeContent = mainGo;
         }
     }
     public void GoToMain()
@@ -61,7 +59,6 @@ public class UI_Manager : MonoBehaviour
         currentContent.SetActive(false);
         mapSelectGo.SetActive(true);
         currentContent = mapSelectGo;
-        beforeContent = mainGo;
 
     }
     public void GoToWorkSectionSelectGo(int _selectedMapNum)
@@ -79,7 +76,6 @@ public class UI_Manager : MonoBehaviour
         workSectionSelectGo.SetActive(true);
         uI_WorkAreaManager.SetSectionContent(_selectedMapNum);
         currentContent = workSectionSelectGo;
-        beforeContent = mapSelectGo;
     }
     public void GoToSectionDetailGo(int _selectedSectionNum)
     {
@@ -93,7 +89,6 @@ public class UI_Manager : MonoBehaviour
         sectionDetailGo.SetActive(true);
         uI_SectionDetailManager.SetWorkSectionDetail(selectedMapNum, _selectedSectionNum);
         currentContent = sectionDetailGo;
-        beforeContent = workSectionSelectGo;
     }
     public void GoToWorkDetailGo()
     {
@@ -101,7 +96,6 @@ public class UI_Manager : MonoBehaviour
         currentContent.SetActive(false);
         detailGo.SetActive(true);
         currentContent = detailGo;
-        beforeContent = sectionDetailGo;
     }
 
     public void GoToBeforeGo()
@@ -116,7 +110,6 @@ public class UI_Manager : MonoBehaviour
             mainGo.SetActive(true);
 
             currentContent = mainGo;
-            beforeContent = mapSelectGo;
         }
         else if (currentContent == workSectionSelectGo)
         {
@@ -125,7 +118,6 @@ public class UI_Manager : MonoBehaviour
             mapSelectGo.SetActive(true);
 
             currentContent = mapSelectGo;
-            beforeContent = workSectionSelectGo;
         }
         else if (currentContent == sectionDetailGo)
         {
@@ -134,7 +126,6 @@ public class UI_Manager : MonoBehaviour
             workSectionSelectGo.SetActive(true);
 
             currentContent = workSectionSelectGo;
-            beforeContent = sectionDetailGo;
         }
         else if (currentContent == detailGo)
         {
@@ -143,14 +134,10 @@ public class UI_Manager : MonoBehaviour
             sectionDetailGo.SetActive(true);
 
             currentContent = sectionDetailGo;
-            beforeContent = detailGo;
         }
     }
 
-    public bool IsSameContent()
-    {
-        return (currentContent == beforeContent) ? true : false;
-    }
+
 
     public string GetScriptInfo()
     {

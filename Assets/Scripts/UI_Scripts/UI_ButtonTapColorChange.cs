@@ -18,14 +18,12 @@ public class UI_ButtonTapColorChange : MonoBehaviour
 
     private void TapColorChange()
     {
-        if (ui_Manager.IsSameContent())
         {
             ColorBlock cb = btn.colors;
             cb.normalColor = defaultNomalColor;
             cb.selectedColor = defaultNomalColor;
             btn.colors = cb;
         }
-        else
         {
             ColorBlock cb = btn.colors;
             cb.normalColor = Color.grey;
