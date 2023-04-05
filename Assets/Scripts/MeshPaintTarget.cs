@@ -394,6 +394,7 @@ public class MeshPaintTarget : MonoBehaviour
         }
     }
 
+
     private IEnumerator CompleteTwinkleCoroutine()
     {
         float time = 3f;
@@ -418,7 +419,7 @@ public class MeshPaintTarget : MonoBehaviour
     }
     private IEnumerator DirtyTwinkleCoroutine()
     {
-        float time = 6f;
+        float time = 3f;
         float t = 0f;
 
         SetTwinkleProperties(true);

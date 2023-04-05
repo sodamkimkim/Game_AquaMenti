@@ -87,10 +87,10 @@ void CSPaint (uint3 id : SV_DispatchThreadID)
         {
             // brush: near(1) ~ far(0)
             float brush = 1;
-            if (Distance < 0.99)
+            //if (Distance < 0.99)
                 brush = (1 - ranges / Size) * Distance;
 
-            float val = 1 - (brush * brush);
+            float val = 1 - brush;
 
             p *= float4(val, val, val, 0);
         }

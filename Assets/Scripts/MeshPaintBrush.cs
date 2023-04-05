@@ -9,18 +9,22 @@ public class MeshPaintBrush : MonoBehaviour
 
     private MeshPaintTarget target = null;
 
+    [SerializeField, Range(0.5f, 10f)]
     private float effectiveDistance = 1f; // 유효 사거리
+    [SerializeField, Range(1f, 16f)]
     private float maxDistance = 2f; // 최대 사거리
     private bool effective = false;
 
     // Option
-    [SerializeField, Range(1f, 20f)]
-    private float size = 10f;
+    [SerializeField, Range(1, 20)]
+    private int size = 10;
     private Vector4 color = new Vector4(0f, 0f, 0f, 1f);
     private bool isPainting = false;
 
+    private float drawTiming = 0.01f;
     private float waitTime = 0.1f;
 
+    private bool drawCoroutine = false;
     private bool runCoroutine = false;
 
 
@@ -28,14 +32,21 @@ public class MeshPaintBrush : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            IsPainting(true);
-            PaintToTarget();
-            // 동일한 Pos에 대해서 Paint는 진행하지 않지만 물 뿌리는 것과 Splash 이펙트는 계속되어야함
+            //IsPainting(true);
+            //PaintToTarget();
+            TimingDraw();
         }
         else if (IsPainting() == true)
         {
             IsPainting(false);
             StopCheckTargetProcess();
+        }
+        else if (drawCoroutine == true)
+        {
+            StopTimingDraw();
+#if UNITY_EDITOR
+            Debug.Log("몇 번 호출되나요?");
+#endif
         }
 
         // Utility
@@ -74,6 +85,7 @@ public class MeshPaintBrush : MonoBehaviour
 #endif
         // Viewport상 
         Ray screenRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        screenRay.origin = this.transform.position;
 #if UNITY_EDITOR
         Debug.DrawRay(screenRay.origin, screenRay.direction, Color.green);
 #endif
@@ -135,6 +147,24 @@ public class MeshPaintBrush : MonoBehaviour
     }
 
 
+    #region Paint Coroutine
+    private void TimingDraw()
+    {
+        if (drawCoroutine == false)
+        {
+            drawCoroutine = true;
+            StartCoroutine("TimingDrawCoroutine");
+        }
+    }
+    private void StopTimingDraw()
+    {
+        if (drawCoroutine == true)
+        {
+            drawCoroutine = false;
+            StopCoroutine("TimingDrawCoroutine");
+        }
+    }
+
     private void CheckTargetProcess()
     {
         if (runCoroutine == false)
@@ -152,6 +182,18 @@ public class MeshPaintBrush : MonoBehaviour
         }
     }
 
+
+    // Brush
+    private IEnumerator TimingDrawCoroutine()
+    {
+        while(true)
+        {
+            IsPainting(true);
+            PaintToTarget();
+            yield return new WaitForSeconds(drawTiming);
+        }
+    }
+
     private IEnumerator CheckTargetProcessCoroutine()
     {
 #if UNITY_EDITOR
@@ -164,4 +206,5 @@ public class MeshPaintBrush : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
         }
     }
+    #endregion
 }
