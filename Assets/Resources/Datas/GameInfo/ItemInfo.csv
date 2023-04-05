@@ -1,0 +1,8 @@
+ItemCategory,ItemName,Description,Status
+Staff,AmberStaff,호박보석이 박혀있는 지팡이,B급
+Staff,RubyStaff,루비가 박혀있는 지팡이,A급
+,,,
+MagicSpell,Deg0MagicSpell,각도0도로 분출되는 물 마법,0
+MagicSpell,Deg15MagicSpell,각도15도로 분출되는 물 마법,15
+MagicSpell,Deg25MagicSpell,각도25도로 분출되는 물 마법,25
+MagicSpell,Deg45MagicSpell,각도45도로 분출되는 물 마법,45

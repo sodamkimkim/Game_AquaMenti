@@ -14,7 +14,7 @@ public class UI_InGameDebugManager : MonoBehaviour
 
     private void Start()
     {
-        //List<Dictionary<string, object>> data_info = CSVReader.Read("Datas/GameInfo/EquipmentInfo");
+        //List<Dictionary<string, object>> data_info = CSVReader.Read("Datas/GameInfo/ItemInfo");
 
        // List<Dictionary<string, object>> data_info = CSVReader.Read("Datas/GameInfo/EventMessage");
 
