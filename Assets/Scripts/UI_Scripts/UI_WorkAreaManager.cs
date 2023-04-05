@@ -13,14 +13,16 @@ public class UI_WorkAreaManager : MonoBehaviour
     [SerializeField] private GameObject workSectionContentGo = null;
     [SerializeField] private GameObject workSectionPrefab = null;
 
-    [SerializeField] private RectTransform scrollView_WorkSectionsRT = null;
+    private RectTransform scrollView_WorkSectionsRT = null;
     private List<Dictionary<string, object>> workSectionDataList = null;
     float contentDefaultHeight = 0f;
 
-    private void Start()
+    private void Awake()
     {
-        contentDefaultHeight = workSectionContentGo.GetComponent<RectTransform>().rect.height;
+        scrollView_WorkSectionsRT = workSectionContentGo.GetComponent<RectTransform>();
+        contentDefaultHeight = scrollView_WorkSectionsRT.rect.height;
     }
+
     public void SetSectionContent(int _selectedMapNum)
     {
         Button[] btns = workSectionContentGo.GetComponentsInChildren<Button>();
