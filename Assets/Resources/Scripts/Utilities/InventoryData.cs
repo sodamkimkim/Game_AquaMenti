@@ -11,9 +11,9 @@ namespace DataForSaveLoad
     /// </summary>
     public class InventoryData : MonoBehaviour
     {
-        public InGameAllItemInfo.EItemCategory itemCategory;
-        public string itemName;
-        public bool isUnLock; // true: 사용 가능 false: 사용불가능(잠김)
-        public bool isNowWearing; // true: 장착 중, false: 장착 x
+        public InGameAllItemInfo.EItemCategory itemCategory_;
+        public string itemName_;
+        public bool isUnLock_; // true: 사용 가능 false: 사용불가능(잠김)
+        public bool isNowWearing_; // true: 장착 중, false: 장착 x
     } // end of class
 } // end of namespace

@@ -7,12 +7,12 @@ using UnityEngine;
 /// </summary>
 public class InGameAllItemInfo : MonoBehaviour
 {
-    private List<Dictionary<string, object>> itemInfoList = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> itemInfoList_ = new List<Dictionary<string, object>>();
     public enum EItemCategory { Staff, MagicSpell, Len}
 
     private void Start()
     {
-        itemInfoList = CSVReader.Read("Datas/GameInfo/ItemInfo");
+        itemInfoList_ = CSVReader.Read("Datas/GameInfo/ItemInfo");
         GetAllItemInfo();
     }
 
@@ -21,12 +21,12 @@ public class InGameAllItemInfo : MonoBehaviour
     /// </summary>
     public void GetAllItemInfo()
     {
-        for (int i = 0; i < itemInfoList.Count; i++)
+        for (int i = 0; i < itemInfoList_.Count; i++)
         {
-            Debug.Log($"ItemCategory : {itemInfoList[i]["ItemCategory"].ToString()}"+
-                $"/ ItemName : {itemInfoList[i]["ItemName"].ToString()}" +
-                $"/ Description : {itemInfoList[i]["Description"].ToString()}" +
-                $"/ Status : {itemInfoList[i]["Status"].ToString()}");
+            Debug.Log($"ItemCategory : {itemInfoList_[i]["ItemCategory"].ToString()}"+
+                $"/ ItemName : {itemInfoList_[i]["ItemName"].ToString()}" +
+                $"/ Description : {itemInfoList_[i]["Description"].ToString()}" +
+                $"/ Status : {itemInfoList_[i]["Status"].ToString()}");
         }
     }
     /// <summary>
@@ -34,13 +34,13 @@ public class InGameAllItemInfo : MonoBehaviour
     /// </summary>
     public void GetAllStaffInfo()
     {
-        for (int i = 0; i<itemInfoList.Count; i++)
+        for (int i = 0; i<itemInfoList_.Count; i++)
         {
-            if (itemInfoList[i]["ItemCategory"].ToString() == EItemCategory.Staff.ToString())
+            if (itemInfoList_[i]["ItemCategory"].ToString() == EItemCategory.Staff.ToString())
             {
-                Debug.Log($"ItemName : {itemInfoList[i]["ItemName"].ToString()}" +
-                    $"/ Description : {itemInfoList[i]["Description"].ToString()}" +
-                    $"/ Status : {itemInfoList[i]["Status"].ToString()}");
+                Debug.Log($"ItemName : {itemInfoList_[i]["ItemName"].ToString()}" +
+                    $"/ Description : {itemInfoList_[i]["Description"].ToString()}" +
+                    $"/ Status : {itemInfoList_[i]["Status"].ToString()}");
             }
         }
     }
@@ -49,13 +49,13 @@ public class InGameAllItemInfo : MonoBehaviour
     /// </summary>
     public void GetAllMagicSpellInfo()
     {
-        for(int i = 0; i<itemInfoList.Count; i++)
+        for(int i = 0; i<itemInfoList_.Count; i++)
         {
-            if (itemInfoList[i]["ItemCategory"].ToString() == EItemCategory.MagicSpell.ToString())
+            if (itemInfoList_[i]["ItemCategory"].ToString() == EItemCategory.MagicSpell.ToString())
             {
-                Debug.Log($"ItemName : {itemInfoList[i]["ItemName"].ToString()}" +
-                    $"/ Description : {itemInfoList[i]["Description"].ToString()}" +
-                    $"/ Status : {itemInfoList[i]["Status"].ToString()}");
+                Debug.Log($"ItemName : {itemInfoList_[i]["ItemName"].ToString()}" +
+                    $"/ Description : {itemInfoList_[i]["Description"].ToString()}" +
+                    $"/ Status : {itemInfoList_[i]["Status"].ToString()}");
             }
         }
     }
