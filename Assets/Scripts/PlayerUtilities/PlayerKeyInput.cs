@@ -64,5 +64,10 @@ public class PlayerKeyInput : MonoBehaviour
         {
             magicManager_.RotateWaterMagic();
         }
+        // inventory on / off
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+
+        }
     }
 } // end of class
