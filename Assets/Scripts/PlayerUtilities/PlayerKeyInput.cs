@@ -12,6 +12,10 @@ public class PlayerKeyInput : MonoBehaviour
     private PlayerFocusManager playerFocusManager_;
     private MagicManager magicManager_;
     private InventoryManager inventoryManager_;
+
+    [SerializeField]
+    private GameManager gameManager_ = null;
+
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
@@ -67,9 +71,19 @@ public class PlayerKeyInput : MonoBehaviour
             magicManager_.RotateWaterMagic();
         }
         // inventory on / off
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
 
+        }
+        // OpenBook on / off
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!gameManager_.isStartGame_) return;
+
+            if (gameManager_.isInGame_)
+                gameManager_.ActiveOutGameUi();
+            else if (gameManager_.isStartGame_)
+                gameManager_.ActiveInGameUi();
         }
     }
 } // end of class

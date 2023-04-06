@@ -4,39 +4,39 @@ using UnityEngine;
 
 public class UI_MenuManager : MonoBehaviour
 {
-    [SerializeField] private GameObject mainMenuGo = null;
-    [SerializeField] private GameObject sectionDetailMenuGo = null;
-    [SerializeField] private GameObject workAreaMenuGo = null;
-    [SerializeField] private GameObject beforeBtnGo = null;
+    [SerializeField] private GameObject mainMenuGo_ = null;
+    [SerializeField] private GameObject workAreaMenuGo_ = null;
+    [SerializeField] private GameObject sectionDetailMenuGo_ = null;
+    [SerializeField] private GameObject beforeBtnGo_ = null;
 
     public void ActiveTogleBeforeBtn()
     {
         if(IsActiveBeforeBtnGo())
-            beforeBtnGo.SetActive(false);
+            beforeBtnGo_.SetActive(false);
         else
-            beforeBtnGo.SetActive(true);
+            beforeBtnGo_.SetActive(true);
     }
 
     public bool IsActiveBeforeBtnGo()
     {
-        return beforeBtnGo.activeSelf;
+        return beforeBtnGo_.activeSelf;
     }
     public void SetMainMenu()
     {
-        workAreaMenuGo.SetActive(false);
-        mainMenuGo.SetActive(true);
+        workAreaMenuGo_.SetActive(false);
+        mainMenuGo_.SetActive(true);
     }
     public void SetWorkAreaMenu()
     {
-        if(mainMenuGo.activeSelf)
-            mainMenuGo.SetActive(false);
-        if (sectionDetailMenuGo.activeSelf)
-            sectionDetailMenuGo.SetActive(false);
-        workAreaMenuGo.SetActive(true);
+        if(mainMenuGo_.activeSelf)
+            mainMenuGo_.SetActive(false);
+        if (sectionDetailMenuGo_.activeSelf)
+            sectionDetailMenuGo_.SetActive(false);
+        workAreaMenuGo_.SetActive(true);
     }
     public void SetSectionDetailMenu()
     {
-        workAreaMenuGo.SetActive(false);
-        sectionDetailMenuGo.SetActive(true);
+        workAreaMenuGo_.SetActive(false);
+        sectionDetailMenuGo_.SetActive(true);
     }
 }

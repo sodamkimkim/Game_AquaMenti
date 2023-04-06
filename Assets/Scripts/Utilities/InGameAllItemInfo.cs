@@ -12,7 +12,7 @@ public class InGameAllItemInfo : MonoBehaviour
 
     private void Start()
     {
-        itemInfoList_ = CSVReader.Read("Datas/GameInfo/ItemInfo");
+        CSVReader.Read("Datas/GameInfo/ItemInfo", out itemInfoList_);
         GetAllItemInfo();
     }
 

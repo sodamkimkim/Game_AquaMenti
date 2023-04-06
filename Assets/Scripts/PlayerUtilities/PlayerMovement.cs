@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     private void Awake()
     {
         rb_ = this.GetComponent<Rigidbody>();
-
+        isGround_ = true;
+        isLeftShiftKeyInput = false;
         //  characterController = this.GetComponent<CharacterController>();
     }
     public Transform GetPlayerTransform()
@@ -56,6 +57,11 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
 
 
+    public void SetPosition(Vector3 _direction, Quaternion _rotation)
+    {
+        this.transform.position = _direction;
+        this.transform.rotation = _rotation;
+    }
     public void SetAnimation()
     {
         throw new System.NotImplementedException();
