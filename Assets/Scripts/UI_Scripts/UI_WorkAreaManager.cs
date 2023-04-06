@@ -42,14 +42,14 @@ public class UI_WorkAreaManager : MonoBehaviour
         workSectionContentGo.GetComponent<RectTransform>().sizeDelta = new Vector2(0f, contentDefaultHeight);
         foreach (Dictionary<string, object> workSectionDics in workSectionDataList)
         {
-            if (workSectionDics["\"MapNumber\""].ToString() == $"{_selectedMapNum}")
+            if (workSectionDics["MapNumber"].ToString() == $"{_selectedMapNum}")
             {
                 if (cnt > 2) scrollView_WorkSectionsRT.sizeDelta = new Vector2(0f, scrollView_WorkSectionsRT.rect.height + 220f);
 
                 GameObject go = Instantiate(workSectionPrefab, workSectionPrefabPos, Quaternion.identity, workSectionContentGo.transform);
                 go.GetComponent<UI_ButtonWorkSection>().SetUI_Managers(uI_SectionDetailManager, uI_Manager);
-                go.name = $"Button_WorkSection_{workSectionDics["\"MapNumber\""].ToString()}_{workSectionDics["\"SectionNumber\""].ToString()}";
-                go.GetComponentsInChildren<TextMeshProUGUI>()[0].text = workSectionDics["\"SectionTitle\""].ToString();
+                go.name = $"Button_WorkSection_{workSectionDics["MapNumber"].ToString()}_{workSectionDics["SectionNumber"].ToString()}";
+                go.GetComponentsInChildren<TextMeshProUGUI>()[0].text = workSectionDics["SectionTitle"].ToString();
                 workSectionPrefabPos.y -= 260f;
                 ++cnt;
 

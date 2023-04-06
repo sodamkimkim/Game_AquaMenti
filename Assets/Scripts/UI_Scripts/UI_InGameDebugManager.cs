@@ -14,18 +14,12 @@ public class UI_InGameDebugManager : MonoBehaviour
 
     private void Start()
     {
-        //List<Dictionary<string, object>> data_info = CSVReader.Read("Datas/GameInfo/ItemInfo");
 
-       // List<Dictionary<string, object>> data_info = CSVReader.Read("Datas/GameInfo/EventMessage");
 
          List<Dictionary<string, object>> data_info = CSVReader.Read("Datas/GameInfo/SectionStory");
         for (int i = 0; i < data_info.Count; i++)
         {
 
-           // tmpGUI.text += $"\n{data_info[i]["\"Equipment\""].ToString()} {data_info[i]["\"Description\""].ToString()} {data_info[i]["\"Status\""].ToString()}";
-
-           // if (data_info[i]["\"MapNumber\""].ToString() == "1" && data_info[i]["\"SectionNumber\""].ToString() == "1" && data_info[i]["\"CleanProgressEvent\""].ToString() == "0")
-             //   tmpGUI.text += $"\n{data_info[i]["\"EventMassege\""].ToString()}";
             if (data_info[i]["MapNumber"].ToString() == "1")
             {
                 tmpGUI.text += $"\n ÀÇ·ÚÀÎ : {data_info[i]["Intermediary"].ToString()} À§Ä¡ :  {data_info[i]["Location"].ToString()}" +

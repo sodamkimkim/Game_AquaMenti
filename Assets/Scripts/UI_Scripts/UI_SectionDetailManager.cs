@@ -19,10 +19,10 @@ public class UI_SectionDetailManager : MonoBehaviour
         gameDataManager.GetMapDataList(out workSectionDataList);
         foreach (Dictionary<string, object> workSectionDics in workSectionDataList)
         {
-            if(workSectionDics["\"MapNumber\""].ToString() == $"{_selectedMapNum}"&& workSectionDics["\"SectionNumber\""].ToString() == $"{_selectedSectionNum}")
+            if(workSectionDics["MapNumber"].ToString() == $"{_selectedMapNum}"&& workSectionDics["SectionNumber"].ToString() == $"{_selectedSectionNum}")
             {
-                intermediaryTMPGUI.text = $"의뢰인 : {workSectionDics["\"Intermediary\""].ToString()}";
-                storyDescriptionTMPGUI.text = $"To 작업자 에게..\n{workSectionDics["\"StoryBegin\""].ToString()}";
+                intermediaryTMPGUI.text = $"의뢰인 : {workSectionDics["Intermediary"].ToString()}";
+                storyDescriptionTMPGUI.text = $"To 작업자 에게..\n{workSectionDics["StoryBegin"].ToString()}";
             }
         }
     }
