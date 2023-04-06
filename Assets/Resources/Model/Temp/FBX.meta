@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Model/Temp/FBX.meta
 guid: d0c344170f38860428e88f87db7cfa91
+========
+guid: 7d8dca59c3262bb48960ce69b455e67d
+>>>>>>>> main:Assets/TutorialInfo.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

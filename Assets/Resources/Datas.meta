@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Datas.meta
 guid: 3e7bed0eb15662642b2c969bdbe9e0b9
+========
+guid: 701c0682bb012f84b910aa72cebffd1d
+>>>>>>>> main:Assets/Resource.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
