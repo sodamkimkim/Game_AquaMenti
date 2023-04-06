@@ -9,6 +9,14 @@ public class UpperBodyLook : MonoBehaviour
     private Camera mainCam_;
     private void Awake()
     {
+
+    }
+    private void Update()
+    {
+       //Debug.Log(transform.localRotation);
+    }
+    public void SetCameraPos()
+    {
         mainCam_ = Camera.main;
         mainCam_.transform.SetParent(this.transform);
         Vector3 newCamPos = mainCam_.transform.localPosition;
@@ -17,10 +25,6 @@ public class UpperBodyLook : MonoBehaviour
         newCamPos.y = 0.28f;
         newCamPos.z = 0.38f;
         mainCam_.transform.localPosition = newCamPos;
-    }
-    private void Update()
-    {
-       //Debug.Log(transform.localRotation);
     }
     public Vector3 GetEuler()
     {
