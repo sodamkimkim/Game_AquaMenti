@@ -11,11 +11,13 @@ public class PlayerKeyInput : MonoBehaviour
     private PlayerMovement playerMovement_;
     private PlayerFocusManager playerFocusManager_;
     private MagicManager magicManager_;
+    private InventoryManager inventoryManager_;
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
         playerFocusManager_ = GameObject.FindWithTag("PlayerFocusManager").GetComponent<PlayerFocusManager>();  
         magicManager_ = GameObject.FindWithTag("MagicManager").GetComponent <MagicManager>();
+        inventoryManager_ = GameObject.FindWithTag("InventoryManager").GetComponent<InventoryManager>();
     }
     private void Update()
     {

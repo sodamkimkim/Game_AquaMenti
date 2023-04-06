@@ -23,6 +23,7 @@ TagManager:
   - Map
   - WorkSection
   - InGameObjects
+  - InventoryManager
   layers:
   - Default
   - TransparentFX
