@@ -10,11 +10,12 @@ public class PlayerKeyInput : MonoBehaviour
 {
     private PlayerMovement playerMovement_;
     private PlayerFocusManager playerFocusManager_;
+    private MagicManager magicManager_;
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
-
         playerFocusManager_ = GameObject.FindWithTag("PlayerFocusManager").GetComponent<PlayerFocusManager>();  
+        magicManager_ = GameObject.FindWithTag("MagicManager").GetComponent <MagicManager>();
     }
     private void Update()
     {
@@ -61,8 +62,7 @@ public class PlayerKeyInput : MonoBehaviour
         // 마법영역 Rotate
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if (playerFocusManager_.isFocusHorizontal_ == true) { playerFocusManager_.isFocusHorizontal_ = false; Debug.Log("isFocusHorizontal_ = false"); }
-            else if (playerFocusManager_.isFocusHorizontal_ == false) { playerFocusManager_.isFocusHorizontal_ = true; Debug.Log("isFocusHorizontal_ = true"); }
+            magicManager_.RotateWaterMagic();
         }
     }
 } // end of class

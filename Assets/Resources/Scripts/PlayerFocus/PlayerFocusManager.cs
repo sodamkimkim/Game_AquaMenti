@@ -17,7 +17,6 @@ public class PlayerFocusManager : MonoBehaviour
 
     // Flag
     public bool isFocusFixed_ { get; set; }
-    public bool isFocusHorizontal_ { get; set; }
 
     private void Awake()
     {
@@ -28,7 +27,7 @@ public class PlayerFocusManager : MonoBehaviour
         screenSideManager_ = GameObject.FindWithTag("Canvas_ScreenSide").GetComponent<ScreenSideManager>();
 
         isFocusFixed_ = true;
-        isFocusHorizontal_ = true;
+ 
     }
     private void Update()
     {
@@ -45,6 +44,7 @@ public class PlayerFocusManager : MonoBehaviour
             // # ScreenSide MouseOver 체크
             PlayerLookControlWhenScreenSideMouseHover();
         }
+
     }
     /// <summary>
     /// ScreenSide에 Mouse hover 되면 RotateBodyAxisY of RotateUpperBodyAxisX
@@ -67,4 +67,5 @@ public class PlayerFocusManager : MonoBehaviour
         if (screenSideManager_.isScreenSideRight) playerYRotate_.RotateBodyAxisYRight(true);
         else playerYRotate_.RotateBodyAxisYLeft(false);
     }
+   
 } // end of class

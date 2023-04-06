@@ -15,6 +15,13 @@ TagManager:
   - Floor
   - Canvas_Focus
   - PlayerFocusManager
+  - Water
+  - WaterMagic
+  - MagicManager
+  - Item
+  - Door
+  - Map
+  - WorkSection
   layers:
   - Default
   - TransparentFX
