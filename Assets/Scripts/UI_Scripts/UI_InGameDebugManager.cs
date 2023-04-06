@@ -28,9 +28,9 @@ public class UI_InGameDebugManager : MonoBehaviour
              //   tmpGUI.text += $"\n{data_info[i]["\"EventMassege\""].ToString()}";
             if (data_info[i]["MapNumber"].ToString() == "1")
             {
-                tmpGUI.text += $"\n 의뢰인 : {data_info[i]["Intermediary"].ToString()} 위치 :  {data_info[i]["\"Location\""].ToString()}" +
-                    $" 구역명 : {data_info[i]["\"SectionTitle\""].ToString()} \n" +
-                    $"이야기시작 :  {data_info[i]["\"StoryBegin\""].ToString()}\n 이야기끝 :  {data_info[i]["\"StoryEnd\""].ToString()} \n ";
+                tmpGUI.text += $"\n 의뢰인 : {data_info[i]["Intermediary"].ToString()} 위치 :  {data_info[i]["Location"].ToString()}" +
+                    $" 구역명 : {data_info[i]["SectionTitle"].ToString()} \n" +
+                    $"이야기시작 :  {data_info[i]["StoryBegin"].ToString()}\n 이야기끝 :  {data_info[i]["StoryEnd"].ToString()} \n ";
             }
 
         }
