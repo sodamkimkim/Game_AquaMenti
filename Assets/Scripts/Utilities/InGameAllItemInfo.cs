@@ -8,7 +8,7 @@ using UnityEngine;
 public class InGameAllItemInfo : MonoBehaviour
 {
     private List<Dictionary<string, object>> itemInfoList_ = new List<Dictionary<string, object>>();
-    public enum EItemCategory { Staff, MagicSpell, Len}
+    public enum EItemCategory { Staff, Spell, Len}
 
     private void Start()
     {
@@ -30,7 +30,7 @@ public class InGameAllItemInfo : MonoBehaviour
         }
     }
     /// <summary>
-    /// 모든 인게임 EItemCategory == MagicSpell 아이템 정보 가져오기
+    /// 모든 인게임 EItemCategory == Spell 아이템 정보 가져오기
     /// </summary>
     public void GetAllStaffInfo()
     {
@@ -45,13 +45,13 @@ public class InGameAllItemInfo : MonoBehaviour
         }
     }
     /// <summary>
-    /// 모든 인게임 EItemCategory == MagicSpell 아이템 정보 가져오기
+    /// 모든 인게임 EItemCategory == Spell 아이템 정보 가져오기
     /// </summary>
     public void GetAllMagicSpellInfo()
     {
         for(int i = 0; i<itemInfoList_.Count; i++)
         {
-            if (itemInfoList_[i]["ItemCategory"].ToString() == EItemCategory.MagicSpell.ToString())
+            if (itemInfoList_[i]["ItemCategory"].ToString() == EItemCategory.Spell.ToString())
             {
                 Debug.Log($"ItemName : {itemInfoList_[i]["ItemName"].ToString()}" +
                     $"/ Description : {itemInfoList_[i]["Description"].ToString()}" +
