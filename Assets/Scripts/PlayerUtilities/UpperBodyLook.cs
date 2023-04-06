@@ -9,7 +9,7 @@ public class UpperBodyLook : MonoBehaviour
     private Camera mainCam_;
     private void Awake()
     {
-
+        SetCameraPos();
     }
     private void Update()
     {
