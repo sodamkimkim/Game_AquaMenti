@@ -28,6 +28,50 @@ public class MeshPaintBrush : MonoBehaviour
     private bool runCoroutine = false;
 
 
+    // 임시
+    private enum MagicType { Zero, One, Two, Three, Four }
+
+    private struct DirtyLv // 오염타입
+    {
+        public int rLv { get; set; } // 표면
+        public int gLv { get; set; } // 뒤덮힘
+        public int bLv { get; set; } // 억셈
+    }
+
+    private struct Stick
+    {
+        public DirtyLv cleanLv;
+        public MagicType magicType; // 마법 => Nozzle
+    }
+
+    // 임시
+    // R: 표면, G: 뒤덮힘, B: 억셈
+    //private int rDirtyLv = 5;
+    //private int rCleanLv = 3;
+    //private int magicType = 2; // Nozzle. Maybe Enum.
+    private Stick stick;
+    private DirtyLv dirty;
+
+
+    private void Start()
+    {
+        // 지팡이 스펙 설정
+        stick = new Stick();
+        DirtyLv cleanLv = new DirtyLv();
+        cleanLv.rLv = 5;
+        cleanLv.gLv = 3;
+        cleanLv.bLv = 1;
+        stick.cleanLv = cleanLv;
+        stick.magicType = 0;
+
+        // 대상 오염도 설정
+        dirty = new DirtyLv();
+        dirty.rLv = 10;
+        dirty.gLv = 0;
+        dirty.bLv = 1;
+    }
+    // End 임시 //
+
     private void Update()
     {
         if (Input.GetMouseButton(0))
@@ -35,19 +79,35 @@ public class MeshPaintBrush : MonoBehaviour
             //IsPainting(true);
             //PaintToTarget();
             TimingDraw();
+            Debug.Log("마우스 좌클릭");
         }
         else if (IsPainting() == true)
         {
             IsPainting(false);
             StopCheckTargetProcess();
-        }
-        else if (drawCoroutine == true)
-        {
             StopTimingDraw();
-#if UNITY_EDITOR
-            Debug.Log("몇 번 호출되나요?");
-#endif
+            Debug.Log("마우스 좌클릭 해제");
         }
+        //else if (drawCoroutine == true)
+        //{
+        //    StopTimingDraw();
+        //    Debug.Log("몇 번 호출되나요?");
+        //}
+
+        // 임시 스펠 변경 //
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            stick.magicType = MagicType.Zero;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            stick.magicType = MagicType.One;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            stick.magicType = MagicType.Two;
+        }
+        // End 임시 스펠 변경 //
 
         // Utility
         // Dirty 모두 제거 (일정 %에 도달하면 사용할 부분(지금은 단일대상))
@@ -78,18 +138,13 @@ public class MeshPaintBrush : MonoBehaviour
 
 
     // 임시 명칭
-    private void PaintToTarget()
+    public void PaintToTarget(Ray _ray)
     {
 #if UNITY_EDITOR
         Debug.Log("Try");
+        //Debug.DrawRay(screenRay.origin, screenRay.direction, Color.green);
 #endif
-        // Viewport상 
-        Ray screenRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        screenRay.origin = this.transform.position;
-#if UNITY_EDITOR
-        Debug.DrawRay(screenRay.origin, screenRay.direction, Color.green);
-#endif
-        if (Physics.Raycast(screenRay, out var hitInfo))
+        if (Physics.Raycast(_ray, out var hitInfo))
         {
 #if UNITY_EDITOR
             Debug.Log("In Raycast");
@@ -103,11 +158,10 @@ public class MeshPaintBrush : MonoBehaviour
             Debug.Log("target? " + target);
 #endif
             if (target != null &&
-                target.IsDrawable() == true &&
-                target.IsClear() == false)
+                target.IsDrawable() == true)
             {
 #if UNITY_EDITOR
-                Debug.LogFormat("uvPos: {0} | coord: {1}", uvPos, hitInfo.textureCoord);
+                //Debug.LogFormat("uvPos: {0} | coord: {1}", uvPos, hitInfo.textureCoord);
 #endif
                 if (uvPos != hitInfo.textureCoord)
                 {
@@ -138,11 +192,61 @@ public class MeshPaintBrush : MonoBehaviour
                         else 
                             distance = 1 - ((hitInfo.distance - effectiveDistance) / (maxDistance - effectiveDistance));
 
-                        target.DrawRender(isPainting, uvPos, color, size, distance);
+                        // 세척력
+                        color = WashPower();
+#if UNITY_EDITOR
+                        Debug.LogFormat("r: {0}, g: {1}, b: {2}", color.x, color.y, color.z);
+#endif
+                        if (target.IsClear() == false)
+                            target.DrawRender(isPainting, uvPos, color, size, distance);
+                        target.DrawWet(isPainting, uvPos, size, distance);
                         CheckTargetProcess();
                     }
                 }
             }
+        }
+    }
+
+
+    // 종합 세척력 결정
+    private Vector4 WashPower()
+    {
+        DirtyLv cleanLv = stick.cleanLv;
+
+        float rPow = CalculatePower(cleanLv.rLv, dirty.rLv, stick.magicType);
+        float gPow = CalculatePower(cleanLv.gLv, dirty.gLv, stick.magicType);
+        float bPow = CalculatePower(cleanLv.bLv, dirty.bLv, stick.magicType);
+
+        return new Vector4(rPow, gPow, bPow, 1);
+    }
+
+    // 세척력 계산
+    private float CalculatePower(float _cleanLv, float _dirtyLv, MagicType _type)
+    {
+        float magicPw = GetMagicPower(_type);
+
+        float cleanLvPw = (float)_cleanLv / _dirtyLv; // 타입이 같은 것에 대해
+
+        float pw = cleanLvPw * magicPw; // 기본: 지팡이Pw(세척기) * 마법Pw(노즐)
+
+        return pw;
+    }
+
+    // 마법 스펠에 따른 보정치
+    private float GetMagicPower(MagicType _type)
+    {
+        switch((int)_type)
+        {
+            default:
+                return 1f;
+            case 1: // 15도
+                return 0.85f;
+            case 2: // 25도
+                return 0.7f;
+            case 3: // 45도
+                return 0.45f;
+            case 4: // 세척제
+                return 1f;
         }
     }
 
@@ -153,6 +257,7 @@ public class MeshPaintBrush : MonoBehaviour
         if (drawCoroutine == false)
         {
             drawCoroutine = true;
+            IsPainting(true);
             StartCoroutine("TimingDrawCoroutine");
         }
     }
@@ -161,6 +266,7 @@ public class MeshPaintBrush : MonoBehaviour
         if (drawCoroutine == true)
         {
             drawCoroutine = false;
+            IsPainting(false);
             StopCoroutine("TimingDrawCoroutine");
         }
     }
@@ -188,8 +294,9 @@ public class MeshPaintBrush : MonoBehaviour
     {
         while(true)
         {
-            IsPainting(true);
-            PaintToTarget();
+            Ray screenRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            screenRay.origin = this.transform.position;
+            PaintToTarget(screenRay);
             yield return new WaitForSeconds(drawTiming);
         }
     }
@@ -201,7 +308,7 @@ public class MeshPaintBrush : MonoBehaviour
 #endif
         while (true)
         {
-            if (target != null)
+            if (target != null && target.IsDrawable())
                 target.CheckAutoClear();
             yield return new WaitForSeconds(waitTime);
         }

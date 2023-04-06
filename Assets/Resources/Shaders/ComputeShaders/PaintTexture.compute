@@ -1,8 +1,12 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CSNoise
 #pragma kernel CSPaint
+#pragma kernel CSWet
+#pragma kernel CSDry
 #pragma kernel CSCopy
 #pragma kernel CSClear
+#pragma kernel CSCombine
+//#pragma kernel CSAlpha
 
 // Create a RenderTexture with enableRandomWrite flag and set it
 // with cs.SetTexture
@@ -58,7 +62,6 @@ void CSNoise(uint3 id : SV_DispatchThreadID)
 }
 
 
-
 // Paint Property //
 //Texture2D<half4> BrushTex;
 float2 UvPos; // Raycast Hit UV texture Coord
@@ -86,18 +89,76 @@ void CSPaint (uint3 id : SV_DispatchThreadID)
         if (ranges < Size)
         {
             // brush: near(1) ~ far(0)
-            float brush = 1;
+            //float brush = 1;
             //if (Distance < 0.99)
-                brush = (1 - ranges / Size) * Distance;
+            float brush = (1 - ranges / Size) * Distance;
 
             float val = 1 - brush;
 
-            p *= float4(val, val, val, 0);
+            p *= float4(Color.r * val, Color.g * val, Color.b * val, 1);
         }
     }
 
     Result[id.xy] = p;
 }
+
+
+// Wet Property //
+RWTexture2D<float4> WetMask;
+// End //
+
+[numthreads(8, 8, 1)]
+void CSWet(uint3 id : SV_DispatchThreadID)
+{
+    float4 w = WetMask[id.xy];
+
+    // ranges: near(down) ~ far(up)
+    float ranges = length(float2(id.xy) - UvPos);
+    if (Paintable)
+    {
+        // ex) Size: 10 | dist < 10 | looks Rounded
+        if (ranges < Size)
+        {
+            w *= float4(0, 0, 0, 0);
+            w.w = 1;
+        }
+    }
+
+    WetMask[id.xy] = w;
+}
+
+
+// Dry Property //
+float Dry;
+// End //
+
+[numthreads(8, 8, 1)]
+void CSDry(uint3 id : SV_DispatchThreadID)
+{
+    float4 c = WetMask[id.xy];
+
+    if (c.w > 0) c.w -= Dry;
+    if (c.w <= 0) c = float4(1, 1, 1, 0);
+
+    WetMask[id.xy] = c;
+}
+
+
+// Combine //
+//Texture2D<float4> Sour1;
+Texture2D<float4> Sour2;
+// End //
+
+[numthreads(8, 8, 1)]
+void CSCombine(uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    float4 c = Result[id.xy];
+    if (Sour2[id.xy].w > 0)
+        c *= Sour2[id.xy];
+    Result[id.xy] = c;
+}
+
 
 // Copy Property //
 Texture2D<float4> Source;
