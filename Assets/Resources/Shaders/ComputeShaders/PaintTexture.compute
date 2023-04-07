@@ -1,0 +1,183 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSNoise
+#pragma kernel CSPaint
+#pragma kernel CSWet
+#pragma kernel CSDry
+#pragma kernel CSCopy
+#pragma kernel CSClear
+#pragma kernel CSCombine
+//#pragma kernel CSAlpha
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+// 
+// Noise Property //
+RWTexture2D<float4> Result;
+// End //
+
+// Perlin Noise //
+// https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
+float noise(float2 co) {
+    return frac(sin(dot(co, float2(12.9898, 78.233))) * 43758.5453);
+}
+// End //
+
+// Gradient Noise //
+// https://docs.unity3d.com/Packages/com.unity.shadergraph@12.1/manual/Gradient-Noise-Node.html
+float2 unity_gradientNoise_dir(float2 p)
+{
+    p = p % 289;
+    float x = (34 * p.x + 1) * p.x % 289 + p.y;
+    x = (34 * x + 1) * x % 289;
+    x = frac(x / 41) * 2 - 1;
+    return normalize(float2(x - floor(x + 0.5), abs(x) - 0.5));
+}
+
+float unity_gradientNoise(float2 p)
+{
+    float2 ip = floor(p);
+    float2 fp = frac(p);
+    float d00 = dot(unity_gradientNoise_dir(ip), fp);
+    float d01 = dot(unity_gradientNoise_dir(ip + float2(0, 1)), fp - float2(0, 1));
+    float d10 = dot(unity_gradientNoise_dir(ip + float2(1, 0)), fp - float2(1, 0));
+    float d11 = dot(unity_gradientNoise_dir(ip + float2(1, 1)), fp - float2(1, 1));
+    fp = fp * fp * fp * (fp * (fp * 6 - 15) + 10);
+    return lerp(lerp(d00, d01, fp.y), lerp(d10, d11, fp.y), fp.x);
+}
+// End //
+
+float random(float2 co, float scale)
+{
+    float r = noise(co) * scale;
+    return r;
+}
+
+// Need to look like Natural Noise: it didn't like that... need more test...
+[numthreads(8,8,1)]
+void CSNoise(uint3 id : SV_DispatchThreadID)
+{
+    float4 c = float4(1, 1, 1, 1);
+    //c *= (random(id.xy * 0.01, 0.5) + 0.5) * (unity_gradientNoise(id.xy * 10) + 0.5);
+    Result[id.xy] = c;
+}
+
+
+// Paint Property //
+//Texture2D<half4> BrushTex;
+float2 UvPos; // Raycast Hit UV texture Coord
+float4 Color;
+float Size;
+float Distance; // effective: 1, max: 1 ~ 0
+bool Paintable;
+// End //
+
+float dotv(float2 co)
+{
+    return dot(co, float2(12.9898, 78.233));
+}
+
+[numthreads(8,8,1)]
+void CSPaint (uint3 id : SV_DispatchThreadID)
+{
+    float4 p = Result[id.xy];
+    
+    // ranges: near(down) ~ far(up)
+    float ranges = length(float2(id.xy) - UvPos);
+    if (Paintable)
+    {
+        // ex) Size: 10 | dist < 10 | looks Rounded
+        if (ranges < Size)
+        {
+            // brush: near(1) ~ far(0)
+            //float brush = 1;
+            //if (Distance < 0.99)
+            float brush = (1 - ranges / Size) * Distance;
+
+            float val = 1 - brush;
+
+            p *= float4(Color.r * val, Color.g * val, Color.b * val, 1);
+        }
+    }
+
+    Result[id.xy] = p;
+}
+
+
+// Wet Property //
+RWTexture2D<float4> WetMask;
+// End //
+
+[numthreads(8, 8, 1)]
+void CSWet(uint3 id : SV_DispatchThreadID)
+{
+    float4 w = WetMask[id.xy];
+
+    // ranges: near(down) ~ far(up)
+    float ranges = length(float2(id.xy) - UvPos);
+    if (Paintable)
+    {
+        // ex) Size: 10 | dist < 10 | looks Rounded
+        if (ranges < Size)
+        {
+            w *= float4(0, 0, 0, 0);
+            w.w = 1;
+        }
+    }
+
+    WetMask[id.xy] = w;
+}
+
+
+// Dry Property //
+float Dry;
+// End //
+
+[numthreads(8, 8, 1)]
+void CSDry(uint3 id : SV_DispatchThreadID)
+{
+    float4 c = WetMask[id.xy];
+
+    if (c.w > 0) c.w -= Dry;
+    if (c.w <= 0) c = float4(1, 1, 1, 0);
+
+    WetMask[id.xy] = c;
+}
+
+
+// Combine //
+//Texture2D<float4> Sour1;
+Texture2D<float4> Sour2;
+// End //
+
+[numthreads(8, 8, 1)]
+void CSCombine(uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    float4 c = Result[id.xy];
+    if (Sour2[id.xy].w > 0)
+        c *= Sour2[id.xy];
+    Result[id.xy] = c;
+}
+
+
+// Copy Property //
+Texture2D<float4> Source;
+RWTexture2D<float4> Destination;
+// End //
+
+[numthreads(8, 8, 1)]
+void CSCopy (uint3 id : SV_DispatchThreadID)
+{
+    Destination[id.xy] = Source[id.xy];
+}
+
+
+// Clear Property //
+
+// End //
+
+[numthreads(8, 8, 1)]
+void CSClear(uint3 id : SV_DispatchThreadID)
+{
+    Result[id.xy] = float4(0, 0, 0, 1);
+}
