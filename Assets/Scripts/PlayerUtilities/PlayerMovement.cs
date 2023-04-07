@@ -67,4 +67,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         if (_collision.gameObject.tag =="Floor") isGround_ = true;
     }
 
+    public void SetPosition(Vector3 _direction, Quaternion _rotation)
+    {
+        throw new System.NotImplementedException();
+    }
 } // end of class
