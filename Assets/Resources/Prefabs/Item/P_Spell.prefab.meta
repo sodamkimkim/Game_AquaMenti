@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/Item/P_Spell.prefab.meta
 guid: a616c93bf26cf764497d6a8dba6197f7
 PrefabImporter:
+========
+guid: da35e27c6bbf88b4ab930059bdfcf401
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> main_temp:Assets/Resources/Prefabs/Test.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/SampleBrushScene.unity.meta
+guid: 9ee7eec5948786246bca3441e3d38351
+========
 guid: 3e7bed0eb15662642b2c969bdbe9e0b9
 folderAsset: yes
+>>>>>>>> main:Assets/Resources/Datas.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

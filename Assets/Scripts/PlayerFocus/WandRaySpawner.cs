@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class WandRaySpawner : MonoBehaviour
 {
+    [SerializeField]
     private UIFocusPoint uIFocusPoint_;
     private Ray ray_;
     public Vector3 hitPos_ { get; set; }
@@ -15,7 +16,6 @@ public class WandRaySpawner : MonoBehaviour
     public bool isLadder_ { get; set; }
     private void Awake()
     {
-        uIFocusPoint_ = GameObject.FindWithTag("Canvas_Focus").GetComponentInChildren<UIFocusPoint>();
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
         isLadder_ = false;
     }
