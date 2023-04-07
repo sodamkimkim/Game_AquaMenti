@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class MagicManager : MonoBehaviour
 {
+    [SerializeField]
     private MagicRotate magicRotate_;
 
-    private void Awake()
-    {
-        magicRotate_ = GameObject.FindWithTag("WaterMagic").GetComponent<MagicRotate>();
-    }
     public void RotateWaterMagic()
     {
         magicRotate_.RotateWaterMagic();
