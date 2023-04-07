@@ -373,7 +373,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         float percent = (origin - target) / (float)origin * 100;
 #if UNITY_EDITOR
-        //Debug.LogFormat("[CheckPercent] origin: {0}, target: {1}, percent: {2}", origin, target, percent);
+        //Debug.LogFormat("[CheckPercent] origin: {0}, target_: {1}, percent: {2}", origin, target_, percent);
 #endif
 
         return percent;
@@ -387,7 +387,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         // 2) 초기화가 필요한 경우 여기서 초기화
         // ex) computeBuffer = new ComputeBuffer[count, sizeof(typeof) * cnt]; (uint4) => cnt: 4
-        ComputeBuffer buffer = new ComputeBuffer(1, sizeof(uint) * 1); // size * count | uint1을 사용할 것이므로 1만 곱함
+        ComputeBuffer buffer = new ComputeBuffer(1, sizeof(uint) * 1); // size_ * count | uint1을 사용할 것이므로 1만 곱함
         uint[] data = new uint[1];
 
         // 3) 설정을 끝마쳤다면 shader에 넘김
@@ -485,17 +485,17 @@ public class MeshPaintTarget : MonoBehaviour
     private void SetTwinkleProperties(/*bool _onlyDirty,*/ Material _mat)
     {
         // Property 설정값 초기화
-        //Color color;
+        //Color color_;
         //if (_onlyDirty)
-        //    color = new Color(1f, 0.6501361f, 0.2783019f, 1f);
+        //    color_ = new Color(1f, 0.6501361f, 0.2783019f, 1f);
         //else
-        //    color = new Color(0.4009433f, 0.5723213f, 1f, 1f);
+        //    color_ = new Color(0.4009433f, 0.5723213f, 1f, 1f);
 
         // Property 값 설정
         _mat.SetFloat("_ActiveTwinkle", 1); // 반짝임 동작 여부
         //_mat.SetFloat("_OnlyDirty", _onlyDirty ? 1 : 0); // 오염 대상만인지 여부
         //_mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // 반짝임 속도
-        //_mat.SetColor("_TwinkleColor", color); // 색상
+        //_mat.SetColor("_TwinkleColor", color_); // 색상
 #if UNITY_EDITOR
         Debug.Log("[SetTwinkleProperties] Before Return");
 #endif
