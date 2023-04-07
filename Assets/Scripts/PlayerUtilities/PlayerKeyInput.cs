@@ -13,25 +13,25 @@ public class PlayerKeyInput : MonoBehaviour
     [SerializeField]
     private PlayerFocusManager playerFocusManager_ = null;
     [SerializeField]
-    private MagicManager magicManager_=null;
-    [SerializeField]
     private InventoryManager inventoryManager_ = null;
     [SerializeField]
-    private MeshPaintBrush meshPaintBrush_ = null;
+    private WandRaySpawner wandRaySpawner_ = null;
+    private bool useWand { get; set; }
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
+        wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
     }
     private void Update()
     {
         // walk상태 일때 달릴 수 있음
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            playerMovement_.isLeftShiftKeyInput = true;
+            playerMovement_.isLeftShiftKeyInput_ = true;
         }
         else
         {
-            playerMovement_.isLeftShiftKeyInput = false;
+            playerMovement_.isLeftShiftKeyInput_ = false;
         }
         // move forward
         if (Input.GetKey(KeyCode.W))
@@ -67,7 +67,7 @@ public class PlayerKeyInput : MonoBehaviour
         // 마법영역 Rotate
         if(Input.GetKeyDown(KeyCode.R))
         {
-            magicManager_.RotateWaterMagic();
+            playerFocusManager_.RotateWaterMagic();
         }
         // inventory on / off
         if(Input.GetKeyDown(KeyCode.I))
@@ -82,52 +82,54 @@ public class PlayerKeyInput : MonoBehaviour
         {
             //IsPainting(true);
             //PaintToTarget();
-            meshPaintBrush_.TimingDraw();
+
+            useWand = true;
+            wandRaySpawner_.RaysTimingDraw();
             Debug.Log("마우스 좌클릭");
         }
-        else if (meshPaintBrush_.IsPainting() == true)
+        else if (wandRaySpawner_.RaysIsPainting() == true)
         {
-            meshPaintBrush_.IsPainting(false);
-            meshPaintBrush_.StopCheckTargetProcess();
-            meshPaintBrush_.StopTimingDraw();
+            wandRaySpawner_.RaysIsPainting(false);
+            wandRaySpawner_.RaysStopCheckTargetProcess();
+            wandRaySpawner_.RaysStopTimingDrow();
             Debug.Log("마우스 좌클릭 해제");
         }
-        //else if (drawCoroutine == true)
-        //{
-        //    StopTimingDraw();
-        //    Debug.Log("몇 번 호출되나요?");
-        //}
+        else if (useWand == true)
+        {
+            useWand = false;
+            wandRaySpawner_.RaysStopTimingDrow();
+        }
 
-        // 임시 스펠 변경 //
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            meshPaintBrush_.stick.magicType = MeshPaintBrush.MagicType.Zero;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            meshPaintBrush_.stick.magicType = MeshPaintBrush.MagicType.One;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            meshPaintBrush_.stick.magicType = MeshPaintBrush.MagicType.Two;
-        }
-        // End 임시 스펠 변경 //
+        //// 임시 스펠 변경 //
+        //if (Input.GetKeyDown(KeyCode.Alpha1)) // 0도 노즐
+        //{
+        //    meshPaintBrush_.stick.magicType = MeshPaintBrush.EMagicType.Zero;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2)) // 15도 노즐
+        //{
+        //    meshPaintBrush_.stick.magicType = MeshPaintBrush.EMagicType.One;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3)) // 40도 노즐
+        //{
+        //    meshPaintBrush_.stick.magicType = MeshPaintBrush.EMagicType.Two;
+        //}
+        //// End 임시 스펠 변경 //
 
         // Utility
         // Dirty 모두 제거 (일정 %에 도달하면 사용할 부분(지금은 단일대상))
-        if (meshPaintBrush_.GetTarget() != null && Input.GetKeyDown(KeyCode.E))
-        {
-            meshPaintBrush_.GetTarget().ClearTexture();
-        }
-        // Dirty 초기화 (초기화 버튼을 누른다면 적용할 부분(지금은 단일대상))
-        if (meshPaintBrush_.GetTarget() != null && Input.GetKeyDown(KeyCode.R))
-        {
-            meshPaintBrush_.GetTarget().ResetTexture();
-        }
-        if (meshPaintBrush_.GetTarget() != null && meshPaintBrush_.GetTarget().IsDrawable() && Input.GetKeyDown(KeyCode.T))
-        {
-            meshPaintBrush_.GetTarget().CompleteTwinkle();
-        }
+        //if (meshPaintBrush_.GetTarget() != null && Input.GetKeyDown(KeyCode.E))
+        //{
+        //    meshPaintBrush_.GetTarget().ClearTexture();
+        //}
+        //// Dirty 초기화 (초기화 버튼을 누른다면 적용할 부분(지금은 단일대상))
+        //if (meshPaintBrush_.GetTarget() != null && Input.GetKeyDown(KeyCode.R))
+        //{
+        //    meshPaintBrush_.GetTarget().ResetTexture();
+        //}
+        //if (meshPaintBrush_.GetTarget() != null && meshPaintBrush_.GetTarget().IsDrawable() && Input.GetKeyDown(KeyCode.T))
+        //{
+        //    meshPaintBrush_.GetTarget().CompleteTwinkle();
+        //}
 
 
     }
