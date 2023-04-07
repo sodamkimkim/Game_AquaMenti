@@ -1,0 +1,31 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSCount
+#pragma kernel CSInitCount
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+Texture2D<float4> InputTexture;
+RWStructuredBuffer<int> CountBuffer;
+
+
+[numthreads(1,1,1)]
+void CSInitCount(uint3 id : SV_DispatchThreadID)
+{
+    CountBuffer[0] = 0;
+}
+
+[numthreads(8,8,1)]
+void CSCount (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    float red = InputTexture[id.xy].r;
+    float green = InputTexture[id.xy].g;
+    float blue = InputTexture[id.xy].b;
+
+    float overlap = round((red + green + blue) * 0.33);
+
+    if (overlap > 0.1)
+    {
+        InterlockedAdd(CountBuffer[0], 1);
+    }
+}
