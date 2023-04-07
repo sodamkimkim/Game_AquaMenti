@@ -29,16 +29,16 @@ public class MeshPaintBrush : MonoBehaviour
 
 
     // 임시
-    private enum MagicType { Zero, One, Two, Three, Four }
+    public enum MagicType { Zero, One, Two}
 
-    private struct DirtyLv // 오염타입
+    public struct DirtyLv // 오염타입
     {
         public int rLv { get; set; } // 표면
         public int gLv { get; set; } // 뒤덮힘
         public int bLv { get; set; } // 억셈
     }
 
-    private struct Stick
+    public struct Stick
     {
         public DirtyLv cleanLv;
         public MagicType magicType; // 마법 => Nozzle
@@ -49,7 +49,7 @@ public class MeshPaintBrush : MonoBehaviour
     //private int rDirtyLv = 5;
     //private int rCleanLv = 3;
     //private int magicType = 2; // Nozzle. Maybe Enum.
-    private Stick stick;
+    public Stick stick;
     private DirtyLv dirty;
 
 
@@ -71,71 +71,22 @@ public class MeshPaintBrush : MonoBehaviour
         dirty.bLv = 1;
     }
     // End 임시 //
-
-    private void Update()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            //IsPainting(true);
-            //PaintToTarget();
-            TimingDraw();
-            Debug.Log("마우스 좌클릭");
-        }
-        else if (IsPainting() == true)
-        {
-            IsPainting(false);
-            StopCheckTargetProcess();
-            StopTimingDraw();
-            Debug.Log("마우스 좌클릭 해제");
-        }
-        //else if (drawCoroutine == true)
-        //{
-        //    StopTimingDraw();
-        //    Debug.Log("몇 번 호출되나요?");
-        //}
-
-        // 임시 스펠 변경 //
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            stick.magicType = MagicType.Zero;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            stick.magicType = MagicType.One;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            stick.magicType = MagicType.Two;
-        }
-        // End 임시 스펠 변경 //
-
-        // Utility
-        // Dirty 모두 제거 (일정 %에 도달하면 사용할 부분(지금은 단일대상))
-        if (target != null && Input.GetKeyDown(KeyCode.E))
-        {
-            target.ClearTexture();
-        }
-        // Dirty 초기화 (초기화 버튼을 누른다면 적용할 부분(지금은 단일대상))
-        if (target != null && Input.GetKeyDown(KeyCode.R))
-        {
-            target.ResetTexture();
-        }
-        if (target != null && target.IsDrawable() && Input.GetKeyDown(KeyCode.T))
-        {
-            target.CompleteTwinkle();
-        }
-    }
-
-
-    private bool IsPainting()
+    public bool IsPainting()
     {
         return isPainting;
     }
-    private void IsPainting(bool _do)
+    public void IsPainting(bool _do)
     {
         isPainting = _do;
     }
-
+    public MeshPaintTarget GetTarget()
+    {
+        if (target != null)
+        {
+            return target;
+        }
+        else return null;
+    }
 
     // 임시 명칭
     public void PaintToTarget(Ray _ray)
@@ -149,16 +100,17 @@ public class MeshPaintBrush : MonoBehaviour
 #if UNITY_EDITOR
             Debug.Log("In Raycast");
 #endif
+            MeshPaintTarget _target = null;
             if (prevCollider != hitInfo.collider)
             {
                 prevCollider = hitInfo.collider;
-                hitInfo.collider.TryGetComponent<MeshPaintTarget>(out target);
+                hitInfo.collider.TryGetComponent<MeshPaintTarget>(out _target);
             }
 #if UNITY_EDITOR
-            Debug.Log("target? " + target);
+            Debug.Log("target? " + _target);
 #endif
-            if (target != null &&
-                target.IsDrawable() == true)
+            if (_target != null &&
+                _target.IsDrawable() == true)
             {
 #if UNITY_EDITOR
                 //Debug.LogFormat("uvPos: {0} | coord: {1}", uvPos, hitInfo.textureCoord);
@@ -189,7 +141,7 @@ public class MeshPaintBrush : MonoBehaviour
                         float distance;
                         if (hitInfo.distance <= effectiveDistance)
                             distance = 1f;
-                        else 
+                        else
                             distance = 1 - ((hitInfo.distance - effectiveDistance) / (maxDistance - effectiveDistance));
 
                         // 세척력
@@ -197,9 +149,9 @@ public class MeshPaintBrush : MonoBehaviour
 #if UNITY_EDITOR
                         Debug.LogFormat("r: {0}, g: {1}, b: {2}", color.x, color.y, color.z);
 #endif
-                        if (target.IsClear() == false)
-                            target.DrawRender(isPainting, uvPos, color, size, distance);
-                        target.DrawWet(isPainting, uvPos, size, distance);
+                        if (_target.IsClear() == false)
+                            _target.DrawRender(isPainting, uvPos, color, size, distance);
+                        _target.DrawWet(isPainting, uvPos, size, distance);
                         CheckTargetProcess();
                     }
                 }
@@ -235,7 +187,7 @@ public class MeshPaintBrush : MonoBehaviour
     // 마법 스펠에 따른 보정치
     private float GetMagicPower(MagicType _type)
     {
-        switch((int)_type)
+        switch ((int)_type)
         {
             default:
                 return 1f;
@@ -252,7 +204,7 @@ public class MeshPaintBrush : MonoBehaviour
 
 
     #region Paint Coroutine
-    private void TimingDraw()
+    public void TimingDraw()
     {
         if (drawCoroutine == false)
         {
@@ -261,7 +213,7 @@ public class MeshPaintBrush : MonoBehaviour
             StartCoroutine("TimingDrawCoroutine");
         }
     }
-    private void StopTimingDraw()
+    public void StopTimingDraw()
     {
         if (drawCoroutine == true)
         {
@@ -279,7 +231,7 @@ public class MeshPaintBrush : MonoBehaviour
             StartCoroutine("CheckTargetProcessCoroutine");
         }
     }
-    private void StopCheckTargetProcess()
+    public void StopCheckTargetProcess()
     {
         if (runCoroutine == true)
         {
@@ -292,7 +244,7 @@ public class MeshPaintBrush : MonoBehaviour
     // Brush
     private IEnumerator TimingDrawCoroutine()
     {
-        while(true)
+        while (true)
         {
             Ray screenRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             screenRay.origin = this.transform.position;
