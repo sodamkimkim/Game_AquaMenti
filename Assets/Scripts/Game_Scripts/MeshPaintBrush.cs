@@ -4,44 +4,43 @@ using UnityEngine;
 
 public class MeshPaintBrush : MonoBehaviour
 {
-    private Collider prevCollider;
-    private Vector2 uvPos = Vector2.zero;
+    private Collider prevCollider_;
+    private Vector2 uvPos_ = Vector2.zero;
 
-    private MeshPaintTarget target = null;
+    private MeshPaintTarget target_ = null;
 
     [SerializeField, Range(0.5f, 10f)]
-    private float effectiveDistance = 1f; // 유효 사거리
+    private float effectiveDistance_ = 1f; // 유효 사거리
     [SerializeField, Range(1f, 16f)]
-    private float maxDistance = 2f; // 최대 사거리
-    private bool effective = false;
+    private float maxDistance_ = 2f; // 최대 사거리
+    private bool effective_ = false;
 
     // Option
     [SerializeField, Range(1, 20)]
-    private int size = 10;
-    private Vector4 color = new Vector4(0f, 0f, 0f, 1f);
-    private bool isPainting = false;
+    private int size_ = 10;
+    private Vector4 color_ = new Vector4(0f, 0f, 0f, 1f);
+    private bool isPainting_ = false;
 
-    private float drawTiming = 0.01f;
-    private float waitTime = 0.1f;
+    private float drawTiming_ = 0.01f;
+    private float waitTime_ = 0.1f;
 
-    private bool drawCoroutine = false;
-    private bool runCoroutine = false;
-
+    private bool drawCoroutine_ = false;
+    private bool runCoroutine_ = false;
 
     // 임시
-    private enum MagicType { Zero, One, Two, Three, Four }
+    public enum EMagicType { Zero, One, Two }
 
-    private struct DirtyLv // 오염타입
+    public struct DirtyLv // 오염타입
     {
         public int rLv { get; set; } // 표면
         public int gLv { get; set; } // 뒤덮힘
         public int bLv { get; set; } // 억셈
     }
 
-    private struct Stick
+    public struct Stick
     {
         public DirtyLv cleanLv;
-        public MagicType magicType; // 마법 => Nozzle
+        public EMagicType magicType; // 마법 => Nozzle
     }
 
     // 임시
@@ -49,10 +48,18 @@ public class MeshPaintBrush : MonoBehaviour
     //private int rDirtyLv = 5;
     //private int rCleanLv = 3;
     //private int magicType = 2; // Nozzle. Maybe Enum.
-    private Stick stick;
+    public Stick stick;
     private DirtyLv dirty;
 
-
+    //public void setStartPos(Vector3 _pos)
+    //{
+    //    startPos_ = _pos;
+    //    this.gameObject.transform.localPosition = startPos_;
+    //}
+    //public void SetEndPos(Vector3 _pos)
+    //{
+    //    endPos_ = _pos;
+    //}
     private void Start()
     {
         // 지팡이 스펙 설정
@@ -71,135 +78,87 @@ public class MeshPaintBrush : MonoBehaviour
         dirty.bLv = 1;
     }
     // End 임시 //
-
-    private void Update()
+    public bool IsPainting()
     {
-        if (Input.GetMouseButton(0))
-        {
-            //IsPainting(true);
-            //PaintToTarget();
-            TimingDraw();
-            Debug.Log("마우스 좌클릭");
-        }
-        else if (IsPainting() == true)
-        {
-            IsPainting(false);
-            StopCheckTargetProcess();
-            StopTimingDraw();
-            Debug.Log("마우스 좌클릭 해제");
-        }
-        //else if (drawCoroutine == true)
-        //{
-        //    StopTimingDraw();
-        //    Debug.Log("몇 번 호출되나요?");
-        //}
-
-        // 임시 스펠 변경 //
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            stick.magicType = MagicType.Zero;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            stick.magicType = MagicType.One;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            stick.magicType = MagicType.Two;
-        }
-        // End 임시 스펠 변경 //
-
-        // Utility
-        // Dirty 모두 제거 (일정 %에 도달하면 사용할 부분(지금은 단일대상))
-        if (target != null && Input.GetKeyDown(KeyCode.E))
-        {
-            target.ClearTexture();
-        }
-        // Dirty 초기화 (초기화 버튼을 누른다면 적용할 부분(지금은 단일대상))
-        if (target != null && Input.GetKeyDown(KeyCode.R))
-        {
-            target.ResetTexture();
-        }
-        if (target != null && target.IsDrawable() && Input.GetKeyDown(KeyCode.T))
-        {
-            target.CompleteTwinkle();
-        }
+        return isPainting_;
     }
-
-
-    private bool IsPainting()
+    public void IsPainting(bool _do)
     {
-        return isPainting;
+        isPainting_ = _do;
     }
-    private void IsPainting(bool _do)
+    public MeshPaintTarget GetTarget()
     {
-        isPainting = _do;
+        if (target_ != null)
+        {
+            return target_;
+        }
+        else return null;
     }
-
 
     // 임시 명칭
     public void PaintToTarget(Ray _ray)
     {
 #if UNITY_EDITOR
         Debug.Log("Try");
-        //Debug.DrawRay(screenRay.origin, screenRay.direction, Color.green);
+
 #endif
         if (Physics.Raycast(_ray, out var hitInfo))
         {
 #if UNITY_EDITOR
             Debug.Log("In Raycast");
 #endif
-            if (prevCollider != hitInfo.collider)
+            MeshPaintTarget _target = null;
+            if (prevCollider_ != hitInfo.collider)
             {
-                prevCollider = hitInfo.collider;
-                hitInfo.collider.TryGetComponent<MeshPaintTarget>(out target);
+                prevCollider_ = hitInfo.collider;
+                hitInfo.collider.TryGetComponent<MeshPaintTarget>(out _target);
             }
 #if UNITY_EDITOR
-            Debug.Log("target? " + target);
+            Debug.Log("target? " + _target);
 #endif
-            if (target != null &&
-                target.IsDrawable() == true)
+            if (_target != null &&
+                _target.IsDrawable() == true)
             {
 #if UNITY_EDITOR
-                //Debug.LogFormat("uvPos: {0} | coord: {1}", uvPos, hitInfo.textureCoord);
+                //Debug.LogFormat("uvPos_: {0} | coord: {1}", uvPos_, hitInfo.textureCoord);
 #endif
-                if (uvPos != hitInfo.textureCoord)
+                if (uvPos_ != hitInfo.textureCoord)
                 {
 #if UNITY_EDITOR
                     Debug.Log("Coord is not Same.");
 #endif
-                    uvPos = hitInfo.textureCoord;
-                    if (maxDistance >= hitInfo.distance)
-                        effective = true;
-                    else if (effectiveDistance >= hitInfo.distance)
-                        effective = true;
+                    uvPos_ = hitInfo.textureCoord;
+                    if (maxDistance_ >= hitInfo.distance)
+                        effective_ = true;
+                    else if (effectiveDistance_ >= hitInfo.distance)
+                        effective_ = true;
                     else
-                        effective = false;
+                        effective_ = false;
 
 #if UNITY_EDITOR
-                    Debug.Log("Before Draw" + effective);
+                    Debug.Log("Before Draw" + effective_);
 #endif
                     // 유효한 사거리라면 DrawRender를 실행
-                    if (effective)
+                    if (effective_)
                     {
                         // target에서 Draw처리하게 하는데
                         // uvPos와 Paint의 Color, Size, Distance, Drawable을 넘김 (Compute Shader에서 처리할 부분)
 
                         // 유효사거리 내에 있다면 효과 1, 최대사거리에 근접한다면 효과 1 ~ 0
                         float distance;
-                        if (hitInfo.distance <= effectiveDistance)
+                        if (hitInfo.distance <= effectiveDistance_)
                             distance = 1f;
-                        else 
-                            distance = 1 - ((hitInfo.distance - effectiveDistance) / (maxDistance - effectiveDistance));
+                        else
+                            distance = 1 - ((hitInfo.distance - effectiveDistance_) / (maxDistance_ - effectiveDistance_));
 
                         // 세척력
-                        color = WashPower();
+                        color_ = WashPower();
 #if UNITY_EDITOR
-                        Debug.LogFormat("r: {0}, g: {1}, b: {2}", color.x, color.y, color.z);
+                        Debug.LogFormat("r: {0}, g: {1}, b: {2}", color_.x, color_.y, color_.z);
 #endif
-                        if (target.IsClear() == false)
-                            target.DrawRender(isPainting, uvPos, color, size, distance);
-                        target.DrawWet(isPainting, uvPos, size, distance);
+                        if (_target.IsClear() == false)
+                            _target.DrawRender(isPainting_, uvPos_, color_, size_, distance);
+                        _target.DrawWet(isPainting_, uvPos_, size_, distance);
                         CheckTargetProcess();
                     }
                 }
@@ -221,7 +180,7 @@ public class MeshPaintBrush : MonoBehaviour
     }
 
     // 세척력 계산
-    private float CalculatePower(float _cleanLv, float _dirtyLv, MagicType _type)
+    private float CalculatePower(float _cleanLv, float _dirtyLv, EMagicType _type)
     {
         float magicPw = GetMagicPower(_type);
 
@@ -233,9 +192,9 @@ public class MeshPaintBrush : MonoBehaviour
     }
 
     // 마법 스펠에 따른 보정치
-    private float GetMagicPower(MagicType _type)
+    private float GetMagicPower(EMagicType _type)
     {
-        switch((int)_type)
+        switch ((int)_type)
         {
             default:
                 return 1f;
@@ -252,20 +211,25 @@ public class MeshPaintBrush : MonoBehaviour
 
 
     #region Paint Coroutine
-    private void TimingDraw()
+    /// <summary>
+    /// ///////////////////////////////
+    /// </summary>
+    /// <param name="_ray"></param>
+    public void TimingDraw(Ray _ray)
     {
-        if (drawCoroutine == false)
+        if (drawCoroutine_ == false)
         {
-            drawCoroutine = true;
+            drawCoroutine_ = true;
             IsPainting(true);
-            StartCoroutine("TimingDrawCoroutine");
+
+            StartCoroutine("TimingDrawCoroutine", _ray);
         }
     }
-    private void StopTimingDraw()
+    public void StopTimingDraw()
     {
-        if (drawCoroutine == true)
+        if (drawCoroutine_ == true)
         {
-            drawCoroutine = false;
+            drawCoroutine_ = false;
             IsPainting(false);
             StopCoroutine("TimingDrawCoroutine");
         }
@@ -273,31 +237,36 @@ public class MeshPaintBrush : MonoBehaviour
 
     private void CheckTargetProcess()
     {
-        if (runCoroutine == false)
+        if (runCoroutine_ == false)
         {
-            runCoroutine = true;
+            runCoroutine_ = true;
             StartCoroutine("CheckTargetProcessCoroutine");
         }
     }
-    private void StopCheckTargetProcess()
+    public void StopCheckTargetProcess()
     {
-        if (runCoroutine == true)
+        if (runCoroutine_ == true)
         {
-            runCoroutine = false;
+            runCoroutine_ = false;
             StopCoroutine("CheckTargetProcessCoroutine");
         }
     }
 
 
     // Brush
-    private IEnumerator TimingDrawCoroutine()
+    private IEnumerator TimingDrawCoroutine(Ray _ray)
     {
-        while(true)
+        while (true)
         {
-            Ray screenRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            screenRay.origin = this.transform.position;
-            PaintToTarget(screenRay);
-            yield return new WaitForSeconds(drawTiming);
+            // _ray로 바꿔주기
+            Ray Ray = _ray;
+
+         Ray.origin = this.transform.position;
+
+            //Ray.direction = _direction;
+            PaintToTarget(Ray);
+            Debug.DrawRay(Ray.origin, Ray.direction, Color.green);
+            yield return new WaitForSeconds(drawTiming_);
         }
     }
 
@@ -308,9 +277,9 @@ public class MeshPaintBrush : MonoBehaviour
 #endif
         while (true)
         {
-            if (target != null && target.IsDrawable())
-                target.CheckAutoClear();
-            yield return new WaitForSeconds(waitTime);
+            if (target_ != null && target_.IsDrawable())
+                target_.CheckAutoClear();
+            yield return new WaitForSeconds(waitTime_);
         }
     }
     #endregion

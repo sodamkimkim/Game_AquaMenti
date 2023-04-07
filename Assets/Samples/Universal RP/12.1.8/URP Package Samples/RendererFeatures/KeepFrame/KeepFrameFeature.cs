@@ -4,11 +4,11 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 //This renderer feature will replicate a "don't clear" behaviour by injecting two passes into the pipeline:
-//One pass that copies color at the end of a frame
+//One pass that copies color_ at the end of a frame
 //Another pass that draws the content of the copied texture at the beginning of a new frame
 public class KeepFrameFeature : ScriptableRendererFeature
 {
-    //This pass is responsible for copying color to a specified destination
+    //This pass is responsible for copying color_ to a specified destination
     class CopyFramePass : ScriptableRenderPass
     {
         private RenderTargetIdentifier source { get; set; }
@@ -44,7 +44,7 @@ public class KeepFrameFeature : ScriptableRendererFeature
         }
     }
 
-    //This pass is responsible for drawing the old color to a full screen quad
+    //This pass is responsible for drawing the old color_ to a full screen quad
     class DrawOldFramePass : ScriptableRenderPass
     {
         private Material m_DrawOldFrameMaterial;
@@ -101,7 +101,7 @@ public class KeepFrameFeature : ScriptableRendererFeature
     public override void Create()
     {
         m_CopyFrame = new CopyFramePass();
-        m_CopyFrame.renderPassEvent = RenderPassEvent.AfterRenderingTransparents; //Frame color is copied late in the frame
+        m_CopyFrame.renderPassEvent = RenderPassEvent.AfterRenderingTransparents; //Frame color_ is copied late in the frame
 
         m_DrawOldFame = new DrawOldFramePass();
         m_DrawOldFame.renderPassEvent = RenderPassEvent.BeforeRenderingOpaques; //Old frame is drawn early in the frame

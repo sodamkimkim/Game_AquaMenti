@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PlayerFocusManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject playerGo = null;
+    [SerializeField]
+    private Staff staff_ = null;
     // 지팡이 Raycast관련 필드
     private WandRaySpawner wandRaySpawner_;
 
@@ -12,22 +16,23 @@ public class PlayerFocusManager : MonoBehaviour
     private PlayerYRotate playerYRotate_;
     private UpperBodyLook upperBodyLook_;
 
-    // ScreenSideManager
+    [SerializeField]
     private ScreenSideManager screenSideManager_;
-
+    [SerializeField]
+    private MagicRotate magicRotate_;
     // Flag
     public bool isFocusFixed_ { get; set; }
 
     private void Awake()
     {
-        GameObject playerGo = GameObject.FindWithTag("Player");
+        
         wandRaySpawner_ = playerGo.GetComponentInChildren<WandRaySpawner>();
         playerYRotate_ = playerGo.GetComponentInChildren<PlayerYRotate>();
         upperBodyLook_ = playerGo.GetComponentInChildren<UpperBodyLook>();
-        screenSideManager_ = GameObject.FindWithTag("Canvas_ScreenSide").GetComponent<ScreenSideManager>();
+        //screenSideManager_ = GameObject.FindWithTag("Canvas_ScreenSide").GetComponent<ScreenSideManager>();
 
         isFocusFixed_ = true;
- 
+
     }
     private void Update()
     {
@@ -37,12 +42,14 @@ public class PlayerFocusManager : MonoBehaviour
             wandRaySpawner_.RayScreenCenterShot();
             playerYRotate_.RotateBodyAxisY(true);
             upperBodyLook_.RotateUpperBodyAxisX(true);
+            staff_.LookAtCenter();
         }
         else if (!isFocusFixed_)
         { // # FocusMove 모드
             wandRaySpawner_.RayMoveFocusShot();
             // # ScreenSide MouseOver 체크
             PlayerLookControlWhenScreenSideMouseHover();
+            staff_.LookAtRay(wandRaySpawner_.GetHitPos());
         }
 
     }
@@ -67,5 +74,11 @@ public class PlayerFocusManager : MonoBehaviour
         if (screenSideManager_.isScreenSideRight) playerYRotate_.RotateBodyAxisYRight(true);
         else playerYRotate_.RotateBodyAxisYLeft(false);
     }
-   
+
+
+    public void RotateWaterMagic()
+    {
+        magicRotate_.RotateWaterMagic();
+    }
+
 } // end of class

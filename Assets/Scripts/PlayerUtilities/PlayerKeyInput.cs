@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// 항상 유효한 키는 이 클래스에 정의.
@@ -9,30 +10,28 @@ using UnityEngine;
 public class PlayerKeyInput : MonoBehaviour
 {
     private PlayerMovement playerMovement_;
-    private PlayerFocusManager playerFocusManager_;
-    private MagicManager magicManager_;
-    private InventoryManager inventoryManager_;
-
     [SerializeField]
-    private GameManager gameManager_ = null;
-
+    private PlayerFocusManager playerFocusManager_ = null;
+    [SerializeField]
+    private InventoryManager inventoryManager_ = null;
+    [SerializeField]
+    private WandRaySpawner wandRaySpawner_ = null;
+    private bool useWand { get; set; }
     private void Awake()
     {
         playerMovement_ = GetComponent<PlayerMovement>();
-        playerFocusManager_ = GameObject.FindWithTag("PlayerFocusManager").GetComponent<PlayerFocusManager>();  
-        magicManager_ = GameObject.FindWithTag("MagicManager").GetComponent <MagicManager>();
-        inventoryManager_ = GameObject.FindWithTag("InventoryManager").GetComponent<InventoryManager>();
+        wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
     }
     private void Update()
     {
         // walk상태 일때 달릴 수 있음
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            playerMovement_.isLeftShiftKeyInput = true;
+            playerMovement_.isLeftShiftKeyInput_ = true;
         }
         else
         {
-            playerMovement_.isLeftShiftKeyInput = false;
+            playerMovement_.isLeftShiftKeyInput_ = false;
         }
         // move forward
         if (Input.GetKey(KeyCode.W))
@@ -68,22 +67,67 @@ public class PlayerKeyInput : MonoBehaviour
         // 마법영역 Rotate
         if(Input.GetKeyDown(KeyCode.R))
         {
-            magicManager_.RotateWaterMagic();
+            playerFocusManager_.RotateWaterMagic();
         }
         // inventory on / off
-        if (Input.GetKeyDown(KeyCode.I))
+        if(Input.GetKeyDown(KeyCode.I))
         {
-
+           
         }
-        // OpenBook on / off
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // # -홍석-
+        if (Input.GetMouseButton(0))
         {
-            if (!gameManager_.isStartGame_) return;
+            //IsPainting(true);
+            //PaintToTarget();
 
-            if (gameManager_.isInGame_)
-                gameManager_.ActiveOutGameUi();
-            else if (gameManager_.isStartGame_)
-                gameManager_.ActiveInGameUi();
+            useWand = true;
+            wandRaySpawner_.RaysTimingDraw();
+            Debug.Log("마우스 좌클릭");
         }
+        else if (wandRaySpawner_.RaysIsPainting() == true)
+        {
+            wandRaySpawner_.RaysIsPainting(false);
+            wandRaySpawner_.RaysStopCheckTargetProcess();
+            wandRaySpawner_.RaysStopTimingDrow();
+            Debug.Log("마우스 좌클릭 해제");
+        }
+        else if (useWand == true)
+        {
+            useWand = false;
+            wandRaySpawner_.RaysStopTimingDrow();
+        }
+
+        //// 임시 스펠 변경 //
+        //if (Input.GetKeyDown(KeyCode.Alpha1)) // 0도 노즐
+        //{
+        //    meshPaintBrush_.stick.magicType = MeshPaintBrush.EMagicType.Zero;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2)) // 15도 노즐
+        //{
+        //    meshPaintBrush_.stick.magicType = MeshPaintBrush.EMagicType.One;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3)) // 40도 노즐
+        //{
+        //    meshPaintBrush_.stick.magicType = MeshPaintBrush.EMagicType.Two;
+        //}
+        //// End 임시 스펠 변경 //
+
+        // Utility
+        // Dirty 모두 제거 (일정 %에 도달하면 사용할 부분(지금은 단일대상))
+        //if (meshPaintBrush_.GetTarget() != null && Input.GetKeyDown(KeyCode.E))
+        //{
+        //    meshPaintBrush_.GetTarget().ClearTexture();
+        //}
+        //// Dirty 초기화 (초기화 버튼을 누른다면 적용할 부분(지금은 단일대상))
+        //if (meshPaintBrush_.GetTarget() != null && Input.GetKeyDown(KeyCode.R))
+        //{
+        //    meshPaintBrush_.GetTarget().ResetTexture();
+        //}
+        //if (meshPaintBrush_.GetTarget() != null && meshPaintBrush_.GetTarget().IsDrawable() && Input.GetKeyDown(KeyCode.T))
+        //{
+        //    meshPaintBrush_.GetTarget().CompleteTwinkle();
+        //}
+
+
     }
 } // end of class

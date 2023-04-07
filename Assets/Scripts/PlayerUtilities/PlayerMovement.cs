@@ -12,13 +12,13 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     private float runSpeed_ = 7.5f;
 
     public bool isGround_ { get; set; }
-    public bool isLeftShiftKeyInput { get; set; }
+    public bool isLeftShiftKeyInput_ { get; set; }
 
     private void Awake()
     {
         rb_ = this.GetComponent<Rigidbody>();
         isGround_ = true;
-        isLeftShiftKeyInput = false;
+        isLeftShiftKeyInput_ = false;
         //  characterController = this.GetComponent<CharacterController>();
     }
     public Transform GetPlayerTransform()
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     public void Walk(Vector3 _direction)
     {
         transform.position = GetPlayerPos() + _direction * walkSpeed_ * Time.deltaTime;
-        if (isLeftShiftKeyInput) { Run(_direction); }
+        if (isLeftShiftKeyInput_) { Run(_direction); }
     }
     public void Run(Vector3 _direction)
     {
@@ -57,18 +57,14 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
 
 
-    public void SetPosition(Vector3 _direction, Quaternion _rotation)
-    {
-        this.transform.position = _direction;
-        this.transform.rotation = _rotation;
-    }
     public void SetAnimation()
     {
         throw new System.NotImplementedException();
     }
     public void OnCollisionEnter(Collision _collision)
     {
-        if (_collision.gameObject.layer ==3) isGround_ = true;
+     //   if (_collision.gameObject.layer ==3) isGround_ = true;
+        if (_collision.gameObject.tag =="Floor") isGround_ = true;
     }
 
 } // end of class
