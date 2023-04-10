@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class SelectSpellManager : MonoBehaviour
 {
     [Header("Aggregation")]
-    [SerializeField]
-    private GameObject selectSpellUIGo_ = null;
+
     private Item[] itemArr = null;
 
     public delegate void OpenInvenUICallback_();
@@ -20,7 +19,7 @@ public class SelectSpellManager : MonoBehaviour
 
     private void Awake()
     {
-        itemArr = selectSpellUIGo_.GetComponentsInChildren<Item>();
+        itemArr = GetComponentsInChildren<Item>();
         isSelectSpellUIOpen_ = false;
         foreach (Item item in itemArr)
         {

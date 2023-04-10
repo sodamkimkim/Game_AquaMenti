@@ -301,9 +301,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3588889339022903243}
   - component: {fileID: 1090677070884469594}
-  - component: {fileID: 6725347637197392658}
+  - component: {fileID: -1255480091715350846}
   m_Layer: 5
-  m_Name: P_Staff
+  m_Name: P_Staff3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6725347637197392658
+--- !u!114 &-1255480091715350846
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3588889339022903242}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7db3d360b3a0144b88d98b375f68a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 592f1f2a181dc2241bdbced51a59932a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3588889339700347923

@@ -5,8 +5,7 @@ using static SelectSpellManager;
 public class SelectStaffManager : MonoBehaviour
 {
     [Header("Aggregation")]
-    [SerializeField]
-    private GameObject selectStaffUIGo_ = null;
+
     private Item[] itemArr = null;
 
 

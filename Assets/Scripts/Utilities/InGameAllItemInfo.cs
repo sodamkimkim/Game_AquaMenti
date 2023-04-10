@@ -8,12 +8,20 @@ using UnityEngine;
 public class InGameAllItemInfo : MonoBehaviour
 {
     private List<Dictionary<string, object>> itemInfoList_ = new List<Dictionary<string, object>>();
-    public enum EItemCategory { Staff, Spell, Len}
-
-    private void Start()
+    private List<Dictionary<string, object>> itemStaffInfoList_ = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> itemSpellInfoList_ = new List<Dictionary<string, object>>();
+    public enum EItemCategory { Staff, Spell, Len }
+    
+    private void Awake()
     {
         CSVReader.Read("Datas/GameInfo/ItemInfo", out itemInfoList_);
-        GetAllItemInfo();
+        GetAllStaffInfo();
+        GetAllSpellInfo();
+    }
+    private void Start()
+    {
+        //GetAllItemInfo();
+        // SearchItembyItemName("AmberStaff");
     }
 
     /// <summary>
@@ -23,41 +31,65 @@ public class InGameAllItemInfo : MonoBehaviour
     {
         for (int i = 0; i < itemInfoList_.Count; i++)
         {
-            Debug.Log($"ItemCategory : {itemInfoList_[i]["ItemCategory"].ToString()}"+
+            Debug.Log($"ItemCategory : {itemInfoList_[i]["ItemCategory"].ToString()}" +
                 $"/ ItemName : {itemInfoList_[i]["ItemName"].ToString()}" +
                 $"/ Description : {itemInfoList_[i]["Description"].ToString()}" +
                 $"/ Status : {itemInfoList_[i]["Status"].ToString()}");
         }
     }
-    /// <summary>
-    /// 모든 인게임 EItemCategory == Spell 아이템 정보 가져오기
-    /// </summary>
-    public void GetAllStaffInfo()
+
+    public void SearchItembyItemName(string _itemName)
     {
-        for (int i = 0; i<itemInfoList_.Count; i++)
+        for (int i = 0; i < itemInfoList_.Count; i++)
+        {
+            if (itemInfoList_[i]["ItemName"].ToString().Equals(_itemName))
+            {
+                Debug.Log($"ItemName으로 찾음: ItemName : {itemInfoList_[i]["ItemName"].ToString()}");
+            }
+        }
+    }
+    /// <summary>
+    /// 모든 인게임 EItemCategory == Staff 아이템 정보 가져오기
+    /// </summary>
+    private void GetAllStaffInfo()
+    {
+        itemStaffInfoList_.Clear();
+        for (int i = 0; i < itemInfoList_.Count; i++)
         {
             if (itemInfoList_[i]["ItemCategory"].ToString() == EItemCategory.Staff.ToString())
             {
-                Debug.Log($"ItemName : {itemInfoList_[i]["ItemName"].ToString()}" +
-                    $"/ Description : {itemInfoList_[i]["Description"].ToString()}" +
-                    $"/ Status : {itemInfoList_[i]["Status"].ToString()}");
+                itemStaffInfoList_.Add(itemInfoList_[i]);
             }
         }
     }
     /// <summary>
     /// 모든 인게임 EItemCategory == Spell 아이템 정보 가져오기
     /// </summary>
-    public void GetAllMagicSpellInfo()
+    private void GetAllSpellInfo()
     {
-        for(int i = 0; i<itemInfoList_.Count; i++)
+        itemSpellInfoList_.Clear();
+        for (int i = 0; i < itemInfoList_.Count; i++)
         {
             if (itemInfoList_[i]["ItemCategory"].ToString() == EItemCategory.Spell.ToString())
             {
-                Debug.Log($"ItemName : {itemInfoList_[i]["ItemName"].ToString()}" +
-                    $"/ Description : {itemInfoList_[i]["Description"].ToString()}" +
-                    $"/ Status : {itemInfoList_[i]["Status"].ToString()}");
+                itemSpellInfoList_.Add(itemInfoList_[i]);
             }
         }
+    }
+    /// <summary>
+    /// 모든 staff 정보 가져와서 UI생성하기
+    /// </summary>
+    public void SetItemStaffUIList(out List<Dictionary<string, object>> _itemStaffInfoList)
+    {
+
+        _itemStaffInfoList = itemStaffInfoList_;
+    }
+    /// <summary>
+    /// 모든 spell 정보 가져와서 UI생성하기
+    /// </summary>
+    public void SetItemSpellUIList(out List<Dictionary<string, object>> _itemSpellInfoList)
+    {
+        _itemSpellInfoList = itemSpellInfoList_;
     }
 
 } // end of class

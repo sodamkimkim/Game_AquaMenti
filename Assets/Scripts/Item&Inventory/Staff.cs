@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Staff : MonoBehaviour
+public class Staff : Item
 {
     private bool isLookAtRay_ { get; set; }
     private Vector3 originRotation_ = Vector3.zero;
