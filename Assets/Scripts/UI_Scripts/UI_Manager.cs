@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager_ = null;
 
     [SerializeField] private GameObject enterPageGo_ = null;
     [SerializeField] private GameObject mainBookGo_ = null;
@@ -14,6 +15,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject workSectionSelectGo_ = null;
     [SerializeField] private GameObject sectionDetailGo_ = null;
     [SerializeField] private GameObject workDetailGo_ = null;
+    [SerializeField] private GameObject popupGo_ = null;
 
     [SerializeField] private UI_MenuManager ui_menuManager_ = null;
     [SerializeField] private Button[] btns_ = null;
@@ -185,9 +187,26 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+    public void ExitGame()
+    {
+        popupGo_.SetActive(true);
+
+    }
+    public void ExitYes()
+    {
+        Application.Quit();
+        Debug.Log("Á¾·á");
+    }
+
+    public void ExitNo()
+    {
+        popupGo_.SetActive(false);
+    }
+
     public string GetScriptInfo()
     {
-        return $" UI_Manager Detail\n nickName : {nickName_}\n selectedMapNum : {selectedMapNum_}\n selectedSectionNum : {selectedSectionNum_}\n CurrentContent : {currentContent_}\n";
+        return $" UI_Manager Detail\n nickName : {nickName_}\n selectedMapNum : {selectedMapNum_}\n selectedSectionNum : {selectedSectionNum_}\n CurrentContent : {currentContent_}\nGameManager Detail\n" +
+            $"isStartGame_ : {gameManager_.isStartGame_}\n isInGame_ : {gameManager_.isInGame_}";
     }
 
     public void GetMapSectionNumber(out int _selectedMapNum, out int _selectedSectionNum)

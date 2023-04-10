@@ -36,8 +36,8 @@ public class UI_WorkAreaManager : MonoBehaviour
         }
         gameDataManager_.GetMapDataList(out workSectionDataList_);
         Vector3 workSectionPrefabPos = workSectionContentGo_.transform.position;
-        workSectionPrefabPos.x += 224f;
-        workSectionPrefabPos.y -= 20f;
+        workSectionPrefabPos.x += 214f;
+        workSectionPrefabPos.y -= 10f;
         int cnt = 1;
         workSectionContentGo_.GetComponent<RectTransform>().sizeDelta = new Vector2(0f, contentDefaultHeight_);
         foreach (Dictionary<string, object> workSectionDics in workSectionDataList_)

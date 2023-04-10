@@ -26,8 +26,8 @@ public class InventoryManager : MonoBehaviour
         selectSpellManager_ = invenUIArr[2].GetComponent<SelectSpellManager>();
 
         // # 하위 메니저 게으른 초기화 => 콜백함수 전달
-        selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
-        selectSpellManager_.Init(CloseAllInvenUI, SelectItem);
+/*        selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
+        selectSpellManager_.Init(CloseAllInvenUI, SelectItem);*/
     }
     public void OpenInventoryPan()
     {

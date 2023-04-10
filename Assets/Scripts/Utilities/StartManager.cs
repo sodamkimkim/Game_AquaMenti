@@ -28,8 +28,9 @@ public class StartManager : MonoBehaviour
     }
     private void StartWork()
     {
-        gameManager_.ActiveInGameObjects();
-        
+        if(!gameManager_.isStartGame_)
+            gameManager_.ActiveInGameObjects();
+        gameManager_.ActiveInGameUi();
 
         uI_Manager_.GetMapSectionNumber(out selectedMapNum_, out selectedSectionNum_);
         if (selectedMapNum_ == 1 && selectedSectionNum_ == 1)
@@ -49,8 +50,7 @@ public class StartManager : MonoBehaviour
             playerMovement.SetPosition(GetSpwan_2Pos(), GetSpwan_2Rot());
         }
         uI_Manager_.GoToWorkDetailGo();
-        gameManager_.isStartGame_ = true;
-
+        
     }
     private Vector3 GetSpwan_1Pos()
     {

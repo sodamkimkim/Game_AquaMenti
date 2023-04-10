@@ -16,6 +16,9 @@ public class PlayerKeyInput : MonoBehaviour
     private InventoryManager inventoryManager_ = null;
     [SerializeField]
     private WandRaySpawner wandRaySpawner_ = null;
+    [SerializeField]
+    private GameManager gameManager_ = null;
+
     private bool useWand { get; set; }
     private void Awake()
     {
@@ -24,6 +27,16 @@ public class PlayerKeyInput : MonoBehaviour
     }
     private void Update()
     {
+        // OutGameUI on / off
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameManager_.isStartGame_ && gameManager_.isInGame_)
+                gameManager_.ActiveOutGameUi();
+            else if (gameManager_.isStartGame_ && !gameManager_.isInGame_)
+                gameManager_.ActiveInGameUi();
+
+        }
+        if (!gameManager_.isInGame_) return;
         // walk상태 일때 달릴 수 있음
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -77,6 +90,7 @@ public class PlayerKeyInput : MonoBehaviour
             else if (inventoryManager_.isInventoryPanOpen_ ==true) { inventoryManager_.CloseInventoryPan(); Debug.Log("InventoryPan close"); }
 
         }
+
         // # -홍석-
         if (Input.GetMouseButton(0))
         {
