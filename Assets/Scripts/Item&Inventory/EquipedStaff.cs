@@ -22,10 +22,10 @@ public class EquipedStaff : MonoBehaviour
     private void Awake()
     {
         itemImgSpArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
-        itemCategory = "Staff";
-        itemName = "AmberStaff";
-        description = "호박보석이 박혀있는 지팡이";
-        imageFileName = "AmberStaff";
+        //itemCategory = "Staff";
+        //itemName = "AmberStaff";
+        //description = "호박보석이 박혀있는 지팡이";
+        //imageFileName = "AmberStaff";
         SetEquipedItemUI();
     }
     public void SetEquipedItemUI()

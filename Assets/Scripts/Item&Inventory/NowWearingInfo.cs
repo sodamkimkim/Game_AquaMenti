@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class NowWearingInfo : MonoBehaviour
 {
-    private EquipedStaff equipedStaff_= null;
+    private EquipedStaff equipedStaff_ = null;
     private EquipedSpell equipedSpell_ = null;
     /// <summary>
     /// 현재 착용 중인 아이템 정보 기록에 사용할 structure
@@ -42,7 +42,25 @@ public class NowWearingInfo : MonoBehaviour
         //nowWearingArr_[1] = 
         equipedStaff_ = GetComponentInChildren<EquipedStaff>();
         equipedSpell_ = GetComponentInChildren<EquipedSpell>();
+        SetDefaultItems();
+    }
+    private void SetDefaultItems()
+    {
+        NowWearingItem defaultStaff = new NowWearingItem();
+        defaultStaff.itemCategory_ = "Staff";
+        defaultStaff.itemName_ = "AmberStaff";
+        defaultStaff.itemDescription_ = "호박보석이 박혀있는 지팡이";
+        defaultStaff.itemImgFileName_ = "AmberStaff";
+        //nowWearingArr_[0] = defaultStaff;
+        SetNowWearingStaff(defaultStaff);
 
+        NowWearingItem defaultSpell = new NowWearingItem();
+        defaultSpell.itemCategory_ = "Spell";
+        defaultSpell.itemName_ = "Deg0MagicSpell";
+        defaultSpell.itemDescription_ = "각도0도로 분출되는 물 마법";
+        defaultSpell.itemImgFileName_ = "Deg0MagicSpell";
+        //nowWearingArr_[1] = defaultSpell;
+        SetNowWearingSpell(defaultSpell);
     }
     /// <summary>
     /// : 현재 착용중인 Staff정보 저장

@@ -19,13 +19,13 @@ public class EquipedSpell : MonoBehaviour
     public string description { get; set; }
     public string imageFileName { get; set; }
 
-    private void Awake()
+    private void Start()
     {
         itemImgSpArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
-        itemCategory = "Spell";
-        itemName = "Deg0MagicSpell";
-        description = "각도0도로 분출되는 물 마법";
-        imageFileName = "Deg0MagicSpell";
+        //itemCategory = "Spell";
+        //itemName = "Deg0MagicSpell";
+        //description = "각도0도로 분출되는 물 마법";
+        //imageFileName = "Deg0MagicSpell";
 
         SetEquipedItemUI();
     }
