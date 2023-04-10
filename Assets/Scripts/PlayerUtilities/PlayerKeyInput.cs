@@ -72,7 +72,10 @@ public class PlayerKeyInput : MonoBehaviour
         // inventory on / off
         if(Input.GetKeyDown(KeyCode.I))
         {
-           
+
+            if (inventoryManager_.isInventoryPanOpen_ ==false) { inventoryManager_.OpenInventoryPan(); Debug.Log("InventoryPan open"); }
+            else if (inventoryManager_.isInventoryPanOpen_ ==true) { inventoryManager_.CloseInventoryPan(); Debug.Log("InventoryPan close"); }
+
         }
         // # -È«¼®-
         if (Input.GetMouseButton(0))

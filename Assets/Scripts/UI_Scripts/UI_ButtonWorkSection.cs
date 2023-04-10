@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class UI_ButtonWorkSection : MonoBehaviour
@@ -17,6 +18,7 @@ public class UI_ButtonWorkSection : MonoBehaviour
     }
     private void Start()
     {
+        Debug.Log(name);
         selectedMapNum = int.Parse(name.Substring(name.Length - 3, 1));
         selectedSectionNum = int.Parse(name.Substring(name.Length - 1));
 
