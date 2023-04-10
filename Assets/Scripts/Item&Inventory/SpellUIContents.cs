@@ -13,7 +13,7 @@ public class SpellUIContents : MonoBehaviour
     private float uiWidth = 550f;
 
 
-    private void Start()
+    private void Awake()
     {  
         SettSpellUIList();
         InstantiateUIPrefabs();
@@ -31,24 +31,15 @@ public class SpellUIContents : MonoBehaviour
             Vector3 newPos = go.transform.localPosition;
             newPos.x = i * (xOffset_ + uiWidth);
             go.transform.localPosition = newPos;
-
+            // info 셋팅
+            ItemInfo itemInfo = go.GetComponentInChildren<ItemInfo>();
+            itemInfo.itemCategory = itemSpellInfoList_[i]["ItemCategory"].ToString();
+            itemInfo.itemName = itemSpellInfoList_[i]["ItemName"].ToString();
+            itemInfo.description = itemSpellInfoList_[i]["Description"].ToString();
+            itemInfo.imageFileName = itemSpellInfoList_[i]["ImageFileName"].ToString();
+            itemInfo.useable = itemSpellInfoList_[i]["Useable"].ToString();
             // UI 셋팅
-            ItemNameUIControl itemNameUIControl = go.GetComponentInChildren<ItemNameUIControl>();
-            ItemImgUIControl itemImgUIControl = go.GetComponentInChildren<ItemImgUIControl>();
-            ItemDescriptionUIControl itemDescriptionUIControl = go.GetComponentInChildren<ItemDescriptionUIControl>();
-
-            itemNameUIControl.SetItemNameUI(itemSpellInfoList_[i]["ItemName"].ToString());
-            itemImgUIControl.SetItemImageUI(itemSpellInfoList_[i]["ImageFileName"].ToString());
-            itemDescriptionUIControl.SetItemDescriptionUI(itemSpellInfoList_[i]["Description"].ToString());
-
-            if (itemSpellInfoList_[i]["Useable"].Equals("FALSE")) // 사용 불가능 상태
-            {
-                go.GetComponentInChildren<Item_Lock>().gameObject.SetActive(true);
-            }
-            else
-            {
-                go.GetComponentInChildren<Item_Lock>().gameObject.SetActive(false);
-            }
+            itemInfo.SetUI();
         }
 
     }

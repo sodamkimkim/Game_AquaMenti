@@ -12,7 +12,7 @@ public class StaffUIContents : MonoBehaviour
     private float xOffset_ = 20f;
     private float uiWidth = 550f;
 
-    private void Start()
+    private void Awake()
     {
        SettStaffUIList();
         InstantiateUIPrefabs();
@@ -30,24 +30,18 @@ public class StaffUIContents : MonoBehaviour
             Vector3 newPos = go.transform.localPosition;
             newPos.x = i * (xOffset_ + uiWidth);
             go.transform.localPosition = newPos;
-
+            // info 셋팅
+            ItemInfo itemInfo = go.GetComponentInChildren<ItemInfo>();
+            itemInfo.itemCategory = itemStaffInfoList_[i]["ItemCategory"].ToString();
+            itemInfo.itemName = itemStaffInfoList_[i]["ItemName"].ToString();
+            itemInfo.description = itemStaffInfoList_[i]["Description"].ToString();
+            itemInfo.imageFileName = itemStaffInfoList_[i]["ImageFileName"].ToString();
+            itemInfo.useable = itemStaffInfoList_[i]["Useable"].ToString();
             // UI 셋팅
-            ItemNameUIControl itemNameUIControl = go.GetComponentInChildren<ItemNameUIControl>();
-            ItemImgUIControl itemImgUIControl = go.GetComponentInChildren<ItemImgUIControl>();
-            ItemDescriptionUIControl itemDescriptionUIControl = go.GetComponentInChildren<ItemDescriptionUIControl>();
 
-            itemNameUIControl.SetItemNameUI(itemStaffInfoList_[i]["ItemName"].ToString());
-            itemImgUIControl.SetItemImageUI(itemStaffInfoList_[i]["ImageFileName"].ToString());
-            itemDescriptionUIControl.SetItemDescriptionUI(itemStaffInfoList_[i]["Description"].ToString());
+            itemInfo.SetUI();
 
-            if (itemStaffInfoList_[i]["Useable"].Equals("FALSE")) // 사용 불가능 상태
-            {
-                go.GetComponentInChildren<Item_Lock>().gameObject.SetActive(true);
-            }
-            else
-            {
-                go.GetComponentInChildren<Item_Lock>().gameObject.SetActive(false);
-            }
+
         }
 
     }
