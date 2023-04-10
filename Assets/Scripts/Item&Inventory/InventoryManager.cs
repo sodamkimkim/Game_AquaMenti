@@ -21,7 +21,7 @@ public class InventoryManager : MonoBehaviour
     {
         // # 변수 초기화
         isInventoryPanOpen_ = false;
-        nowWearingInfo_ = GetComponent<NowWearingInfo>();
+        nowWearingInfo_ = inventoryPanUIGo_.GetComponentInChildren<NowWearingInfo>();
         selectStaffManager_ = invenUIArr[1].GetComponent<SelectStaffManager>();
         selectSpellManager_ = invenUIArr[2].GetComponent<SelectSpellManager>();
 
