@@ -40,6 +40,15 @@ public class SpellUIContents : MonoBehaviour
             itemNameUIControl.SetItemNameUI(itemSpellInfoList_[i]["ItemName"].ToString());
             itemImgUIControl.SetItemImageUI(itemSpellInfoList_[i]["ImageFileName"].ToString());
             itemDescriptionUIControl.SetItemDescriptionUI(itemSpellInfoList_[i]["Description"].ToString());
+
+            if (itemSpellInfoList_[i]["Useable"].Equals("FALSE")) // 사용 불가능 상태
+            {
+                go.GetComponentInChildren<Item_Lock>().gameObject.SetActive(true);
+            }
+            else
+            {
+                go.GetComponentInChildren<Item_Lock>().gameObject.SetActive(false);
+            }
         }
 
     }

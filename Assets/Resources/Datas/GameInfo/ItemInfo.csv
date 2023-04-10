@@ -1,8 +1,8 @@
-ItemCategory,ItemName,Description,Status,ImageFileName
-Staff,AmberStaff,호박보석이 박혀있는 지팡이,B급,AmberStaff
-Staff,RubyStaff,루비가 박혀있는 지팡이,A급,RubyStaff
+ItemCategory,ItemName,Description,Useable,ImageFileName
+Staff,AmberStaff,호박보석이 박혀있는 지팡이,TRUE,AmberStaff
+Staff,RubyStaff,루비가 박혀있는 지팡이,FALSE,RubyStaff
 ,,,,
-Spell,Deg0MagicSpell,각도0도로 분출되는 물 마법,0,Deg0MagicSpell
-Spell,Deg15MagicSpell,각도15도로 분출되는 물 마법,15,Deg15MagicSpell
-Spell,Deg25MagicSpell,각도25도로 분출되는 물 마법,25,Deg25MagicSpell
-Spell,Deg45MagicSpell,각도45도로 분출되는 물 마법,45,Deg45MagicSpell
+Spell,Deg0MagicSpell,각도0도로 분출되는 물 마법,TRUE,Deg0MagicSpell
+Spell,Deg15MagicSpell,각도15도로 분출되는 물 마법,TRUE,Deg15MagicSpell
+Spell,Deg25MagicSpell,각도25도로 분출되는 물 마법,TRUE,Deg25MagicSpell
+Spell,Deg45MagicSpell,각도45도로 분출되는 물 마법,TRUE,Deg45MagicSpell
