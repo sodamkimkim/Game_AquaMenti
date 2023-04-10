@@ -16,13 +16,14 @@ public class InventoryManager : MonoBehaviour
     private SelectSpellManager selectSpellManager_;
 
     // # item 생성 관련
-
+    [SerializeField]
+    private PlayerFocusManager playerFocusManager_ = null;   
     [SerializeField]
     private GameObject[] staffArr_= null;
-    private GameObject nowStaff_ = null;
 
     public bool isInventoryPanOpen_ { get; set; }
 
+    private Staff nowStaff_ = null;
     private void Awake()
     {
         // # 변수 초기화
@@ -42,9 +43,19 @@ public class InventoryManager : MonoBehaviour
     }
     private void SetDefaultPlayerItem()
     {
-        staffArr_[0].SetActive(true);
+        SetStaff(0);
         // TODO Spell
+        // SetSpell(0);
     }
+    private void SetStaff(int _idx)
+    {
+        CloseAllstaff();
+        staffArr_[_idx].SetActive(true);
+        nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
+        playerFocusManager_.SetStaff(nowStaff_);
+    }
+
+
     public void OpenInventoryPan()
     {
         isInventoryPanOpen_ = true;
@@ -69,13 +80,11 @@ public class InventoryManager : MonoBehaviour
             nowWearingInfo_.SetNowWearingStaff(_selectItem);
             if(_selectItem.itemName_==InGameAllItemInfo.EStaffName.AmberStaff.ToString())
             { // AmberStaff 켜기
-                CloseAllstaff();
-                staffArr_[0].SetActive(true);
+                SetStaff(0);
             }
             else if(_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
             {
-                CloseAllstaff();
-                staffArr_[1].SetActive(true);
+                SetStaff(1);
             }
 
         }

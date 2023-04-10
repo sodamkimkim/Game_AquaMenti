@@ -7,7 +7,6 @@ public class PlayerFocusManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject playerGo = null;
-    [SerializeField]
     private Staff staff_ = null;
     // 지팡이 Raycast관련 필드
     private WandRaySpawner wandRaySpawner_;
@@ -23,9 +22,9 @@ public class PlayerFocusManager : MonoBehaviour
     // Flag
     public bool isFocusFixed_ { get; set; }
 
+
     private void Awake()
     {
-        
         wandRaySpawner_ = playerGo.GetComponentInChildren<WandRaySpawner>();
         playerYRotate_ = playerGo.GetComponentInChildren<PlayerYRotate>();
         upperBodyLook_ = playerGo.GetComponentInChildren<UpperBodyLook>();
@@ -33,6 +32,10 @@ public class PlayerFocusManager : MonoBehaviour
 
         isFocusFixed_ = true;
 
+    }
+    public void SetStaff(Staff _staff)
+    {
+        staff_ = _staff;
     }
     private void Update()
     {
@@ -42,14 +45,22 @@ public class PlayerFocusManager : MonoBehaviour
             wandRaySpawner_.RayScreenCenterShot();
             playerYRotate_.RotateBodyAxisY(true);
             upperBodyLook_.RotateUpperBodyAxisX(true);
-            staff_.LookAtCenter();
+
+            if (staff_ != null)
+            {
+                staff_.LookAtCenter();
+            }
         }
         else if (!isFocusFixed_)
         { // # FocusMove 모드
             wandRaySpawner_.RayMoveFocusShot();
             // # ScreenSide MouseOver 체크
             PlayerLookControlWhenScreenSideMouseHover();
-            staff_.LookAtRay(wandRaySpawner_.GetHitPos());
+          
+            if (staff_ != null)
+            {
+                staff_.LookAtRay(wandRaySpawner_.GetHitPos());
+            }
         }
 
     }
