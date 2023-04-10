@@ -96,6 +96,10 @@ public class WandRaySpawner : MonoBehaviour
                     isLadder_ = false;
                 }
             }
+            else
+            {
+                isLadder_ = false;
+            }
             hitPos_ = hit.point;
         }
         else
