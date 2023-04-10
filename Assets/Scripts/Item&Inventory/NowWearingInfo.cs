@@ -97,4 +97,12 @@ public class NowWearingInfo : MonoBehaviour
 
         equipedSpell_.SetEquipedItemUI();
     }
+    public NowWearingItem GetNowWearingStaff()
+    {
+        return nowWearingArr_[0];
+    }
+    public NowWearingItem GetNowWearingSpell()
+    {
+        return nowWearingArr_[1];
+    }
 } // end of class

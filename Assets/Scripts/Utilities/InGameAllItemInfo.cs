@@ -11,6 +11,12 @@ public class InGameAllItemInfo : MonoBehaviour
     private List<Dictionary<string, object>> itemStaffInfoList_ = new List<Dictionary<string, object>>();
     private List<Dictionary<string, object>> itemSpellInfoList_ = new List<Dictionary<string, object>>();
     public enum EItemCategory { Staff, Spell, Len }
+    public enum EStaffName { AmberStaff , RubyStaff , Len}
+    public enum ESpellName { Deg0MagicSpell,
+        Deg15MagicSpell,
+        Deg25MagicSpell,
+        Deg45MagicSpell
+        , Len}
     
     private void Awake()
     {

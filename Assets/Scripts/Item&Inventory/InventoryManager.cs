@@ -15,6 +15,12 @@ public class InventoryManager : MonoBehaviour
     private SelectStaffManager selectStaffManager_;
     private SelectSpellManager selectSpellManager_;
 
+    // # item 생성 관련
+
+    [SerializeField]
+    private GameObject[] staffArr_= null;
+    private GameObject nowStaff_ = null;
+
     public bool isInventoryPanOpen_ { get; set; }
 
     private void Awake()
@@ -28,6 +34,16 @@ public class InventoryManager : MonoBehaviour
         // # 하위 메니저 게으른 초기화 => 콜백함수 전달
         selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
         selectSpellManager_.Init(CloseAllInvenUI, SelectItem);
+
+    }
+    private void Start()
+    {
+        SetDefaultPlayerItem();
+    }
+    private void SetDefaultPlayerItem()
+    {
+        staffArr_[0].SetActive(true);
+        // TODO Spell
     }
     public void OpenInventoryPan()
     {
@@ -51,10 +67,22 @@ public class InventoryManager : MonoBehaviour
         if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Staff.ToString()))
         { // # Staff 
             nowWearingInfo_.SetNowWearingStaff(_selectItem);
+            if(_selectItem.itemName_==InGameAllItemInfo.EStaffName.AmberStaff.ToString())
+            { // AmberStaff 켜기
+                CloseAllstaff();
+                staffArr_[0].SetActive(true);
+            }
+            else if(_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
+            {
+                CloseAllstaff();
+                staffArr_[1].SetActive(true);
+            }
+
         }
-        else if(_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
+        else if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
         { // # Spell
             nowWearingInfo_.SetNowWearingSpell(_selectItem);
+            // TODO
         }
     }
     /// <summary>
@@ -71,5 +99,12 @@ public class InventoryManager : MonoBehaviour
     {
         CloseAllInvenUI();
         invenUIArr[0].SetActive(true);
+    }
+    private void CloseAllstaff()
+    {
+        foreach(GameObject go in staffArr_)
+        {
+            go.SetActive(false);
+        }
     }
 } // end of class
