@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 117
+  controlID: 171
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 116
+  controlID: 160
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 105
+  controlID: 161
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -391,7 +391,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 4af8ffff28fbffff049b000056d20000b8510100
+      m_ExpandedIDs: 2275fbffe076fbff22f2fdff28fbffffe00a010044bc020098d502001a370300a4730300
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -499,22 +499,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Suntail Village/Textures/Environment
+    - Assets/Resources/Prefabs/Environment
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Suntail Village/Textures/Environment
+  - Assets/Resources/Prefabs/Environment
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\dbsal\Documents\GitHub\UnityGameProject2
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 356}
-    m_SelectedIDs: 5a750100
-    m_LastClickedID: 95578
-    m_ExpandedIDs: 000000008c8400008e84000090840000928400009484000096840000988400009a8400009e840000a0840000a2840000a4840000a6840000a8840000aa840000ac840000ae840000b0840000b2840000b4840000b6840000b88400000c85000000ca9a3b
+    scrollPos: {x: 0, y: 176}
+    m_SelectedIDs: ec680100
+    m_LastClickedID: 92396
+    m_ExpandedIDs: 000000007e61010080610100826101008461010086610100886101008a6101008c6101008e61010090610100926101009461010096610100986101009a6101009c6101009e610100a0610100a2610100a4610100a6610100a8610100aa61010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -542,7 +542,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008c8400008e84000090840000928400009484000096840000988400009a8400009c8400009e840000a0840000a2840000a4840000a6840000a8840000aa840000ac840000ae840000b0840000b2840000b4840000b6840000b8840000
+    m_ExpandedIDs: 000000007e61010080610100826101008461010086610100886101008a6101008c6101008e61010090610100926101009461010096610100986101009a6101009c6101009e610100a0610100a2610100a4610100a6610100a8610100aa610100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -594,7 +594,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 11247.5}
+    m_ScrollPosition: {x: 0, y: 739}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 184
@@ -972,9 +972,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 137.99278, y: 11.530445, z: 138.01665}
+    m_Target: {x: 149.71465, y: -15.495585, z: 176.41612}
     speed: 2
-    m_Value: {x: 137.99278, y: 11.530445, z: 138.01665}
+    m_Value: {x: 149.71465, y: -15.495585, z: 176.41612}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1021,13 +1021,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.30914715, y: 0.059575584, z: -0.015201704, w: 0.94989944}
+    m_Target: {x: -0.46216264, y: -0.14661287, z: 0.075541, w: -0.8723298}
     speed: 2
-    m_Value: {x: 0.30850363, y: 0.07944291, z: -0.021671971, w: 0.94765216}
+    m_Value: {x: -0.45914105, y: -0.14671089, z: 0.075033486, w: -0.8729464}
   m_Size:
-    m_Target: 5.8055744
+    m_Target: 32.19746
     speed: 2
-    m_Value: 5.8055744
+    m_Value: 32.197445
   m_Ortho:
     m_Target: 0
     speed: 2
