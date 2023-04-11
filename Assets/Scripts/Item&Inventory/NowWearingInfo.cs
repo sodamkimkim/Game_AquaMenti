@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 public class NowWearingInfo : MonoBehaviour
 {
-    private EquipedStaff equipedStaff_ = null;
-    private EquipedSpell equipedSpell_ = null;
-    /// <summary>
-    /// 현재 착용 중인 아이템 정보 기록에 사용할 structure
-    /// </summary>
+    // 0: EquipedStaff, 1: EquipedSpell
+    private EquipedItem[] equipedItemArr = null;
+    
+    // 현재 착용 중인 아이템 정보 기록에 사용할 structure
     public struct NowWearingItem
     { // # staff : [0], # spell : [1]
         // item정보
@@ -28,10 +27,8 @@ public class NowWearingInfo : MonoBehaviour
             return $"itemCategory_ : {itemCategory_}, itemName_ : {itemName_}, itemImg_ : {itemName_}, itemDescription_ : {itemDescription_}";
         }
     } // end of struct
-    /// <summary>
-    ///  : 현재 착용중인 아이템 정보 저장 arr
-    ///  - [0] : Staff, [1] : Spell
-    /// </summary>
+
+    //  현재 착용중인 아이템 정보 저장 arr -> [0] : Staff, [1] : Spell
     private NowWearingItem[] nowWearingArr_ = new NowWearingItem[2];
 
     private void Awake()
@@ -40,8 +37,8 @@ public class NowWearingInfo : MonoBehaviour
         // TODO
         //nowWearingArr_[0] = 
         //nowWearingArr_[1] = 
-        equipedStaff_ = GetComponentInChildren<EquipedStaff>();
-        equipedSpell_ = GetComponentInChildren<EquipedSpell>();
+        equipedItemArr = GetComponentsInChildren<EquipedItem>();
+
         SetDefaultItems();
     }
     private void SetDefaultItems()
@@ -52,7 +49,7 @@ public class NowWearingInfo : MonoBehaviour
         defaultStaff.itemDescription_ = "호박보석이 박혀있는 지팡이";
         defaultStaff.itemImgFileName_ = "AmberStaff";
         //nowWearingArr_[0] = defaultStaff;
-        SetNowWearingStaff(defaultStaff);
+        SetNowWearingItem(defaultStaff);
 
         NowWearingItem defaultSpell = new NowWearingItem();
         defaultSpell.itemCategory_ = "Spell";
@@ -60,43 +57,37 @@ public class NowWearingInfo : MonoBehaviour
         defaultSpell.itemDescription_ = "각도0도로 분출되는 물 마법";
         defaultSpell.itemImgFileName_ = "Deg0MagicSpell";
         //nowWearingArr_[1] = defaultSpell;
-        SetNowWearingSpell(defaultSpell);
+        SetNowWearingItem(defaultSpell);
     }
     /// <summary>
-    /// : 현재 착용중인 Staff정보 저장
+    /// : 현재 착용중인 Item정보 저장
     /// </summary>
     /// <param name="_selectItem"></param>
-    public void SetNowWearingStaff(NowWearingItem _selectItem)
+    public void SetNowWearingItem(NowWearingItem _selectItem)
     {
-        nowWearingArr_[0] = _selectItem;
-        Debug.Log(nowWearingArr_[0].ToString());
-        Debug.Log(nowWearingArr_[1].ToString());
+        int idx = -1;
+        if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Staff.ToString()))
+        {
+            idx = 0;
+        }
+        else if(_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
+        {
+            idx = 1;
+        }
 
-        equipedStaff_.itemCategory = nowWearingArr_[0].itemCategory_;
-        equipedStaff_.itemName = nowWearingArr_[0].itemName_;
-        equipedStaff_.description = nowWearingArr_[0].itemDescription_;
-        equipedStaff_.imageFileName = nowWearingArr_[0].itemImgFileName_;
+        nowWearingArr_[idx] = _selectItem;
+        Debug.Log(nowWearingArr_[idx].ToString());
+        Debug.Log(nowWearingArr_[idx].ToString());
 
-        equipedStaff_.SetEquipedItemUI();
+        equipedItemArr[idx].itemCategory = nowWearingArr_[idx].itemCategory_;
+        equipedItemArr[idx].itemName = nowWearingArr_[idx].itemName_;
+        equipedItemArr[idx].description = nowWearingArr_[idx].itemDescription_;
+        equipedItemArr[idx].imageFileName = nowWearingArr_[idx].itemImgFileName_;
+
+        equipedItemArr[idx].SetEquipedItemUI();
 
     }
 
-    /// <summary>
-    /// : 현재 착용중인 Spell정보 저장
-    /// </summary>
-    /// <param name="_selectItem"></param>
-    public void SetNowWearingSpell(NowWearingItem _selectItem)
-    {
-        nowWearingArr_[1] = _selectItem;
-        Debug.Log(nowWearingArr_[0].ToString());
-        Debug.Log(nowWearingArr_[1].ToString());
-        equipedSpell_.itemCategory = nowWearingArr_[1].itemCategory_;
-        equipedSpell_.itemName = nowWearingArr_[1].itemName_;
-        equipedSpell_.description = nowWearingArr_[1].itemDescription_;
-        equipedSpell_.imageFileName = nowWearingArr_[1].itemImgFileName_;
-
-        equipedSpell_.SetEquipedItemUI();
-    }
     public NowWearingItem GetNowWearingStaff()
     {
         return nowWearingArr_[0];

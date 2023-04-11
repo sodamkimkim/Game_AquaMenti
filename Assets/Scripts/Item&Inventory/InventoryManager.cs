@@ -12,8 +12,8 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Composition")] // # Composition(구성관계) : 생명주기를 같이 함. ex) 차 & 엔진
     private NowWearingInfo nowWearingInfo_;
-    private SelectStaffManager selectStaffManager_;
-    private SelectSpellManager selectSpellManager_;
+    private SelectItemManager selectStaffManager_;
+    private SelectItemManager selectSpellManager_;
 
     // # item 생성 관련
     [SerializeField]
@@ -29,8 +29,8 @@ public class InventoryManager : MonoBehaviour
         // # 변수 초기화
         isInventoryPanOpen_ = false;
         nowWearingInfo_ = inventoryPanUIGo_.GetComponentInChildren<NowWearingInfo>();
-        selectStaffManager_ = invenUIArr[1].GetComponent<SelectStaffManager>();
-        selectSpellManager_ = invenUIArr[2].GetComponent<SelectSpellManager>();
+        selectStaffManager_ = invenUIArr[1].GetComponent<SelectItemManager>();
+        selectSpellManager_ = invenUIArr[2].GetComponent<SelectItemManager>();
 
         // # 하위 메니저 게으른 초기화 => 콜백함수 전달
         selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
@@ -77,7 +77,7 @@ public class InventoryManager : MonoBehaviour
         // # staff spell 구분해서 NowWearing 함수 호출
         if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Staff.ToString()))
         { // # Staff 
-            nowWearingInfo_.SetNowWearingStaff(_selectItem);
+            nowWearingInfo_.SetNowWearingItem(_selectItem);
             if(_selectItem.itemName_==InGameAllItemInfo.EStaffName.AmberStaff.ToString())
             { // AmberStaff 켜기
                 SetStaff(0);
@@ -90,7 +90,7 @@ public class InventoryManager : MonoBehaviour
         }
         else if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
         { // # Spell
-            nowWearingInfo_.SetNowWearingSpell(_selectItem);
+            nowWearingInfo_.SetNowWearingItem(_selectItem);
             // TODO
         }
     }
