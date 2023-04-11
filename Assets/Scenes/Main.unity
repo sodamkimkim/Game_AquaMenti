@@ -23774,7 +23774,7 @@ GameObject:
   - component: {fileID: 5241878059381801186}
   - component: {fileID: 5241878059381801185}
   m_Layer: 5
-  m_Name: ~SelectStaff
+  m_Name: SelectStaff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24041,21 +24041,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &5241878059509054371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5241878059509054381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2d354f2715a477488b209558c1c82aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inGameAllItemInfo_: {fileID: 5241878059674354952}
-  staffUIPrefab_: {fileID: 9039788326310388595, guid: 4e521571110df9544bb11e702f35dcc6,
-    type: 3}
 --- !u!224 &5241878059509054380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24085,14 +24070,29 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5241878059509054380}
-  - component: {fileID: 5241878059509054371}
+  - component: {fileID: 5241878059509054382}
   m_Layer: 5
   m_Name: Content
-  m_TagString: Untagged
+  m_TagString: SelectStaff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5241878059509054382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5241878059509054381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a8f71ade765c50429a0227d592b8256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inGameAllItemInfo_: {fileID: 5241878059674354952}
+  itemUIPrefab_: {fileID: 9039788326310388595, guid: 4e521571110df9544bb11e702f35dcc6,
+    type: 3}
 --- !u!223 &5241878059519395460
 Canvas:
   m_ObjectHideFlags: 0
@@ -46731,7 +46731,7 @@ GameObject:
   - component: {fileID: 5241878060307974353}
   - component: {fileID: 5241878060307974355}
   m_Layer: 5
-  m_Name: ~SelectSpell
+  m_Name: SelectSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48410,7 +48410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inGameAllItemInfo_: {fileID: 5241878059674354952}
-  spellUIPrefab_: {fileID: 1126694782304662504, guid: b08d6150f9e73d74ab60515ba6b41f68,
+  itemUIPrefab_: {fileID: 1126694782304662504, guid: b08d6150f9e73d74ab60515ba6b41f68,
     type: 3}
 --- !u!224 &5241878060732102810
 RectTransform:
@@ -48444,7 +48444,7 @@ GameObject:
   - component: {fileID: 5241878060732102809}
   m_Layer: 5
   m_Name: Content
-  m_TagString: Untagged
+  m_TagString: SelectSpell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49126,7 +49126,7 @@ GameObject:
   - component: {fileID: 5241878060992207593}
   - component: {fileID: 5241878060992207592}
   m_Layer: 5
-  m_Name: ~Inventory
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

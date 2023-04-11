@@ -24,6 +24,8 @@ TagManager:
   - WorkSection
   - InGameObjects
   - InventoryManager
+  - SelectStaff
+  - SelectSpell
   layers:
   - Default
   - TransparentFX
