@@ -35,10 +35,12 @@ public class ItemInfo : MonoBehaviour
         if (useable.Equals("FALSE")) // 사용 불가능 상태
         {
             this.gameObject.GetComponentInChildren<Item_Lock>().gameObject.SetActive(true);
+            btnItem.interactable = false;
         }
         else
         {
             this.gameObject.GetComponentInChildren<Item_Lock>().gameObject.SetActive(false);
+            btnItem.interactable = true;
         }
     }
     private void ItemClickCallback()
