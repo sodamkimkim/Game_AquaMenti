@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/Item.meta
+guid: 01e562d5aab64a04fb8489760d1ea1bd
+folderAsset: yes
+========
 guid: 712c8f7834ab39947b3061dc66bf7239
+>>>>>>>> main_temp:Assets/Scenes/SampleBrushScene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 166
+  controlID: 18
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 16
+  controlID: 25
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 153
+  controlID: 170
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -269,8 +269,8 @@ MonoBehaviour:
     y: 0
     width: 369
     height: 627
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -388,10 +388,10 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 1e22fcff
-      m_LastClickedID: -253410
-      m_ExpandedIDs: 0623fcff162efdff2a30fdff047dffff28fbffffea810000329b000060b90000c8fc0000e22c0100a8ff0100823002002e3c0200
+      scrollPos: {x: 0, y: 1925}
+      m_SelectedIDs: 2c1af6ff
+      m_LastClickedID: -648660
+      m_ExpandedIDs: 785ef2ff2ca8f2ff34e4f4ff3ee9f4ff2c0bf5ffc44bf5ff5eecf6ff84f8f8ffa206f9ffb244faff6876faff467efbff20effeff3af0feff1cf1feffe8f4feff5ceb0000d2220100542301003a660100f094010054960100c0a20100466a0400aa700400bca104001ce50400e6ea0400a2000500a2210500
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -499,36 +499,36 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Textures/house
+    - Assets/Suntail Village/Textures/Environment
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/Textures/house
+  - Assets/Suntail Village/Textures/Environment
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\dbsal\Documents\GitHub\UnityGameProject2
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 12690100
-    m_LastClickedID: 92434
-    m_ExpandedIDs: 00000000826101008461010086610100886101008a6101008c6101008e61010090610100926101009461010096610100986101009a6101009c6101009e610100a0610100a2610100a4610100a6610100a8610100aa610100ac61010000ca9a3b
+    m_SelectedIDs: e0d00000
+    m_LastClickedID: 53472
+    m_ExpandedIDs: 000000004cd000004ed0000050d0000052d0000056d0000058d000005ad000005cd000005ed0000060d0000062d0000064d0000068d000006ad000006cd000006ed0000072d0000074d0000090d000009ed00000a2d00000b2d0000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Suntail Village
+      m_OriginalName: Suntail Village
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 53362
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 4
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 
@@ -542,7 +542,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000826101008461010086610100886101008a6101008c6101008e61010090610100926101009461010096610100986101009a6101009c6101009e610100a0610100a2610100a4610100a6610100a8610100aa610100ac610100
+    m_ExpandedIDs: 000000004cd000004ed0000050d0000052d0000054d0000056d0000058d000005ad000005cd000005ed0000060d0000062d0000064d0000066d0000068d000006ad000006cd000006ed0000070d0000072d0000074d0000076d00000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -594,7 +594,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 3342.5}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 184
@@ -657,8 +657,8 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
-    m_HSlider: 0
-    m_VSlider: 0
+    m_HSlider: 1
+    m_VSlider: 1
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
@@ -671,18 +671,18 @@ MonoBehaviour:
       y: 21
       width: 1001
       height: 413
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 500.5, y: 206.5}
+    m_Scale: {x: 1.4449241, y: 1.4449241}
+    m_Translation: {x: 488.5857, y: 214.05052}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -500.5
-      y: -206.5
-      width: 1001
-      height: 413
+      x: -338.13934
+      y: -148.13963
+      width: 692.76996
+      height: 285.82816
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1001, y: 434}
@@ -972,9 +972,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 38.76491, y: -19.750097, z: 132.19579}
+    m_Target: {x: 143.53372, y: 9.897965, z: 129.55168}
     speed: 2
-    m_Value: {x: 38.76491, y: -19.750097, z: 132.19579}
+    m_Value: {x: 143.53372, y: 9.897965, z: 129.55168}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1021,13 +1021,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.06308132, y: 0.8453477, z: -0.12038234, w: -0.5186728}
+    m_Target: {x: -0.074957624, y: -0.9183208, z: 0.16098246, w: -0.35810617}
     speed: 2
-    m_Value: {x: -0.063375495, y: 0.842901, z: -0.120066226, w: -0.5206587}
+    m_Value: {x: -0.0733006, y: -0.9184543, z: 0.1582015, w: -0.35502273}
   m_Size:
-    m_Target: 59.147457
+    m_Target: 4.548202
     speed: 2
-    m_Value: 59.147438
+    m_Value: 4.548202
   m_Ortho:
     m_Target: 0
     speed: 2
