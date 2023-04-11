@@ -19,7 +19,6 @@ public class WaterPumpActivator : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("in");
             PlayPump(true);
         }
         if (Input.GetMouseButtonUp(0))

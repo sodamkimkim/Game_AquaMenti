@@ -136,7 +136,7 @@ public class MeshPaintBrush : MonoBehaviour
                         effective_ = false;
 
 #if UNITY_EDITOR
-                    //Debug.Log("Before Draw" + effective_);
+                    Debug.Log("Before Draw" + effective_);
 #endif
                     // 유효한 사거리라면 DrawRender를 실행
                     if (effective_)
@@ -217,6 +217,7 @@ public class MeshPaintBrush : MonoBehaviour
     /// <param name="_ray"></param>
     public void TimingDraw(Ray _ray)
     {
+
         if (drawCoroutine_ == false)
         {
             drawCoroutine_ = true;
@@ -258,6 +259,8 @@ public class MeshPaintBrush : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(_ray);
+
             // _ray로 바꿔주기
             Ray Ray = _ray;
 
