@@ -10,13 +10,19 @@ public class SpellUIContents : MonoBehaviour
     private GameObject spellUIPrefab_ = null;
     private List<Dictionary<string, object>> itemSpellInfoList_ = new List<Dictionary<string, object>>();
     private float xOffset_ = 20f;
-    private float uiWidth = 550f;
+    private float uiWidth_ = 550f;
 
+    private RectTransform rtr   = null;
 
     private void Awake()
     {  
+        rtr = this.gameObject.GetComponent<RectTransform>();    
         SettSpellUIList();
         InstantiateUIPrefabs();
+    }
+    private void Update()
+    {
+        Debug.Log(rtr.sizeDelta.x);
     }
     private void SettSpellUIList()
     {
@@ -29,7 +35,7 @@ public class SpellUIContents : MonoBehaviour
         {
             GameObject go = Instantiate(spellUIPrefab_, this.transform);
             Vector3 newPos = go.transform.localPosition;
-            newPos.x = i * (xOffset_ + uiWidth);
+            newPos.x = i * (xOffset_ + uiWidth_);
             go.transform.localPosition = newPos;
             // info 実特
             ItemInfo itemInfo = go.GetComponentInChildren<ItemInfo>();
@@ -41,7 +47,14 @@ public class SpellUIContents : MonoBehaviour
             // UI 実特
             itemInfo.SetUI();
         }
+        if(rtr!=null)
+        {
 
+        float contentWidth =0;
+        contentWidth = itemSpellInfoList_.Count * (xOffset_ + uiWidth_)-1120f;
+        Vector2 sizedelta = rtr.sizeDelta;
+        rtr.sizeDelta = new Vector2(contentWidth, sizedelta.y);
+        }
     }
 
 } // end of class

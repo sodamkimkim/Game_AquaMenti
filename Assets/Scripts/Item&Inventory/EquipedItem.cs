@@ -22,18 +22,25 @@ public class EquipedItem : MonoBehaviour
     private void Awake()
     {
         itemImgSpArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
+    }
+    private void Start()
+    {
         SetEquipedItemUI();
     }
     public void SetEquipedItemUI()
     {
         equipedItemName_.text = itemName;
         equipedItemDescription_.text = description;
-        foreach (Sprite sprite in itemImgSpArr_)
+        if (itemImgSpArr_ != null)
         {
-            if (sprite.name == imageFileName)
+            foreach (Sprite sprite in itemImgSpArr_)
             {
-                equipedItemImg_.sprite = sprite;
+                if (sprite.name == imageFileName)
+                {
+                    equipedItemImg_.sprite = sprite;
+                }
             }
+
         }
     }
 }
