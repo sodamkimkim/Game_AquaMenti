@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Test_CSPaint_TestInGame
+  m_Name: M_Test_CSPaint_MainMapTest
   m_Shader: {fileID: -6465566751694194690, guid: 5776bb05086b5324f9a49f5f84cccf1a,
     type: 3}
   m_ValidKeywords:
@@ -63,7 +63,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 08c91a7677e66844281a99aaf6ea36f1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8096bc8cbc829074796936a984a526f6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:

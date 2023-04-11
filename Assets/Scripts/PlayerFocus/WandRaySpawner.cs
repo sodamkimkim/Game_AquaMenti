@@ -54,7 +54,7 @@ public class WandRaySpawner : MonoBehaviour
         centerRay_ = Camera.main.ScreenPointToRay(screenCenter_);
       //  staff_.LookAtRay(centerRay_.direction);
         uIFocusPoint_.SetPos(screenCenter_);
-        Debug.DrawRay(GetPos(), GetTransform().forward * mainRayMaxDistance_, Color.red);
+        Debug.DrawRay(centerRay_.origin, GetTransform().forward * mainRayMaxDistance_, Color.red);
         RayFindObject();
     }
     /// <summary>
