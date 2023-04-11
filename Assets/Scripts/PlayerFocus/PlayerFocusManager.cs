@@ -6,11 +6,12 @@ using UnityEngine;
 public class PlayerFocusManager : MonoBehaviour
 {
     [SerializeField]
+    private GameManager gameManager_ = null;
+    [SerializeField]
     private GameObject playerGo = null;
     private Staff staff_ = null;
     // 지팡이 Raycast관련 필드
     private WandRaySpawner wandRaySpawner_;
-
     // Player Rotate & Look 관련 필드
     private PlayerYRotate playerYRotate_;
     private UpperBodyLook upperBodyLook_;
@@ -39,6 +40,8 @@ public class PlayerFocusManager : MonoBehaviour
     }
     private void Update()
     {
+        if (!gameManager_.isInGame_) return;
+        // # FocusFixed 모드 or FocusMove 모드
         // # FocusFixed 모드 or FocusMove 모드
         if (isFocusFixed_)
         { // # FocusFixed 모드
