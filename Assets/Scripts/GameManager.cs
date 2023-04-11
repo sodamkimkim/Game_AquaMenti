@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public bool isInGame_ { get; set; }
     private void Awake()
     {
+        inGameObjectsGo_.SetActive(false);
         isStartGame_ = false;
         isInGame_ = false;
     }

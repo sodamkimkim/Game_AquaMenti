@@ -23905,7 +23905,7 @@ GameObject:
   - component: {fileID: 5241878059465718926}
   - component: {fileID: 5241878059465718927}
   - component: {fileID: 5241878059465718920}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Leg (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30808,7 +30808,7 @@ GameObject:
   - component: {fileID: 5241878060006531846}
   - component: {fileID: 5241878060006531847}
   - component: {fileID: 5241878060006531840}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Step
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30908,7 +30908,7 @@ GameObject:
   - component: {fileID: 5241878060021825024}
   - component: {fileID: 5241878060021825025}
   - component: {fileID: 5241878060021825031}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ladder
   m_TagString: Ladder
   m_Icon: {fileID: 0}
@@ -30924,10 +30924,10 @@ BoxCollider:
   m_GameObject: {fileID: 5241878060021825026}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.03, y: 1, z: 0.76}
-  m_Center: {x: -0.0021631122, y: 0.49918962, z: -0.0037870407}
+  m_Size: {x: 1.6231232, y: 0.9999958, z: 0.75999683}
+  m_Center: {x: 0.0007095337, y: 0.49918962, z: -0.0037870407}
 --- !u!1 &5241878060041924976
 GameObject:
   m_ObjectHideFlags: 0
@@ -46962,7 +46962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &5241878060376898952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49159,7 +49159,7 @@ GameObject:
   - component: {fileID: 5241878061021817213}
   - component: {fileID: 5241878061021817214}
   - component: {fileID: 5241878061021817215}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Leg (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50012,7 +50012,7 @@ GameObject:
   - component: {fileID: 5241878061105643288}
   - component: {fileID: 5241878061105643289}
   - component: {fileID: 5241878061105643290}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Leg (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50547,7 +50547,7 @@ GameObject:
   - component: {fileID: 5241878061147080815}
   - component: {fileID: 5241878061147080808}
   - component: {fileID: 5241878061147080809}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
