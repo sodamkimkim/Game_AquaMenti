@@ -67,10 +67,10 @@ public class WandRaySpawner : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         centerRay_ = Camera.main.ScreenPointToRay(mousePos);
        // staff_.LookAtRay(centerRay_.direction);
+            uIFocusPoint_.SetPos(mousePos);
         RaycastHit hit;
         if (Physics.Raycast(centerRay_, out hit, mainRayMaxDistance_))
         {
-            uIFocusPoint_.SetPos(mousePos);
             Debug.DrawRay(GetPos(), GetTransform().forward * mainRayMaxDistance_, Color.red);
             RayFindObject();
         }

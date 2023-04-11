@@ -52,9 +52,6 @@ public class UpperBodyLook : MonoBehaviour
                 q.x = -0.31f;
                 transform.localRotation = q;
             }
-
-
-
             float mouseY = Input.GetAxis("Mouse Y");
             transform.Rotate(-mouseY * focusFixedModeOffsetAngle_, 0f, 0f);
         }
@@ -66,8 +63,6 @@ public class UpperBodyLook : MonoBehaviour
     /// <param name="_para"></param>
     public void RotateUpperBodyUP(bool _para)
     {
-        if (_para)
-        {
             Debug.Log("RotateUpperBodyAxisXUP()");
             if (transform.localRotation.x >= 0.22)
             {
@@ -75,6 +70,8 @@ public class UpperBodyLook : MonoBehaviour
                 q.x = 0.22f;
                 transform.localRotation = q;
             }
+        if (_para)
+        {
 
             float rotAngle = 0f;
             rotAngle = -focusMoveModeOffsetAngle_;
@@ -88,8 +85,6 @@ public class UpperBodyLook : MonoBehaviour
     /// <param name="_para"></param>
     public void RotateUpperBodyDown(bool _para)
     {
-        if (_para)
-        {
             Debug.Log("RotateUpperBodyAxisXDown()");
             if (transform.localRotation.x <= -0.31)
             {
@@ -97,6 +92,8 @@ public class UpperBodyLook : MonoBehaviour
                 q.x = -0.31f;
                 transform.localRotation = q;
             }
+        if (_para)
+        {
 
             float rotAngle = 0f;
             rotAngle = focusMoveModeOffsetAngle_;
