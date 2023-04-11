@@ -15,20 +15,47 @@ public class InventoryManager : MonoBehaviour
     private SelectStaffManager selectStaffManager_;
     private SelectSpellManager selectSpellManager_;
 
+    // # item 생성 관련
+    [SerializeField]
+    private PlayerFocusManager playerFocusManager_ = null;   
+    [SerializeField]
+    private GameObject[] staffArr_= null;
+
     public bool isInventoryPanOpen_ { get; set; }
 
+    private Staff nowStaff_ = null;
     private void Awake()
     {
         // # 변수 초기화
         isInventoryPanOpen_ = false;
-        nowWearingInfo_ = GetComponent<NowWearingInfo>();
+        nowWearingInfo_ = inventoryPanUIGo_.GetComponentInChildren<NowWearingInfo>();
         selectStaffManager_ = invenUIArr[1].GetComponent<SelectStaffManager>();
         selectSpellManager_ = invenUIArr[2].GetComponent<SelectSpellManager>();
 
         // # 하위 메니저 게으른 초기화 => 콜백함수 전달
-/*        selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
-        selectSpellManager_.Init(CloseAllInvenUI, SelectItem);*/
+        selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
+        selectSpellManager_.Init(CloseAllInvenUI, SelectItem);
+
     }
+    private void Start()
+    {
+        SetDefaultPlayerItem();
+    }
+    private void SetDefaultPlayerItem()
+    {
+        SetStaff(0);
+        // TODO Spell
+        // SetSpell(0);
+    }
+    private void SetStaff(int _idx)
+    {
+        CloseAllstaff();
+        staffArr_[_idx].SetActive(true);
+        nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
+        playerFocusManager_.SetStaff(nowStaff_);
+    }
+
+
     public void OpenInventoryPan()
     {
         isInventoryPanOpen_ = true;
@@ -51,10 +78,20 @@ public class InventoryManager : MonoBehaviour
         if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Staff.ToString()))
         { // # Staff 
             nowWearingInfo_.SetNowWearingStaff(_selectItem);
+            if(_selectItem.itemName_==InGameAllItemInfo.EStaffName.AmberStaff.ToString())
+            { // AmberStaff 켜기
+                SetStaff(0);
+            }
+            else if(_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
+            {
+                SetStaff(1);
+            }
+
         }
-        else if(_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
+        else if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
         { // # Spell
             nowWearingInfo_.SetNowWearingSpell(_selectItem);
+            // TODO
         }
     }
     /// <summary>
@@ -71,5 +108,12 @@ public class InventoryManager : MonoBehaviour
     {
         CloseAllInvenUI();
         invenUIArr[0].SetActive(true);
+    }
+    private void CloseAllstaff()
+    {
+        foreach(GameObject go in staffArr_)
+        {
+            go.SetActive(false);
+        }
     }
 } // end of class

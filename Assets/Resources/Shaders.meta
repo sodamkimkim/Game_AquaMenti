@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/Item/P_Staff.prefab.meta
+guid: 94c6b2e10caf72c49843b3e9e474f5e1
+PrefabImporter:
+========
 guid: 3895ebbb9e4c0814599acb7eda410cf2
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> main_temp:Assets/Resources/Shaders.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

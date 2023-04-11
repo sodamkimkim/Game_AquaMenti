@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectSpellManager : MonoBehaviour
+public class Spell : Item
 {
     [Header("Aggregation")]
     [SerializeField]

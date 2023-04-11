@@ -69,6 +69,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     public void SetPosition(Vector3 _direction, Quaternion _rotation)
     {
+
         this.transform.position = _direction;
         this.transform.rotation = _rotation;
     }

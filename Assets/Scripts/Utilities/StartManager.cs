@@ -50,7 +50,6 @@ public class StartManager : MonoBehaviour
             playerMovement.SetPosition(GetSpwan_2Pos(), GetSpwan_2Rot());
         }
         uI_Manager_.GoToWorkDetailGo();
-        
     }
     private Vector3 GetSpwan_1Pos()
     {
