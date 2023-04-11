@@ -283,6 +283,7 @@ MonoBehaviour:
   drawable: 1
   isClear: 0
   clearPercent: 50
+  dryTimeMultiply: 1.5
 --- !u!64 &97150669
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -362,18 +363,18 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0a43066b5c7320f44ae6219c055b8169, type: 2}
+      objectReference: {fileID: 2100000, guid: 8a9ab04d143697b4c90aad705488438a, type: 2}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 4ebad7de486b26a45a54e3b22d0833b0, type: 2}
+      objectReference: {fileID: 2100000, guid: 0a43066b5c7320f44ae6219c055b8169, type: 2}
     - target: {fileID: 919132149155446097, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Name
@@ -526,6 +527,7 @@ MonoBehaviour:
   drawable: 1
   isClear: 0
   clearPercent: 90
+  dryTimeMultiply: 1.5
 --- !u!64 &382024574
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -724,7 +726,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
@@ -808,7 +810,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
@@ -835,6 +837,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Test_Box 512_512 50 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9994bf35749c109488114b55e452d7ba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9994bf35749c109488114b55e452d7ba, type: 3}
@@ -1064,7 +1071,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
@@ -1247,6 +1254,7 @@ MonoBehaviour:
   drawable: 1
   isClear: 0
   clearPercent: 50
+  dryTimeMultiply: 1.5
 --- !u!64 &1145446774
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1326,7 +1334,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
@@ -1506,6 +1514,7 @@ MonoBehaviour:
   drawable: 1
   isClear: 0
   clearPercent: 90
+  dryTimeMultiply: 1.5
 --- !u!64 &1429325381
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1931,6 +1940,7 @@ MonoBehaviour:
   drawable: 1
   isClear: 0
   clearPercent: 90
+  dryTimeMultiply: 1.5
 --- !u!64 &1850735581
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2280,13 +2290,13 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 98798875ceef4a049ab931db8608b11e, type: 2}
+      objectReference: {fileID: 2100000, guid: 22ed61024904bfb4b941070f2e2fba66, type: 2}
     - target: {fileID: -7511558181221131132, guid: 9994bf35749c109488114b55e452d7ba,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -2397,6 +2407,7 @@ MonoBehaviour:
   drawable: 0
   isClear: 0
   clearPercent: 90
+  dryTimeMultiply: 1.5
 --- !u!64 &2070397834
 MeshCollider:
   m_ObjectHideFlags: 0
