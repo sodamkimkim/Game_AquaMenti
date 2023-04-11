@@ -29,11 +29,11 @@ public class SelectItemContentUIControl : MonoBehaviour
         itemInfoList_.Clear();
         if (this.gameObject.CompareTag("SelectStaff"))
         {
-            inGameAllItemInfo_.SetItemSpellUIList(out itemInfoList_);
+            inGameAllItemInfo_.SetItemStaffUIList(out itemInfoList_);
         }
         else if (this.gameObject.CompareTag("SelectSpell"))
         {
-            inGameAllItemInfo_.SetItemStaffUIList(out itemInfoList_);
+            inGameAllItemInfo_.SetItemSpellUIList(out itemInfoList_);
         }
     }
     private void InstantiateUIPrefabs()
