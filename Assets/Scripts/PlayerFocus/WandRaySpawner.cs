@@ -97,9 +97,11 @@ public class WandRaySpawner : MonoBehaviour
                 }
             }
             hitPos_ = hit.point;
+            Debug.Log(hitPos_);
         }
         else
         {
+            Debug.Log(false);
             hitPos_ = GetPos() + GetTransform().forward * mainRayMaxDistance_;
         }
  
