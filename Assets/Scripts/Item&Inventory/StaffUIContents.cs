@@ -10,11 +10,13 @@ public class StaffUIContents : MonoBehaviour
     private GameObject staffUIPrefab_ = null;
     private List<Dictionary<string, object>> itemStaffInfoList_ = new List<Dictionary<string, object>>();
     private float xOffset_ = 20f;
-    private float uiWidth = 550f;
+    private float uiWidth_ = 550f;
+    private RectTransform rtr = null;
 
     private void Awake()
     {
-       SettStaffUIList();
+        rtr = this.gameObject.GetComponent<RectTransform>();
+        SettStaffUIList();
         InstantiateUIPrefabs();
     }
     public void SettStaffUIList()
@@ -28,7 +30,7 @@ public class StaffUIContents : MonoBehaviour
         {
             GameObject go = Instantiate(staffUIPrefab_, this.transform);
             Vector3 newPos = go.transform.localPosition;
-            newPos.x = i * (xOffset_ + uiWidth);
+            newPos.x = i * (xOffset_ + uiWidth_);
             go.transform.localPosition = newPos;
             // info 実特
             ItemInfo itemInfo = go.GetComponentInChildren<ItemInfo>();
@@ -40,9 +42,15 @@ public class StaffUIContents : MonoBehaviour
             // UI 実特
 
             itemInfo.SetUI();
-
-
         }
+        //if (rtr != null)
+        //{
+
+        //    float contentWidth = 0;
+        //    contentWidth = itemStaffInfoList_.Count * (xOffset_ + uiWidth_) - 1120f;
+        //    Vector2 sizedelta = rtr.sizeDelta;
+        //    rtr.sizeDelta = new Vector2(contentWidth, sizedelta.y);
+        //}
 
     }
 } // end of class
