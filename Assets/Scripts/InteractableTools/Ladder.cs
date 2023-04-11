@@ -19,7 +19,9 @@ public class Ladder : MonoBehaviour, IInteractableTool
     /// <param name="_newPos"></param>
     public void SetLadderPos(Vector3 _newPos)
     {
-        GetTransform().position = _newPos;
+        // GetTransform().position = _newPos;
+        GetTransform().position = Vector3.MoveTowards(GetPos(), _newPos, 0.08f);
+        
     }
     public void RotateLadderLeft()
     {
