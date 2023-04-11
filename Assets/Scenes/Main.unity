@@ -24628,7 +24628,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5241878060267002782}
+      - m_Target: {fileID: 5241878060307974355}
         m_TargetAssemblyTypeName: SelectItemManager, Assembly-CSharp
         m_MethodName: OnCurrentEquipedItemClickCallback
         m_Mode: 1
@@ -36527,7 +36527,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5241878061337384621}
+      - m_Target: {fileID: 5241878059381801185}
         m_TargetAssemblyTypeName: SelectItemManager, Assembly-CSharp
         m_MethodName: OnCurrentEquipedItemClickCallback
         m_Mode: 1
