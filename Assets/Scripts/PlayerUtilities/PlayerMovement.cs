@@ -64,11 +64,12 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     public void OnCollisionEnter(Collision _collision)
     {
      //   if (_collision.gameObject.layer ==3) isGround_ = true;
-        if (_collision.gameObject.tag =="Floor") isGround_ = true;
+        if (_collision.gameObject.tag =="Floor" || _collision.gameObject.tag == "Ladder") isGround_ = true;
     }
 
     public void SetPosition(Vector3 _direction, Quaternion _rotation)
     {
-        throw new System.NotImplementedException();
+        this.transform.position = _direction;
+        this.transform.rotation = _rotation;
     }
 } // end of class
