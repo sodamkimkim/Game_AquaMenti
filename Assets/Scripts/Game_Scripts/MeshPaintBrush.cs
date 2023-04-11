@@ -99,13 +99,13 @@ public class MeshPaintBrush : MonoBehaviour
     public void PaintToTarget(Ray _ray)
     {
 #if UNITY_EDITOR
-        Debug.Log("Try");
+        //Debug.Log("Try");
 
 #endif
         if (Physics.Raycast(_ray, out var hitInfo))
         {
 #if UNITY_EDITOR
-            Debug.Log("In Raycast");
+            //Debug.Log("In Raycast");
 #endif
             MeshPaintTarget _target = null;
             if (prevCollider_ != hitInfo.collider)
@@ -114,7 +114,7 @@ public class MeshPaintBrush : MonoBehaviour
                 hitInfo.collider.TryGetComponent<MeshPaintTarget>(out _target);
             }
 #if UNITY_EDITOR
-            Debug.Log("target? " + _target);
+            //Debug.Log("target? " + _target);
 #endif
             if (_target != null &&
                 _target.IsDrawable() == true)
@@ -125,7 +125,7 @@ public class MeshPaintBrush : MonoBehaviour
                 if (uvPos_ != hitInfo.textureCoord)
                 {
 #if UNITY_EDITOR
-                    Debug.Log("Coord is not Same.");
+                    //Debug.Log("Coord is not Same.");
 #endif
                     uvPos_ = hitInfo.textureCoord;
                     if (maxDistance_ >= hitInfo.distance)
@@ -136,7 +136,7 @@ public class MeshPaintBrush : MonoBehaviour
                         effective_ = false;
 
 #if UNITY_EDITOR
-                    Debug.Log("Before Draw" + effective_);
+                    //Debug.Log("Before Draw" + effective_);
 #endif
                     // 유효한 사거리라면 DrawRender를 실행
                     if (effective_)
@@ -154,7 +154,7 @@ public class MeshPaintBrush : MonoBehaviour
                         // 세척력
                         color_ = WashPower();
 #if UNITY_EDITOR
-                        Debug.LogFormat("r: {0}, g: {1}, b: {2}", color_.x, color_.y, color_.z);
+                        //Debug.LogFormat("r: {0}, g: {1}, b: {2}", color_.x, color_.y, color_.z);
 #endif
                         if (_target.IsClear() == false)
                             _target.DrawRender(isPainting_, uvPos_, color_, size_, distance);
@@ -265,7 +265,7 @@ public class MeshPaintBrush : MonoBehaviour
 
             //Ray.direction = _direction;
             PaintToTarget(Ray);
-            Debug.DrawRay(Ray.origin, Ray.direction, Color.green);
+            Debug.DrawRay(Ray.origin, Ray.direction * effectiveDistance_, Color.green);
             yield return new WaitForSeconds(drawTiming_);
         }
     }
@@ -273,7 +273,7 @@ public class MeshPaintBrush : MonoBehaviour
     private IEnumerator CheckTargetProcessCoroutine()
     {
 #if UNITY_EDITOR
-        Debug.Log("[CheckTargetProcessCoroutine]");
+        //Debug.Log("[CheckTargetProcessCoroutine]");
 #endif
         while (true)
         {
