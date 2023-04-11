@@ -30,7 +30,7 @@ public class StaffUIContents : MonoBehaviour
         {
             GameObject go = Instantiate(staffUIPrefab_, this.transform);
             Vector3 newPos = go.transform.localPosition;
-            newPos.x = i * (xOffset_ + uiWidth_);
+            newPos.x = i * (xOffset_ + uiWidth_)+xOffset_;
             go.transform.localPosition = newPos;
             // info ¼ÂÆÃ
             ItemInfo itemInfo = go.GetComponentInChildren<ItemInfo>();
@@ -43,14 +43,14 @@ public class StaffUIContents : MonoBehaviour
 
             itemInfo.SetUI();
         }
-        //if (rtr != null)
-        //{
+        if (rtr != null)
+        {
 
-        //    float contentWidth = 0;
-        //    contentWidth = itemStaffInfoList_.Count * (xOffset_ + uiWidth_) - 1120f;
-        //    Vector2 sizedelta = rtr.sizeDelta;
-        //    rtr.sizeDelta = new Vector2(contentWidth, sizedelta.y);
-        //}
+            float contentWidth = 0;
+            contentWidth = itemStaffInfoList_.Count * (xOffset_ + uiWidth_) - 1160f;
+            Vector2 sizedelta = rtr.sizeDelta;
+            rtr.sizeDelta = new Vector2(contentWidth, sizedelta.y);
+        }
 
     }
 } // end of class

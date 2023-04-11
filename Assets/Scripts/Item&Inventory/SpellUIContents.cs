@@ -35,7 +35,7 @@ public class SpellUIContents : MonoBehaviour
         {
             GameObject go = Instantiate(spellUIPrefab_, this.transform);
             Vector3 newPos = go.transform.localPosition;
-            newPos.x = i * (xOffset_ + uiWidth_);
+            newPos.x = i * (xOffset_ + uiWidth_)+xOffset_;
             go.transform.localPosition = newPos;
             // info ¼ÂÆÃ
             ItemInfo itemInfo = go.GetComponentInChildren<ItemInfo>();
@@ -51,7 +51,7 @@ public class SpellUIContents : MonoBehaviour
         {
 
         float contentWidth =0;
-        contentWidth = itemSpellInfoList_.Count * (xOffset_ + uiWidth_)-1120f;
+        contentWidth = itemSpellInfoList_.Count * (xOffset_ + uiWidth_)-(3*xOffset_ + 2*uiWidth_);
         Vector2 sizedelta = rtr.sizeDelta;
         rtr.sizeDelta = new Vector2(contentWidth, sizedelta.y);
         }
