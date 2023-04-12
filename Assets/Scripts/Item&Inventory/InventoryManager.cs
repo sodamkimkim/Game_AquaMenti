@@ -55,7 +55,7 @@ public class InventoryManager : MonoBehaviour
         SetStaff(0);
         SetBottomUIStaffImg("AmberStaff");
        // SetSpell(0);
-        //SetBottomUISpellImg("AmberStaff");
+        SetBottomUISpellImg("Deg0MagicSpell");
     }
     public void OpenInventoryPan()
     {
@@ -150,16 +150,26 @@ public class InventoryManager : MonoBehaviour
     private void SetSpell(NowWearingInfo.NowWearingItem _selectItem)
     {
         // TODO
-        //if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.AmberStaff.ToString())
-        //{ // # AmberStaff 难扁
-        //    SetStaff(0);
-        //    SetBottomUIStaffImg(_selectItem.itemImgFileName_);
-        //}
-        //else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
-        //{ // # RubyStaff 难扁
-        //    SetStaff(1);
-        //    SetBottomUIStaffImg(_selectItem.itemImgFileName_);
-        //}
+        if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg0MagicSpell.ToString())
+        { // # AmberStaff 难扁
+            //SetSpell(0);
+            SetBottomUISpellImg(_selectItem.itemImgFileName_);
+        }
+        else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg15MagicSpell.ToString())
+        { // # RubyStaff 难扁
+            //SetSpell(1);
+            SetBottomUISpellImg(_selectItem.itemImgFileName_);
+        }
+        else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg25MagicSpell.ToString())
+        { // # RubyStaff 难扁
+            //SetSpell(3);
+            SetBottomUISpellImg(_selectItem.itemImgFileName_);
+        }
+        else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg45MagicSpell.ToString())
+        { // # RubyStaff 难扁
+            //SetSpell(4);
+            SetBottomUISpellImg(_selectItem.itemImgFileName_);
+        }
 
     }
     private void SetBottomUIStaffImg(string _imgFileName)
