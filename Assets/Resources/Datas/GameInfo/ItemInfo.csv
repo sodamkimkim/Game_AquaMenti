@@ -1,6 +1,6 @@
 ItemCategory,ItemName,Description,Useable,ImageFileName
 Staff,AmberStaff,호박보석이 박혀있는 지팡이,TRUE,AmberStaff
-Staff,RubyStaff,루비가 박혀있는 지팡이,FALSE,RubyStaff
+Staff,RubyStaff,루비가 박혀있는 지팡이,TRUE,RubyStaff
 ,,,,
 Spell,Deg0MagicSpell,각도0도로 분출되는 물 마법,TRUE,Deg0MagicSpell
 Spell,Deg15MagicSpell,각도15도로 분출되는 물 마법,TRUE,Deg15MagicSpell

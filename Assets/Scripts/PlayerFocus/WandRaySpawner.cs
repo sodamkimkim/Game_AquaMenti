@@ -36,6 +36,10 @@ public class WandRaySpawner : MonoBehaviour
         Debug.DrawRay(GetPos(), centerRay_.direction*mainRayMaxDistance_, Color.red);
     }
 
+    public void RotateFocusPointUI()
+    {
+        uIFocusPoint_.transform.Rotate(new Vector3(0f, 0f, 90f));
+    }
     public Transform GetTransform()
     {
         return transform;

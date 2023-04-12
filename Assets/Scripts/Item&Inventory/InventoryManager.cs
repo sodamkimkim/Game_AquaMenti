@@ -21,6 +21,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField]
     private GameObject[] staffArr_= null;
 
+    [SerializeField]
+    private GameObject[] staffParts = null; // # staff гою╖ brushgroup, waterpump gameObject
+
     public bool isInventoryPanOpen_ { get; set; }
 
     private Staff nowStaff_ = null;
@@ -51,6 +54,11 @@ public class InventoryManager : MonoBehaviour
     {
         CloseAllstaff();
         staffArr_[_idx].SetActive(true);
+        foreach(GameObject go in staffParts)
+        {
+            go.SetActive(true);
+            go.transform.SetParent(staffArr_[_idx].transform);
+        }
         nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
         playerFocusManager_.SetStaff(nowStaff_);
     }

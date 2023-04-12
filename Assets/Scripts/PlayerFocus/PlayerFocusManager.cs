@@ -8,7 +8,7 @@ public class PlayerFocusManager : MonoBehaviour
     [SerializeField]
     private GameManager gameManager_ = null;
     [SerializeField]
-    private GameObject playerGo = null;
+    private GameObject playerGo_ = null;
     private Staff staff_ = null;
     // 지팡이 Raycast관련 필드
     private WandRaySpawner wandRaySpawner_;
@@ -18,7 +18,7 @@ public class PlayerFocusManager : MonoBehaviour
 
     [SerializeField]
     private ScreenSideManager screenSideManager_;
-    [SerializeField]
+
     private MagicRotate magicRotate_;
     // Flag
     public bool isFocusFixed_ { get; set; }
@@ -26,9 +26,9 @@ public class PlayerFocusManager : MonoBehaviour
 
     private void Awake()
     {
-        wandRaySpawner_ = playerGo.GetComponentInChildren<WandRaySpawner>();
-        playerYRotate_ = playerGo.GetComponentInChildren<PlayerYRotate>();
-        upperBodyLook_ = playerGo.GetComponentInChildren<UpperBodyLook>();
+        wandRaySpawner_ = playerGo_.GetComponentInChildren<WandRaySpawner>();
+        playerYRotate_ = playerGo_.GetComponentInChildren<PlayerYRotate>();
+        upperBodyLook_ = playerGo_.GetComponentInChildren<UpperBodyLook>();
         //screenSideManager_ = GameObject.FindWithTag("Canvas_ScreenSide").GetComponent<ScreenSideManager>();
 
         isFocusFixed_ = true;
@@ -37,6 +37,7 @@ public class PlayerFocusManager : MonoBehaviour
     public void SetStaff(Staff _staff)
     {
         staff_ = _staff;
+        magicRotate_ = playerGo_.GetComponentInChildren<MagicRotate>();
     }
     private void Update()
     {
@@ -93,6 +94,7 @@ public class PlayerFocusManager : MonoBehaviour
     public void RotateWaterMagic()
     {
         magicRotate_.RotateWaterMagic();
+        wandRaySpawner_.RotateFocusPointUI();
     }
 
 } // end of class
