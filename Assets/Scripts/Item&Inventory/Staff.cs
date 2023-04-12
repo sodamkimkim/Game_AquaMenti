@@ -15,7 +15,7 @@ public class Staff : Item
     public void LookAtRay(Vector3 _rayHitPos)
     {
 
-            Debug.Log("LookAtRay");
+            //Debug.Log("LookAtRay");
         //    isLookAtRay_ = true;
             this.transform.LookAt(_rayHitPos);
 
@@ -24,7 +24,7 @@ public class Staff : Item
     {
         //if (isLookAtRay_)
         //{
-            Debug.Log("LookAtCenter");
+            //Debug.Log("LookAtCenter");
            // isLookAtRay_ = false;
             Quaternion qt = Quaternion.EulerAngles(originRotation_);
             this.transform.localRotation = qt;

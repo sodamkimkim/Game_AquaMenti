@@ -31,7 +31,6 @@ public class MeshPaintBrush : MonoBehaviour
 
     // 임시
     public enum EMagicType { Zero, One, Two }
-    private Ray ray_;
 
     public struct DirtyLv // 오염타입
     {
@@ -219,6 +218,7 @@ public class MeshPaintBrush : MonoBehaviour
     /// <param name="_ray"></param>
     public void TimingDraw(Ray _ray)
     {
+
         ray_ = _ray;
         if (drawCoroutine_ == false)
         {
@@ -268,6 +268,7 @@ public class MeshPaintBrush : MonoBehaviour
 
             //Ray.direction = _direction;
             PaintToTarget(Ray);
+            Debug.Log("in");
             Debug.DrawRay(Ray.origin, Ray.direction * effectiveDistance_, Color.green);
             yield return new WaitForSeconds(drawTiming_);
         }

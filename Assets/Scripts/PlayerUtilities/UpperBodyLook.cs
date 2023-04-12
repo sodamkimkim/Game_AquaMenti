@@ -42,7 +42,7 @@ public class UpperBodyLook : MonoBehaviour
             transform.localRotation = q;
         }
 
-        Debug.Log("RotateUpperBodyAxisXDown()");
+        //Debug.Log("RotateUpperBodyAxisXDown()");
         if (transform.localRotation.x < -0.31)
         {
             Quaternion q = transform.localRotation;
@@ -64,7 +64,7 @@ public class UpperBodyLook : MonoBehaviour
     {
         if (_para)
         {
-            Debug.Log(transform.localRotation);
+            //Debug.Log(transform.localRotation);
             //# 위로 보는 회전각도 제약
             if (transform.localRotation.x >= 0.22)
             {
@@ -117,7 +117,7 @@ public class UpperBodyLook : MonoBehaviour
     /// <param name="_para"></param>
     public void RotateUpperBodyDown(bool _para)
     {
-            Debug.Log("RotateUpperBodyAxisXDown()");
+            //Debug.Log("RotateUpperBodyAxisXDown()");
             //if (transform.localRotation.x < -0.31)
             //{
             //    Quaternion q = transform.localRotation;

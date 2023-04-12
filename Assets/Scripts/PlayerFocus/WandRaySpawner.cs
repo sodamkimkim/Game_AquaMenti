@@ -88,7 +88,7 @@ public class WandRaySpawner : MonoBehaviour
             IInteractableObject target = hit.collider.GetComponentInParent<IInteractableObject>();
             if (target != null)
             {
-                Debug.Log(target.GetName());
+                //Debug.Log(target.GetName());
 
                 // target이름이 Ladder이면 bool 값을 바꿔서 Ladder의 위치를 옮길 수 있음
                 if (target.GetName() == IInteractableTool.EInteractableTool.Ladder.ToString())

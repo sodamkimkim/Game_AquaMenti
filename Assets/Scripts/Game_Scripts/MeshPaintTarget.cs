@@ -184,7 +184,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false || IsClear() == true) return;
         // Brush의 Texture를 받아서 사용하고자 하였으나 문제가 발생하여 지금은 사용하지 않음
 #if UNITY_EDITOR
-        Debug.Log("DrawRender");
+        //Debug.Log("DrawRender");
 #endif
         /*
             RWTexture2D<float4> PaintMask;
@@ -221,7 +221,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelPaint, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Shader Dispatch");
+        //Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
@@ -246,7 +246,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false) return;
 
 #if UNITY_EDITOR
-        Debug.Log("DrawWet");
+        //Debug.Log("DrawWet");
 #endif
         /*
             RWTexture2D<float4> WetMask;
@@ -275,7 +275,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelWet, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Shader Dispatch");
+        //Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
@@ -304,7 +304,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelNoise, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Make Noise Texture");
+        //Debug.Log("Make Noise Texture");
 #endif
         Graphics.Blit(rTex, rTex);
 
@@ -412,7 +412,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelClear, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Dirty Clear.");
+        //Debug.Log("Dirty Clear.");
 #endif
     }
 
@@ -437,7 +437,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         IsClear(false); // 초기화 했으므로 Clear -> false
 #if UNITY_EDITOR
-        Debug.Log("Reset Mask with Origin Texture.");
+        //Debug.Log("Reset Mask with Origin Texture.");
 #endif
     }
 
@@ -479,7 +479,7 @@ public class MeshPaintTarget : MonoBehaviour
         _mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // 반짝임 속도
         _mat.SetColor("_TwinkleColor", color); // 색상
 #if UNITY_EDITOR
-        Debug.Log("[SetTwinkleProperties] Before Return");
+        //Debug.Log("[SetTwinkleProperties] Before Return");
 #endif
     }
     private void StopTwinkleProperties(Material _mat)
@@ -566,7 +566,7 @@ public class MeshPaintTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
 #if UNITY_EDITOR
-        Debug.Log("StartCoroutine");
+        //Debug.Log("StartCoroutine");
 #endif
         float t = 0f;
         while (t < 1f)
@@ -576,7 +576,7 @@ public class MeshPaintTarget : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 #if UNITY_EDITOR
-        Debug.Log("EndCoroutine");
+        //Debug.Log("EndCoroutine");
 #endif
         StopDryWetting();
     }
