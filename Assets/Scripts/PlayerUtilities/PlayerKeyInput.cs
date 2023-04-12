@@ -106,14 +106,14 @@ public class PlayerKeyInput : MonoBehaviour
 
             useWand = true;
             wandRaySpawner_.RaysTimingDraw();
-            Debug.Log("마우스 좌클릭");
+            //Debug.Log("마우스 좌클릭");
         }
         else if (wandRaySpawner_.RaysIsPainting() == true)
         {
             wandRaySpawner_.RaysIsPainting(false);
             wandRaySpawner_.RaysStopCheckTargetProcess();
             wandRaySpawner_.RaysStopTimingDrow();
-            Debug.Log("마우스 좌클릭 해제");
+            //Debug.Log("마우스 좌클릭 해제");
         }
         else if (useWand == true)
         {
