@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Staff : Item
 {
@@ -19,6 +20,11 @@ public class Staff : Item
         //    isLookAtRay_ = true;
             this.transform.LookAt(_rayHitPos);
 
+    }
+    public void Move(Vector3 _destPos)
+    {
+        Debug.Log("staff look at : "+ _destPos);
+        this.gameObject.transform.forward = _destPos.normalized;
     }
     public void LookAtCenter()
     {

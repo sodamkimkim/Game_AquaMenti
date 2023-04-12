@@ -62,7 +62,7 @@ public class PlayerFocusManager : MonoBehaviour
           
             if (staff_ != null)
             {
-               // staff_.
+                staff_.Move(wandRaySpawner_.GetCenterRayDir());
             }
         }
 

@@ -115,7 +115,7 @@ public class WandRaySpawner : MonoBehaviour
     }
     public Vector3 GetCenterRayDir()
     {
-        return centerRay_.direction;
+        return centerRay_.direction * mainRayMaxDistance_;
     }
     public Vector3 GetHitPos()
     {
