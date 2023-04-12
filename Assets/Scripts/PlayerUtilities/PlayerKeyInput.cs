@@ -33,7 +33,10 @@ public class PlayerKeyInput : MonoBehaviour
             if (gameManager_.isStartGame_ && gameManager_.isInGame_)
                 gameManager_.ActiveOutGameUi();
             else if (gameManager_.isStartGame_ && !gameManager_.isInGame_)
+            {
                 gameManager_.ActiveInGameUi();
+                Cursor.lockState = CursorLockMode.None;
+            }
 
         }
         if (!gameManager_.isInGame_) return;
@@ -75,19 +78,19 @@ public class PlayerKeyInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (playerFocusManager_.isFocusFixed_ == true) { playerFocusManager_.isFocusFixed_ = false; Debug.Log("isFocusFixed_ = false"); }
-           else if (playerFocusManager_.isFocusFixed_ == false) { playerFocusManager_.isFocusFixed_ = true; Debug.Log("isFocusFixed_ = true"); }
+            else if (playerFocusManager_.isFocusFixed_ == false) { playerFocusManager_.isFocusFixed_ = true; Debug.Log("isFocusFixed_ = true"); }
         }
         // 마법영역 Rotate
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             playerFocusManager_.RotateWaterMagic();
         }
         // inventory on / off
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
 
-            if (inventoryManager_.isInventoryPanOpen_ ==false) { inventoryManager_.OpenInventoryPan(); Debug.Log("InventoryPan open"); }
-            else if (inventoryManager_.isInventoryPanOpen_ ==true) { inventoryManager_.CloseInventoryPan(); Debug.Log("InventoryPan close"); }
+            if (inventoryManager_.isInventoryPanOpen_ == false) { inventoryManager_.OpenInventoryPan(); Debug.Log("InventoryPan open"); }
+            else if (inventoryManager_.isInventoryPanOpen_ == true) { inventoryManager_.CloseInventoryPan(); Debug.Log("InventoryPan close"); }
 
         }
 

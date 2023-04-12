@@ -31,12 +31,14 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
     public void Walk(Vector3 _direction)
     {
-        transform.position = GetPlayerPos() + _direction * walkSpeed_ * Time.deltaTime;
+        rb_.position += (_direction * walkSpeed_ * Time.deltaTime);
+        //transform.position = GetPlayerPos() + _direction * walkSpeed_ * Time.deltaTime;
         if (isLeftShiftKeyInput_) { Run(_direction); }
     }
     public void Run(Vector3 _direction)
     {
-        transform.position = GetPlayerPos() + _direction * runSpeed_ * Time.deltaTime;
+        rb_.position += (_direction * runSpeed_ * Time.deltaTime);
+        //transform.position = GetPlayerPos() + _direction * runSpeed_ * Time.deltaTime;
     }
     public void Jump()
     {
