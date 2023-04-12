@@ -30,13 +30,14 @@ public class UsingToolManager : MonoBehaviour
             if (Input.GetKey(KeyCode.F))
             {
                 ladder_.isMoveable_ = true;
-
+                toolTipUIGo_.SetActive(false);
             }
         }
         else { toolTipUIGo_.SetActive(false); }
 
         if (ladder_.isMoveable_)
         {
+            toolTipUIGo_.SetActive(true);
             toolTipTMPro_.text = "사다리 위치를 고정하려면 마우스 왼쪽 버튼을 누르세요.";
             ladder_.SetLadderPos(new Vector3(rayHitPos_.x, ladder_.GetPos().y, rayHitPos_.z));
             // ray 와 floor가 충돌 && MouseButtonDown(0) => floor에 사다리 놓을 수 있음.

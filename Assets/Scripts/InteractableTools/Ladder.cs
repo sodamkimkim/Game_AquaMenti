@@ -20,7 +20,7 @@ public class Ladder : MonoBehaviour, IInteractableTool
     public void SetLadderPos(Vector3 _newPos)
     {
         // GetTransform().position = _newPos;
-        GetTransform().position = Vector3.MoveTowards(GetPos(), _newPos, 0.05f);
+        GetTransform().position = Vector3.MoveTowards(GetPos(), _newPos, 0.1f);
         
     }
     public void RotateLadderLeft()
