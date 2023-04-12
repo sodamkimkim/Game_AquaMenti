@@ -62,7 +62,7 @@ public class PlayerFocusManager : MonoBehaviour
           
             if (staff_ != null)
             {
-                staff_.LookAtRay(wandRaySpawner_.GetHitPos());
+                staff_.LookAtRay(wandRaySpawner_.GetRayDir());
             }
         }
 
@@ -76,7 +76,7 @@ public class PlayerFocusManager : MonoBehaviour
         if (screenSideManager_.isScreenSideTop) upperBodyLook_.RotateUpperBodyUP(true);
         else upperBodyLook_.RotateUpperBodyUP(false);
 
-        // # Bottom 터치 : x축 회전
+        // # BottomSide 터치 : x축 회전
         if (screenSideManager_.isScreenSideBottom) upperBodyLook_.RotateUpperBodyDown(true);
         else upperBodyLook_.RotateUpperBodyDown(false);
 

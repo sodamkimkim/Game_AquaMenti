@@ -31,6 +31,10 @@ public class WandRaySpawner : MonoBehaviour
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
         isLadder_ = false;
     }
+    private void Update()
+    {
+        Debug.DrawRay(GetPos(), centerRay_.direction*mainRayMaxDistance_, Color.red);
+    }
 
     public Transform GetTransform()
     {
@@ -54,7 +58,7 @@ public class WandRaySpawner : MonoBehaviour
         centerRay_ = Camera.main.ScreenPointToRay(screenCenter_);
       //  staff_.LookAtRay(centerRay_.direction);
         uIFocusPoint_.SetPos(screenCenter_);
-        Debug.DrawRay(GetPos(), GetTransform().forward * mainRayMaxDistance_, Color.red);
+     //   Debug.DrawRay(GetPos(), GetTransform().forward * mainRayMaxDistance_, Color.red);
         RayFindObject();
     }
     /// <summary>
@@ -71,7 +75,7 @@ public class WandRaySpawner : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(centerRay_, out hit, mainRayMaxDistance_))
         {
-            Debug.DrawRay(GetPos(), GetTransform().forward * mainRayMaxDistance_, Color.red);
+    //        Debug.DrawRay(GetPos(), centerRay_.direction, Color.red);
             RayFindObject();
         }
 
@@ -107,6 +111,10 @@ public class WandRaySpawner : MonoBehaviour
             hitPos_ = GetPos() + GetTransform().forward * mainRayMaxDistance_;
         }
  
+    }
+    public Vector3 GetRayDir()
+    {
+        return centerRay_.direction;
     }
     public Vector3 GetHitPos()
     {

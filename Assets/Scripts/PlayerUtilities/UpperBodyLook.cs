@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class UpperBodyLook : MonoBehaviour
 {
-    private readonly float focusFixedModeOffsetAngle_ = 10f;
-    private readonly float focusMoveModeOffsetAngle_ = 2f;
+    private readonly float focusFixedModeOffsetAngle_ = 2f;
+    private readonly float focusMoveModeOffsetAngle_ = 1f;
     private Camera mainCam_;
     private void Awake()
     {
@@ -13,7 +14,8 @@ public class UpperBodyLook : MonoBehaviour
     }
     private void Update()
     {
-       //Debug.Log(transform.localRotation);
+        //Debug.Log(transform.localRotation);
+        ConstrainRotationAngle();
     }
     public void SetCameraPos()
     {
@@ -30,15 +32,40 @@ public class UpperBodyLook : MonoBehaviour
     {
         return transform.localRotation.eulerAngles;
     }
+
+    public void ConstrainRotationAngle()
+    {
+        if (transform.localRotation.x > 0.22)
+        {
+            Quaternion q = transform.localRotation;
+            q.x = 0.22f;
+            transform.localRotation = q;
+        }
+
+        Debug.Log("RotateUpperBodyAxisXDown()");
+        if (transform.localRotation.x < -0.31)
+        {
+            Quaternion q = transform.localRotation;
+            q.x = -0.31f;
+            transform.localRotation = q;
+        }
+        //if (transform.rotation.x > 22 && transform.rotation.x < 35)
+        //{
+        //    Vector3 V3 = new Vector3(-Input.GetAxis("Mouse X"), 0, 0);
+        //    transform.Rotate(V3 * 2f);
+        //}
+
+    }
+
     /// <summary>
     /// FocusFixed 모드 - 상체 각도 위아래 보려고 x축 rotate
-    /// </summary>s
+    /// </summary>
     public void RotateUpperBodyAxisX(bool _para)
     {
         if (_para)
         {
-            // Debug.Log(transform.localRotation);
-            // # 위로 보는 회전각도 제약
+            Debug.Log(transform.localRotation);
+            //# 위로 보는 회전각도 제약
             if (transform.localRotation.x >= 0.22)
             {
                 Quaternion q = transform.localRotation;
@@ -53,7 +80,11 @@ public class UpperBodyLook : MonoBehaviour
                 transform.localRotation = q;
             }
             float mouseY = Input.GetAxis("Mouse Y");
-            transform.Rotate(-mouseY * focusFixedModeOffsetAngle_, 0f, 0f);
+              transform.Rotate(-mouseY * focusFixedModeOffsetAngle_, 0f, 0f);
+            //float rotAngle = 0f;
+            //rotAngle = focusFixedModeOffsetAngle_;
+      //      transform.Rotate(Vector3.right, Mathf.Clamp(rotAngle* -mouseY, -0.3f, 0.22f));
+
         }
     }
 
@@ -63,19 +94,20 @@ public class UpperBodyLook : MonoBehaviour
     /// <param name="_para"></param>
     public void RotateUpperBodyUP(bool _para)
     {
-            Debug.Log("RotateUpperBodyAxisXUP()");
-            if (transform.localRotation.x >= 0.22)
-            {
-                Quaternion q = transform.localRotation;
-                q.x = 0.22f;
-                transform.localRotation = q;
-            }
+            //Debug.Log("RotateUpperBodyAxisXUP()");
+            //if (transform.localRotation.x > 0.22)
+            //{
+            //    Quaternion q = transform.localRotation;
+            //    q.x = 0.22f;
+            //    transform.localRotation = q;
+            //}
         if (_para)
         {
 
             float rotAngle = 0f;
             rotAngle = -focusMoveModeOffsetAngle_;
-            transform.Rotate(Vector3.right, rotAngle);
+            transform.Rotate(Vector3.right, Mathf.Clamp(rotAngle, -0.3f, 0.22f));
+         //   transform.Rotate(Vector3.right, Mathf.Clamp(transform.localRotation.x, -0.3f, 0.22f));
 
         }
     }
@@ -86,18 +118,19 @@ public class UpperBodyLook : MonoBehaviour
     public void RotateUpperBodyDown(bool _para)
     {
             Debug.Log("RotateUpperBodyAxisXDown()");
-            if (transform.localRotation.x <= -0.31)
-            {
-                Quaternion q = transform.localRotation;
-                q.x = -0.31f;
-                transform.localRotation = q;
-            }
+            //if (transform.localRotation.x < -0.31)
+            //{
+            //    Quaternion q = transform.localRotation;
+            //    q.x = -0.31f;
+            //    transform.localRotation = q;
+            //}
         if (_para)
         {
 
             float rotAngle = 0f;
             rotAngle = focusMoveModeOffsetAngle_;
-            transform.Rotate(Vector3.right, rotAngle);
+            //   transform.Rotate(Vector3.right, rotAngle);
+            transform.Rotate(Vector3.right, Mathf.Clamp(rotAngle, -0.3f, 0.22f));
 
         }
     }

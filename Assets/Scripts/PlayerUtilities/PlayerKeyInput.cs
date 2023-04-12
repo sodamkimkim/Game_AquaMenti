@@ -33,8 +33,10 @@ public class PlayerKeyInput : MonoBehaviour
             if (gameManager_.isStartGame_ && gameManager_.isInGame_)
                 gameManager_.ActiveOutGameUi();
             else if (gameManager_.isStartGame_ && !gameManager_.isInGame_)
+            {
                 gameManager_.ActiveInGameUi();
-
+           
+            }
         }
         if (!gameManager_.isInGame_) return;
         // walk상태 일때 달릴 수 있음
