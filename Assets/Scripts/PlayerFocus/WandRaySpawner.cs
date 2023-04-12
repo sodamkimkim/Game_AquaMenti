@@ -112,7 +112,7 @@ public class WandRaySpawner : MonoBehaviour
         }
  
     }
-    public Vector3 GetRayDir()
+    public Vector3 GetCenterRayDir()
     {
         return centerRay_.direction;
     }

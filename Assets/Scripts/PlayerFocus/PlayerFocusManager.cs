@@ -62,7 +62,7 @@ public class PlayerFocusManager : MonoBehaviour
           
             if (staff_ != null)
             {
-                staff_.LookAtRay(wandRaySpawner_.GetRayDir());
+               // staff_.
             }
         }
 

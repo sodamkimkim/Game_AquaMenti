@@ -25,7 +25,7 @@ public class Staff : Item
         //if (isLookAtRay_)
         //{
             Debug.Log("LookAtCenter");
-     //       isLookAtRay_ = false;
+           // isLookAtRay_ = false;
             Quaternion qt = Quaternion.EulerAngles(originRotation_);
             this.transform.localRotation = qt;
         //}
