@@ -109,6 +109,7 @@ public class WandRaySpawner : MonoBehaviour
         else
         {
             hitPos_ = GetPos() + GetTransform().forward * mainRayMaxDistance_;
+            isLadder_ = false;
         }
  
     }
