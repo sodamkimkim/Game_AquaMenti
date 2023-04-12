@@ -26,12 +26,12 @@ public class InGameAllItemInfo : MonoBehaviour
         CSVReader.Read("Datas/GameInfo/ItemInfo", out itemInfoList_);
         GetAllStaffInfo();
         GetAllSpellInfo();
+        itemImgSpriteArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
     }
     private void Start()
     {
         //GetAllItemInfo();
         // SearchItembyItemName("AmberStaff");
-        itemImgSpriteArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class InGameAllItemInfo : MonoBehaviour
     /// <summary>
     /// file name 으로 Item이미지 찾기
     /// </summary>
-    public Sprite SearchItemImg(string _imgFileName)
+    public Sprite GetItemImg(string _imgFileName)
     {
         Sprite defaultSprite = itemImgSpriteArr_[0];
         foreach (Sprite sprite in itemImgSpriteArr_)

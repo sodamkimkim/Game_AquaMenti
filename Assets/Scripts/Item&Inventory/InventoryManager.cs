@@ -9,8 +9,6 @@ public class InventoryManager : MonoBehaviour
     [SerializeField]
     private GameObject inventoryPanUIGo_ = null; // inventory panel
 
-    [SerializeField]
-    private GameObject[] invenUIArr_ = null; // Inventory panel 하위의 Inventory, SelectStaff, SelectSpell UI GameObject 저장하는 Arr
     // # item 생성 관련
     [SerializeField]
     private PlayerFocusManager playerFocusManager_ = null;
@@ -30,24 +28,19 @@ public class InventoryManager : MonoBehaviour
 
     public bool isInventoryPanOpen_ { get; set; }
     private Staff nowStaff_ = null;
+    [SerializeField]
+    private GameObject[] invenUIArr_ = new GameObject[3]; // Inventory panel 하위의 Inventory, SelectStaff, SelectSpell UI GameObject 저장하는 Arr
     private void Awake()
     {
         // # 변수 초기화
         isInventoryPanOpen_ = false;
-        nowWearingInfo_ = inventoryPanUIGo_.GetComponentInChildren<NowWearingInfo>();
-        foreach (var item in invenUIArr_)
-        {
-            Debug.Log(item);
+        nowWearingInfo_ = invenUIArr_[0].GetComponent<NowWearingInfo>();
 
-        }
         selectStaffManager_ = invenUIArr_[1].GetComponent<SelectItemManager>();
         selectSpellManager_ = invenUIArr_[2].GetComponent<SelectItemManager>();
         // # 하위 메니저 게으른 초기화 => 콜백함수 전달
         selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
         selectSpellManager_.Init(CloseAllInvenUI, SelectItem);
-
-
-
     }
     private void Start()
     {
@@ -172,11 +165,11 @@ public class InventoryManager : MonoBehaviour
     private void SetBottomUIStaffImg(string _imgFileName)
     {
         Image img = bottomImgArr_[0].GetComponent<Image>();
-        img.sprite = inGameAllItemInfo.SearchItemImg(_imgFileName);
+        img.sprite = inGameAllItemInfo.GetItemImg(_imgFileName);
     }
     private void SetBottomUISpellImg(string _imgFileName)
     {
         Image img = bottomImgArr_[1].GetComponent<Image>();
-        img.sprite = inGameAllItemInfo.SearchItemImg(_imgFileName);
+        img.sprite = inGameAllItemInfo.GetItemImg(_imgFileName);
     }
 } // end of class

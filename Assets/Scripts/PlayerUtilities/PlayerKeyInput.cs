@@ -12,6 +12,7 @@ public class PlayerKeyInput : MonoBehaviour
     private PlayerMovement playerMovement_;
     [SerializeField]
     private PlayerFocusManager playerFocusManager_ = null;
+    [SerializeField]
     private InventoryManager inventoryManager_ = null;
     [SerializeField]
     private WandRaySpawner wandRaySpawner_ = null;
@@ -21,7 +22,7 @@ public class PlayerKeyInput : MonoBehaviour
     private bool useWand { get; set; }
     private void Awake()
     {
-        inventoryManager_ = GetComponent<InventoryManager>();
+      //  inventoryManager_ = GetComponent<InventoryManager>();
         playerMovement_ = GetComponent<PlayerMovement>();
         wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
     }
