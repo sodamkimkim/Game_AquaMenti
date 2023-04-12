@@ -19,11 +19,7 @@ public class MeshPaintTarget : MonoBehaviour
 
     private MeshRenderer mr = null; // 대상의 MeshRenderer
     private Material mainMat = null; // 대상의 MainTex가 있는 Material
-    private List<Material> dirtyMats = null; // 대상의 DirtyTex가 있는 Material들
-
-    private List<Material> listMats = null; // Test
-    private readonly string mainMatName = "Wettable";
-    private readonly string dirtyMatName = "DirtyMask";
+    private readonly string mainMatName = "Cleanable";
 
     private Texture originUvTex = null; // UV원본
     private RenderTexture dirtyRTex = null; // 오염 Mask
@@ -39,6 +35,8 @@ public class MeshPaintTarget : MonoBehaviour
     private bool isClear = false;
     [SerializeField, Range(10, 100)]
     private int clearPercent = 90;
+    [SerializeField]
+    private float dryTimeMultiply = 1.5f;
 
     // Compute Shader
     private int kernelNoise;
@@ -96,25 +94,11 @@ public class MeshPaintTarget : MonoBehaviour
 
     private void Awake()
     {
-        dirtyMats = new List<Material>();
-        listMats = new List<Material>();
 
         // MeshRenderer일수도 SkinnedMeshRenderer일수도 있으므로 그냥 받는 변수의 타입에 구애받도록 제네릭을 쓰지 않음
         if (TryGetComponent(out mr))
         {
-            mr.GetMaterials(listMats);
-            for (int i = 0; i < listMats.Count; ++i)
-            {
-                int len = listMats[i].shader.name.Split("/").Length;
-                string name = listMats[i].shader.name.Split("/")[len - 1];
-#if UNITY_EDITOR
-                Debug.LogFormat("{0}-material: {1}", i, name);
-#endif
-                if (name == mainMatName)
-                    mainMat = listMats[i];
-                else if (name == dirtyMatName)
-                    dirtyMats.Add(listMats[i]);
-            }
+            mainMat = mr.material;
         }
     }
 
@@ -149,11 +133,9 @@ public class MeshPaintTarget : MonoBehaviour
         // _PaintUv: 원본 UV Texture
         // _PaintMask: 오염 Mask (default: none). 코드상에서 추가
 
-        for (int i = 0; i < dirtyMats.Count; ++i)
+        if (mainMat != null)
         {
-            Material mat = dirtyMats[i];
-
-            originUvTex = mat.GetTexture("_PaintUv");
+            originUvTex = mainMat.GetTexture("_PaintUv");
 
             if (threadGroupX == -1)
                 threadGroupX = Mathf.CeilToInt(originUvTex.width / 8);
@@ -162,29 +144,29 @@ public class MeshPaintTarget : MonoBehaviour
 
             // 오염 텍스쳐를 생성하고 원본 UV를 복사함
             dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
-            dirtyRTex.name = mat.name;
+            dirtyRTex.name = mainMat.name;
             dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
             Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
 
             // !!현재 노이즈 텍스쳐는 생성을 하지만 셰이더에서 사용하고 있지는 않음!!
             // *Compute Shader에서 생성하는데 자연스럽게 뽑아내기 전까지는 Shader Graph의 노이즈를 사용
-            SetNoiseTexture(mat);
-            SetBasicTwinkleProperties(mat);
+            SetNoiseTexture(mainMat);
+            SetBasicTwinkleProperties(mainMat);
 
-            mat.SetTexture("_PaintMask", dirtyRTex);
+            mainMat.SetTexture("_PaintMask", dirtyRTex);
+
+            // 젖은 텍스쳐를 위한 알파값이 0인 빈 텍스쳐를 가져와서 복사함
+            Texture2D tex = GenerateTexture2D(resolution, resolution);
+            tex.LoadImage(Resources.Load<Texture2D>("Textures/Utility/Empty").EncodeToPNG());
+            tex.Apply();
+
+            wetRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
+            wetRTex.name = "WetMask";
+            wetRTex.enableRandomWrite = true;
+            Graphics.Blit(tex, wetRTex);
+
+            mainMat.SetTexture("_WetMask", wetRTex);
         }
-
-        // 젖은 텍스쳐를 위한 알파값이 0인 빈 텍스쳐를 가져와서 복사함
-        Texture2D tex = GenerateTexture2D(resolution, resolution);
-        tex.LoadImage(Resources.Load<Texture2D>("/Textures/Utility/Empty").EncodeToPNG());
-        tex.Apply();
-
-        wetRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
-        wetRTex.name = "WetMask";
-        wetRTex.enableRandomWrite = true;
-        Graphics.Blit(tex, wetRTex);
-
-        mainMat.SetTexture("_WetMask", wetRTex);
     }
 
 
@@ -202,7 +184,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false || IsClear() == true) return;
         // Brush의 Texture를 받아서 사용하고자 하였으나 문제가 발생하여 지금은 사용하지 않음
 #if UNITY_EDITOR
-        Debug.Log("DrawRender");
+        //Debug.Log("DrawRender");
 #endif
         /*
             RWTexture2D<float4> PaintMask;
@@ -239,7 +221,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelPaint, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Shader Dispatch");
+        //Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
@@ -264,7 +246,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false) return;
 
 #if UNITY_EDITOR
-        Debug.Log("DrawWet");
+        //Debug.Log("DrawWet");
 #endif
         /*
             RWTexture2D<float4> WetMask;
@@ -293,7 +275,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelWet, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Shader Dispatch");
+        //Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
@@ -322,7 +304,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelNoise, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Make Noise Texture");
+        //Debug.Log("Make Noise Texture");
 #endif
         Graphics.Blit(rTex, rTex);
 
@@ -430,7 +412,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelClear, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Dirty Clear.");
+        //Debug.Log("Dirty Clear.");
 #endif
     }
 
@@ -452,10 +434,10 @@ public class MeshPaintTarget : MonoBehaviour
         paintShader.SetTexture(kernelCopy, "Destination", dirtyRTex);
 
         paintShader.Dispatch(kernelCopy, threadGroupX, threadGroupY, 1);
-        
+
         IsClear(false); // 초기화 했으므로 Clear -> false
 #if UNITY_EDITOR
-        Debug.Log("Reset Mask with Origin Texture.");
+        //Debug.Log("Reset Mask with Origin Texture.");
 #endif
     }
 
@@ -480,24 +462,24 @@ public class MeshPaintTarget : MonoBehaviour
     private void SetBasicTwinkleProperties(Material _mat)
     {
         // Property 값 설정
-        //_mat.SetFloat("_TwinkleIntensity", 5f); // 반짝임 색상 Intensity(세기)
+        _mat.SetFloat("_TwinkleIntensity", 4f); // 반짝임 색상 Intensity(세기)
     }
-    private void SetTwinkleProperties(/*bool _onlyDirty,*/ Material _mat)
+    private void SetTwinkleProperties(bool _onlyDirty, Material _mat)
     {
         // Property 설정값 초기화
-        //Color color_;
-        //if (_onlyDirty)
-        //    color_ = new Color(1f, 0.6501361f, 0.2783019f, 1f);
-        //else
-        //    color_ = new Color(0.4009433f, 0.5723213f, 1f, 1f);
+        Color color;
+        if (_onlyDirty)
+            color = new Color(1f, 0.6501361f, 0.2783019f, 1f);
+        else
+            color = new Color(0.4009433f, 0.5723213f, 1f, 1f);
 
         // Property 값 설정
         _mat.SetFloat("_ActiveTwinkle", 1); // 반짝임 동작 여부
-        //_mat.SetFloat("_OnlyDirty", _onlyDirty ? 1 : 0); // 오염 대상만인지 여부
-        //_mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // 반짝임 속도
-        //_mat.SetColor("_TwinkleColor", color_); // 색상
+        _mat.SetFloat("_OnlyDirty", _onlyDirty ? 1 : 0); // 오염 대상만인지 여부
+        _mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // 반짝임 속도
+        _mat.SetColor("_TwinkleColor", color); // 색상
 #if UNITY_EDITOR
-        Debug.Log("[SetTwinkleProperties] Before Return");
+        //Debug.Log("[SetTwinkleProperties] Before Return");
 #endif
     }
     private void StopTwinkleProperties(Material _mat)
@@ -575,9 +557,8 @@ public class MeshPaintTarget : MonoBehaviour
         if (isDirtyTwinkle == false && IsClear() == false)
         {
             isDirtyTwinkle = true;
-            Debug.LogFormat("[DirtyTwinkle] count: {0}", dirtyMats.Count);
-            for (int i = 0; i < dirtyMats.Count; ++i)
-                StartCoroutine("DirtyTwinkleCoroutine", dirtyMats[i]);
+            if (mainMat != null)
+                StartCoroutine("DirtyTwinkleCoroutine", mainMat);
         }
     }
 
@@ -585,17 +566,17 @@ public class MeshPaintTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
 #if UNITY_EDITOR
-        Debug.Log("StartCoroutine");
+        //Debug.Log("StartCoroutine");
 #endif
         float t = 0f;
         while (t < 1f)
         {
             t += Time.deltaTime;
-            DryWetting(mainMat, Time.deltaTime);
+            DryWetting(mainMat, Time.deltaTime * dryTimeMultiply);
             yield return new WaitForSeconds(0.05f);
         }
 #if UNITY_EDITOR
-        Debug.Log("EndCoroutine");
+        //Debug.Log("EndCoroutine");
 #endif
         StopDryWetting();
     }
@@ -605,7 +586,7 @@ public class MeshPaintTarget : MonoBehaviour
         float time = 3f;
         float t = 0f;
 
-        SetTwinkleProperties(_mat);
+        SetTwinkleProperties(_onlyDirty: false, _mat);
         _mat.SetFloat(timerName, t);
 
         time /= _mat.GetFloat(twinkleSpeed) * 0.5f;
@@ -627,7 +608,7 @@ public class MeshPaintTarget : MonoBehaviour
         float time = 3f;
         float t = 0f;
 
-        SetTwinkleProperties(_mat);
+        SetTwinkleProperties(_onlyDirty: true, _mat);
         _mat.SetFloat(timerName, t);
 
         time /= _mat.GetFloat(twinkleSpeed) * 0.5f;

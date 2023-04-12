@@ -27,9 +27,10 @@ public class MeshPaintBrush : MonoBehaviour
     private bool drawCoroutine_ = false;
     private bool runCoroutine_ = false;
 
+    private Ray ray_;
+
     // 임시
     public enum EMagicType { Zero, One, Two }
-    private Ray ray_;
 
     public struct DirtyLv // 오염타입
     {
@@ -100,25 +101,24 @@ public class MeshPaintBrush : MonoBehaviour
     public void PaintToTarget(Ray _ray)
     {
 #if UNITY_EDITOR
-        Debug.Log("Try");
+        //Debug.Log("Try");
 
 #endif
         if (Physics.Raycast(_ray, out var hitInfo))
         {
 #if UNITY_EDITOR
-            Debug.Log("In Raycast");
+            //Debug.Log("In Raycast");
 #endif
-            MeshPaintTarget _target = null;
             if (prevCollider_ != hitInfo.collider)
             {
                 prevCollider_ = hitInfo.collider;
-                hitInfo.collider.TryGetComponent<MeshPaintTarget>(out _target);
+                hitInfo.collider.TryGetComponent<MeshPaintTarget>(out target_);
             }
 #if UNITY_EDITOR
-            Debug.Log("target? " + _target);
+            //Debug.Log("target? " + target_);
 #endif
-            if (_target != null &&
-                _target.IsDrawable() == true)
+            if (target_ != null &&
+                target_.IsDrawable() == true)
             {
 #if UNITY_EDITOR
                 //Debug.LogFormat("uvPos_: {0} | coord: {1}", uvPos_, hitInfo.textureCoord);
@@ -126,7 +126,7 @@ public class MeshPaintBrush : MonoBehaviour
                 if (uvPos_ != hitInfo.textureCoord)
                 {
 #if UNITY_EDITOR
-                    Debug.Log("Coord is not Same.");
+                    //Debug.Log("Coord is not Same.");
 #endif
                     uvPos_ = hitInfo.textureCoord;
                     if (maxDistance_ >= hitInfo.distance)
@@ -137,7 +137,7 @@ public class MeshPaintBrush : MonoBehaviour
                         effective_ = false;
 
 #if UNITY_EDITOR
-                    Debug.Log("Before Draw" + effective_);
+                    //Debug.Log("Before Draw" + effective_);
 #endif
                     // 유효한 사거리라면 DrawRender를 실행
                     if (effective_)
@@ -155,11 +155,11 @@ public class MeshPaintBrush : MonoBehaviour
                         // 세척력
                         color_ = WashPower();
 #if UNITY_EDITOR
-                        Debug.LogFormat("r: {0}, g: {1}, b: {2}", color_.x, color_.y, color_.z);
+                        //Debug.LogFormat("r: {0}, g: {1}, b: {2}", color_.x, color_.y, color_.z);
 #endif
-                        if (_target.IsClear() == false)
-                            _target.DrawRender(isPainting_, uvPos_, color_, size_, distance);
-                        _target.DrawWet(isPainting_, uvPos_, size_, distance);
+                        if (target_.IsClear() == false)
+                            target_.DrawRender(isPainting_, uvPos_, color_, size_, distance);
+                        target_.DrawWet(isPainting_, uvPos_, size_, distance);
                         CheckTargetProcess();
                     }
                 }
@@ -218,13 +218,14 @@ public class MeshPaintBrush : MonoBehaviour
     /// <param name="_ray"></param>
     public void TimingDraw(Ray _ray)
     {
+
         ray_ = _ray;
         if (drawCoroutine_ == false)
         {
             drawCoroutine_ = true;
             IsPainting(true);
 
-            StartCoroutine("TimingDrawCoroutine", _ray);
+            StartCoroutine("TimingDrawCoroutine");
         }
     }
     public void StopTimingDraw()
@@ -267,7 +268,8 @@ public class MeshPaintBrush : MonoBehaviour
 
             //Ray.direction = _direction;
             PaintToTarget(Ray);
-            Debug.DrawRay(Ray.origin, Ray.direction, Color.green);
+            Debug.Log("in");
+            Debug.DrawRay(Ray.origin, Ray.direction * effectiveDistance_, Color.green);
             yield return new WaitForSeconds(drawTiming_);
         }
     }
@@ -275,7 +277,7 @@ public class MeshPaintBrush : MonoBehaviour
     private IEnumerator CheckTargetProcessCoroutine()
     {
 #if UNITY_EDITOR
-        Debug.Log("[CheckTargetProcessCoroutine]");
+        //Debug.Log("[CheckTargetProcessCoroutine]");
 #endif
         while (true)
         {
