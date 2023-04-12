@@ -1,69 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
     [Header("Aggregation")] // # Aggregation(집합관계) : 생명주기를 달리 함. ex) 역사과목, 수강학생
     [SerializeField]
     private GameObject inventoryPanUIGo_ = null; // inventory panel
+
     [SerializeField]
-    private GameObject[] invenUIArr = null; // Inventory panel 하위의 Inventory, SelectStaff, SelectSpell UI GameObject 저장하는 Arr
+    private GameObject[] invenUIArr_ = null; // Inventory panel 하위의 Inventory, SelectStaff, SelectSpell UI GameObject 저장하는 Arr
+    // # item 생성 관련
+    [SerializeField]
+    private PlayerFocusManager playerFocusManager_ = null;
+    [SerializeField]
+    private InGameAllItemInfo inGameAllItemInfo = null;
 
     [Header("Composition")] // # Composition(구성관계) : 생명주기를 같이 함. ex) 차 & 엔진
     private NowWearingInfo nowWearingInfo_;
     private SelectItemManager selectStaffManager_;
     private SelectItemManager selectSpellManager_;
-
-    // # item 생성 관련
     [SerializeField]
-    private PlayerFocusManager playerFocusManager_ = null;   
+    private GameObject[] staffArr_ = null;
     [SerializeField]
-    private GameObject[] staffArr_= null;
-
+    private GameObject[] staffPartsArr_ = null; // # staff 하위 brushgroup, waterpump gameObject
     [SerializeField]
-    private GameObject[] staffParts = null; // # staff 하위 brushgroup, waterpump gameObject
+    private GameObject[] bottomImgArr_ = null; // # [0] : staffImage, [1] : spellImage
 
     public bool isInventoryPanOpen_ { get; set; }
-
     private Staff nowStaff_ = null;
     private void Awake()
     {
         // # 변수 초기화
         isInventoryPanOpen_ = false;
         nowWearingInfo_ = inventoryPanUIGo_.GetComponentInChildren<NowWearingInfo>();
-        selectStaffManager_ = invenUIArr[1].GetComponent<SelectItemManager>();
-        selectSpellManager_ = invenUIArr[2].GetComponent<SelectItemManager>();
+        foreach (var item in invenUIArr_)
+        {
+            Debug.Log(item);
 
+        }
+        selectStaffManager_ = invenUIArr_[1].GetComponent<SelectItemManager>();
+        selectSpellManager_ = invenUIArr_[2].GetComponent<SelectItemManager>();
         // # 하위 메니저 게으른 초기화 => 콜백함수 전달
         selectStaffManager_.Init(CloseAllInvenUI, SelectItem);
         selectSpellManager_.Init(CloseAllInvenUI, SelectItem);
 
+
+
     }
     private void Start()
     {
+
         SetDefaultPlayerItem();
     }
+    /// <summary>
+    /// 게임 시작할 때, default로 장착하는 아이템 셋팅
+    /// </summary>
     private void SetDefaultPlayerItem()
     {
         SetStaff(0);
-        // TODO Spell
-        // SetSpell(0);
+        SetBottomUIStaffImg("AmberStaff");
+       // SetSpell(0);
+        //SetBottomUISpellImg("AmberStaff");
     }
-    private void SetStaff(int _idx)
-    {
-        CloseAllstaff();
-        staffArr_[_idx].SetActive(true);
-        foreach(GameObject go in staffParts)
-        {
-            go.SetActive(true);
-            go.transform.SetParent(staffArr_[_idx].transform);
-        }
-        nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
-        playerFocusManager_.SetStaff(nowStaff_);
-    }
-
-
     public void OpenInventoryPan()
     {
         isInventoryPanOpen_ = true;
@@ -86,20 +86,14 @@ public class InventoryManager : MonoBehaviour
         if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Staff.ToString()))
         { // # Staff 
             nowWearingInfo_.SetNowWearingItem(_selectItem);
-            if(_selectItem.itemName_==InGameAllItemInfo.EStaffName.AmberStaff.ToString())
-            { // AmberStaff 켜기
-                SetStaff(0);
-            }
-            else if(_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
-            {
-                SetStaff(1);
-            }
+            SetStaff(_selectItem);
 
         }
         else if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
         { // # Spell
             nowWearingInfo_.SetNowWearingItem(_selectItem);
-            // TODO
+            SetSpell(_selectItem); // TODO
+
         }
     }
     /// <summary>
@@ -107,7 +101,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     private void CloseAllInvenUI()
     {
-        foreach (GameObject invenUIgo in invenUIArr)
+        foreach (GameObject invenUIgo in invenUIArr_)
         {
             invenUIgo.SetActive(false);
         }
@@ -115,13 +109,74 @@ public class InventoryManager : MonoBehaviour
     private void CloseAllInvenUIAndOpenDefaultUI()
     {
         CloseAllInvenUI();
-        invenUIArr[0].SetActive(true);
+        invenUIArr_[0].SetActive(true);
     }
+    /// <summary>
+    /// staff 오브젝트 교체하기 전, 모든 staff 다 꺼주는 메서드 
+    /// </summary>
     private void CloseAllstaff()
     {
-        foreach(GameObject go in staffArr_)
+        foreach (GameObject go in staffArr_)
         {
             go.SetActive(false);
         }
+    }
+
+    private void SetStaff(NowWearingInfo.NowWearingItem _selectItem)
+    {
+        if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.AmberStaff.ToString())
+        { // # AmberStaff 켜기
+            SetStaff(0);
+            SetBottomUIStaffImg(_selectItem.itemImgFileName_);
+        }
+        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
+        { // # RubyStaff 켜기
+            SetStaff(1);
+            SetBottomUIStaffImg(_selectItem.itemImgFileName_);
+        }
+    }
+    /// <summary>
+    /// Staff 바꿔끼워주는 메서드
+    /// </summary>
+    /// <param name="_idx"></param>
+    private void SetStaff(int _idx)
+    {
+        CloseAllstaff();
+        staffArr_[_idx].SetActive(true);
+        foreach (GameObject go in staffPartsArr_)
+        {
+            go.SetActive(true);
+            go.transform.SetParent(staffArr_[_idx].transform);
+            //TODO
+            // staff 변경할 때, parts default 셋팅 해줘야 함!
+
+        }
+        nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
+        playerFocusManager_.SetStaff(nowStaff_);
+    }
+    private void SetSpell(NowWearingInfo.NowWearingItem _selectItem)
+    {
+        // TODO
+        //if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.AmberStaff.ToString())
+        //{ // # AmberStaff 켜기
+        //    SetStaff(0);
+        //    SetBottomUIStaffImg(_selectItem.itemImgFileName_);
+        //}
+        //else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
+        //{ // # RubyStaff 켜기
+        //    SetStaff(1);
+        //    SetBottomUIStaffImg(_selectItem.itemImgFileName_);
+        //}
+
+    }
+    private void SetBottomUIStaffImg(string _imgFileName)
+    {
+        Image img = bottomImgArr_[0].GetComponent<Image>();
+        img.sprite = inGameAllItemInfo.SearchItemImg(_imgFileName);
+    }
+    private void SetBottomUISpellImg(string _imgFileName)
+    {
+        Image img = bottomImgArr_[1].GetComponent<Image>();
+        img.sprite = inGameAllItemInfo.SearchItemImg(_imgFileName);
     }
 } // end of class

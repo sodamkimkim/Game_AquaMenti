@@ -23,7 +23,7 @@ public class Staff : Item
     }
     public void Move(Vector3 _destPos)
     {
-        Debug.Log("staff look at : "+ _destPos);
+     //   Debug.Log("staff look at : "+ _destPos);
         this.gameObject.transform.forward = _destPos.normalized;
     }
     public void LookAtCenter()

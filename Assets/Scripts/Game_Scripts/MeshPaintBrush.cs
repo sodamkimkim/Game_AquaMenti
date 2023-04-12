@@ -268,7 +268,7 @@ public class MeshPaintBrush : MonoBehaviour
 
             //Ray.direction = _direction;
             PaintToTarget(Ray);
-            Debug.Log("in");
+           // Debug.Log("in");
             Debug.DrawRay(Ray.origin, Ray.direction * effectiveDistance_, Color.green);
             yield return new WaitForSeconds(drawTiming_);
         }

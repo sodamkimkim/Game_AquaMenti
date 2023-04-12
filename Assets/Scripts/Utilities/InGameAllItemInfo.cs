@@ -11,13 +11,16 @@ public class InGameAllItemInfo : MonoBehaviour
     private List<Dictionary<string, object>> itemStaffInfoList_ = new List<Dictionary<string, object>>();
     private List<Dictionary<string, object>> itemSpellInfoList_ = new List<Dictionary<string, object>>();
     public enum EItemCategory { Staff, Spell, Len }
-    public enum EStaffName { AmberStaff , RubyStaff , Len}
-    public enum ESpellName { Deg0MagicSpell,
+    public enum EStaffName { AmberStaff, RubyStaff, Len }
+    public enum ESpellName
+    {
+        Deg0MagicSpell,
         Deg15MagicSpell,
         Deg25MagicSpell,
         Deg45MagicSpell
-        , Len}
-    
+        , Len
+    }
+    public Sprite[] itemImgSpriteArr_ = null;
     private void Awake()
     {
         CSVReader.Read("Datas/GameInfo/ItemInfo", out itemInfoList_);
@@ -28,6 +31,7 @@ public class InGameAllItemInfo : MonoBehaviour
     {
         //GetAllItemInfo();
         // SearchItembyItemName("AmberStaff");
+        itemImgSpriteArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
     }
 
     /// <summary>
@@ -96,6 +100,22 @@ public class InGameAllItemInfo : MonoBehaviour
     public void SetItemSpellUIList(out List<Dictionary<string, object>> _itemSpellInfoList)
     {
         _itemSpellInfoList = itemSpellInfoList_;
+    }
+    /// <summary>
+    /// file name 으로 Item이미지 찾기
+    /// </summary>
+    public Sprite SearchItemImg(string _imgFileName)
+    {
+        Sprite defaultSprite = itemImgSpriteArr_[0];
+        foreach (Sprite sprite in itemImgSpriteArr_)
+        {
+  
+            if (sprite.name == _imgFileName)
+            {
+                return sprite;
+            }
+        }
+        return defaultSprite;
     }
 
 } // end of class
