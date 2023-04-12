@@ -29,6 +29,7 @@ public class MeshPaintBrush : MonoBehaviour
 
     // 임시
     public enum EMagicType { Zero, One, Two }
+    private Ray ray_;
 
     public struct DirtyLv // 오염타입
     {
@@ -217,6 +218,7 @@ public class MeshPaintBrush : MonoBehaviour
     /// <param name="_ray"></param>
     public void TimingDraw(Ray _ray)
     {
+        ray_ = _ray;
         if (drawCoroutine_ == false)
         {
             drawCoroutine_ = true;
@@ -254,12 +256,12 @@ public class MeshPaintBrush : MonoBehaviour
 
 
     // Brush
-    private IEnumerator TimingDrawCoroutine(Ray _ray)
+    private IEnumerator TimingDrawCoroutine()
     {
         while (true)
         {
             // _ray로 바꿔주기
-            Ray Ray = _ray;
+            Ray Ray = ray_;
 
          Ray.origin = this.transform.position;
 

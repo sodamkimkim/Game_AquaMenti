@@ -3,30 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Walkable
-  - Canvas_RotateControl
-  - ScreenSideTop
-  - ScreenSideBottom
-  - ScreenSideLeft
-  - ScreenSideRight
-  - Canvas_ScreenSide
-  - Ladder
-  - Floor
-  - Canvas_Focus
-  - PlayerFocusManager
-  - Water
-  - WaterMagic
-  - MagicManager
-  - Item
-  - Door
-  - Map
-  - WorkSection
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Walkable
+  - 
   - Water
   - UI
   - 
