@@ -25,17 +25,24 @@ public class WandRaySpawner : MonoBehaviour
     public Vector3 hitPos_ { get; set; }
     public bool isLadder_ { get; set; }
 
+    public string cleaningTargetName_ { get; private set; }
+
     private void Awake()
     {
         sideRayMaxDistance_ = mainRayMaxDistance_ * 0.5f;
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
         isLadder_ = false;
+        cleaningTargetName_ = "";
     }
     private void Update()
     {
-        Debug.DrawRay(GetPos(), centerRay_.direction*mainRayMaxDistance_, Color.red);
+        Debug.DrawRay(GetPos(), centerRay_.direction * mainRayMaxDistance_, Color.red);
+     
     }
-
+    private void SetTargetName_(string _targetName)
+    {
+        cleaningTargetName_ = _targetName;
+    }
     public void RotateFocusPointUI()
     {
         uIFocusPoint_.transform.Rotate(new Vector3(0f, 0f, 90f));
@@ -58,11 +65,8 @@ public class WandRaySpawner : MonoBehaviour
     /// </summary>
     public void RayScreenCenterShot()
     {
-        // Debug.Log("FocusFixed()");
         centerRay_ = Camera.main.ScreenPointToRay(screenCenter_);
-      //  staff_.LookAtRay(centerRay_.direction);
         uIFocusPoint_.SetPos(screenCenter_);
-     //   Debug.DrawRay(GetPos(), GetTransform().forward * mainRayMaxDistance_, Color.red);
         RayFindObject();
     }
     /// <summary>
@@ -70,15 +74,10 @@ public class WandRaySpawner : MonoBehaviour
     /// </summary>
     public void RayMoveFocusShot()
     {
-        // mousePosition에 따라 화면 돌아가지 않게 해 줘야함
-        // Debug.Log("FocusMove()");
         Vector3 mousePos = Input.mousePosition;
         centerRay_ = Camera.main.ScreenPointToRay(mousePos);
-       // staff_.LookAtRay(centerRay_.direction);
-            uIFocusPoint_.SetPos(mousePos);
- 
-    //        Debug.DrawRay(GetPos(), centerRay_.direction, Color.red);
-            RayFindObject();
+        uIFocusPoint_.SetPos(mousePos);
+        RayFindObject();
 
 
     }
@@ -87,6 +86,7 @@ public class WandRaySpawner : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(centerRay_, out hit, mainRayMaxDistance_))
         {
+            // # 사다리 인식
             IInteractableObject target = hit.collider.GetComponentInParent<IInteractableObject>();
             if (target != null)
             {
@@ -105,15 +105,31 @@ public class WandRaySpawner : MonoBehaviour
             else
             {
                 isLadder_ = false;
+    
             }
             hitPos_ = hit.point;
+
+            // # meshpaint target 인식
+            MeshPaintTarget meshPaintTarget = hit.collider.gameObject.GetComponent<MeshPaintTarget>();
+            if (meshPaintTarget != null)
+            {
+                cleaningTargetName_ = meshPaintTarget.gameObject.name;
+                Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
+            }
+            else
+            {
+                cleaningTargetName_ = "";
+                Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
+            }
         }
         else
         {
             hitPos_ = GetPos() + GetTransform().forward * mainRayMaxDistance_;
             isLadder_ = false;
         }
- 
+
+
+
     }
     public Vector3 GetCenterRayDir()
     {
