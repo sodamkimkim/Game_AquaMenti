@@ -25,13 +25,35 @@ public class CleaningTargetManager : MonoBehaviour
     //private 
     private void Awake()
     {
-        wandRaySpawner_ = playerGo_.GetComponentInChildren<WandRaySpawner>(); 
+        wandRaySpawner_ = playerGo_.GetComponentInChildren<WandRaySpawner>();
+
+        // # UI
         objectNameUI_ = washInfoGO_.GetComponentInChildren<ObjectNameUI>();
-        cleaningProgressPanUI = washInfoGO_.GetComponentInChildren<CleaningProgressPanUI>();  
+        cleaningProgressPanUI = washInfoGO_.GetComponentInChildren<CleaningProgressPanUI>();
         cleaningPercentageUI = washInfoGO_.GetComponentInChildren<CleaningPercentageUI>();
-    }   
+    }
     // # wandrayspawner의 targetname_을 가져와서, 
     // 이름, 청소상태 뿌려주고, 아니면 이름 : "", percentage "", progress : 0
+    private void Update()
+    {
+        SetCleaningTargetStatusUI();
 
-
+    }
+    private void SetCleaningTargetStatusUI()
+    {
+        if (wandRaySpawner_.cleaningTargetName_ != "")
+        {
+            objectNameUI_.SetObjectName(wandRaySpawner_.cleaningTargetName_);
+            cleaningProgressPanUI.SetCleaningProgressImgFillAmt(0.5f);
+            cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);
+            cleaningPercentageUI.SetActive(true);
+        }
+        else
+        {
+            objectNameUI_.SetObjectName(wandRaySpawner_.cleaningTargetName_);
+            cleaningProgressPanUI.SetCleaningProgressImgFillAmt(0f);
+            cleaningPercentageUI.SetCleaningPercentageUI(100f);
+            cleaningPercentageUI.SetActive(false);
+        }
+    }
 } // end of class

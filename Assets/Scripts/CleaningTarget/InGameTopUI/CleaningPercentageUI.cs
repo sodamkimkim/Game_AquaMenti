@@ -13,6 +13,10 @@ public class CleaningPercentageUI : MonoBehaviour
     }
     public void SetCleaningPercentageUI(float _percentage)
     {
-        tmp_cleanimgPercentage.text = (int)_percentage*100f + "%";
+        tmp_cleanimgPercentage.text = _percentage*100f + "%";
+    }
+    public void SetActive(bool _para)
+    {
+        this.gameObject.SetActive(_para);
     }
 } // end of class
