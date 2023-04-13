@@ -37,7 +37,14 @@ public class InGameAllItemInfo : MonoBehaviour
         //GetAllItemInfo();
         // SearchItembyItemName("AmberStaff");
     }
-
+    //public Dictionary<string, object> GetDefaultStaff()
+    //{
+    //    return itemStaffInfoList_[0];
+    //}
+    //public Dictionary<string, object> GetDefaultSpell()
+    //{
+    //    return itemSpellInfoList_[0];
+    //}
     /// <summary>
     /// 모든 인게임 아이템 정보 가져오기
     /// </summary>
@@ -121,5 +128,6 @@ public class InGameAllItemInfo : MonoBehaviour
         }
         return defaultSprite;
     }
+
 
 } // end of class
