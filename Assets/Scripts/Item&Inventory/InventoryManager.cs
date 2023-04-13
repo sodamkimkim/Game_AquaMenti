@@ -53,9 +53,9 @@ public class InventoryManager : MonoBehaviour
     private void SetDefaultPlayerItem()
     {
         SetStaff(0);
-        SetBottomUIStaffImg("AmberStaff");
+        SetBottomUIStaffImg("Staff1"); // TODO 임시, save load 들어가면 변경해야함!
        // SetSpell(0);
-        SetBottomUISpellImg("Deg0MagicSpell");
+        SetBottomUISpellImg("Deg0MagicSpell"); // TODO 임시, save load 들어가면 변경해야함!
     }
     public void OpenInventoryPan()
     {
@@ -117,14 +117,19 @@ public class InventoryManager : MonoBehaviour
 
     private void SetStaff(NowWearingInfo.NowWearingItem _selectItem)
     {
-        if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.AmberStaff.ToString())
+        if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff1.ToString())
         { // # AmberStaff 켜기
             SetStaff(0);
             SetBottomUIStaffImg(_selectItem.itemImgFileName_);
         }
-        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.RubyStaff.ToString())
+        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff2.ToString())
         { // # RubyStaff 켜기
             SetStaff(1);
+            SetBottomUIStaffImg(_selectItem.itemImgFileName_);
+        }
+        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff3.ToString())
+        { // # RubyStaff 켜기
+            SetStaff(2);
             SetBottomUIStaffImg(_selectItem.itemImgFileName_);
         }
     }
