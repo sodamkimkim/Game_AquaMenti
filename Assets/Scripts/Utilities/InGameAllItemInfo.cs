@@ -11,7 +11,7 @@ public class InGameAllItemInfo : MonoBehaviour
     private List<Dictionary<string, object>> itemStaffInfoList_ = new List<Dictionary<string, object>>();
     private List<Dictionary<string, object>> itemSpellInfoList_ = new List<Dictionary<string, object>>();
     public enum EItemCategory { Staff, Spell, Len }
-    public enum EStaffName { AmberStaff, RubyStaff, Len }
+    public enum EStaffName { Staff1, Staff2, Staff3,  Len }
     public enum ESpellName
     {
         Deg0MagicSpell,
@@ -27,13 +27,24 @@ public class InGameAllItemInfo : MonoBehaviour
         GetAllStaffInfo();
         GetAllSpellInfo();
         itemImgSpriteArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
+        foreach (var item in itemImgSpriteArr_)
+        {
+            Debug.Log(item);
+        }
     }
     private void Start()
     {
         //GetAllItemInfo();
         // SearchItembyItemName("AmberStaff");
     }
-
+    //public Dictionary<string, object> GetDefaultStaff()
+    //{
+    //    return itemStaffInfoList_[0];
+    //}
+    //public Dictionary<string, object> GetDefaultSpell()
+    //{
+    //    return itemSpellInfoList_[0];
+    //}
     /// <summary>
     /// 모든 인게임 아이템 정보 가져오기
     /// </summary>
@@ -117,5 +128,6 @@ public class InGameAllItemInfo : MonoBehaviour
         }
         return defaultSprite;
     }
+
 
 } // end of class

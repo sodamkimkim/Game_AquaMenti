@@ -45,9 +45,9 @@ public class NowWearingInfo : MonoBehaviour
     {
         NowWearingItem defaultStaff = new NowWearingItem();
         defaultStaff.itemCategory_ = "Staff";
-        defaultStaff.itemName_ = "AmberStaff";
-        defaultStaff.itemDescription_ = "호박보석이 박혀있는 지팡이";
-        defaultStaff.itemImgFileName_ = "AmberStaff";
+        defaultStaff.itemName_ = "Staff1";
+        defaultStaff.itemDescription_ = "기본 Staff";
+        defaultStaff.itemImgFileName_ = "Staff1";
         //nowWearingArr_[0] = defaultStaff;
         SetNowWearingItem(defaultStaff);
 
