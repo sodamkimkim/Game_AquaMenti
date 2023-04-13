@@ -19,7 +19,6 @@ public class MeshPaintTarget : MonoBehaviour
 
     private MeshRenderer mr = null; // 대상의 MeshRenderer
     private Material mainMat = null; // 대상의 MainTex가 있는 Material
-    private readonly string mainMatName = "Cleanable";
 
     private Texture originUvTex = null; // UV원본
     private RenderTexture dirtyRTex = null; // 오염 Mask
@@ -89,6 +88,21 @@ public class MeshPaintTarget : MonoBehaviour
     {
         isClear = _clear;
     }
+
+    public Texture2D GetPaintMask()
+    {
+        return ToTexture(dirtyRTex);
+    }
+    private void SetPaintMask(Texture2D _tex)
+    {
+        if (dirtyRTex == null)
+        {
+            dirtyRTex = GenerateRenderTexture(resolution, resolution);
+            dirtyRTex.enableRandomWrite = true;
+        }
+
+        Graphics.Blit(_tex, dirtyRTex);
+    }
     #endregion
 
 
@@ -115,12 +129,6 @@ public class MeshPaintTarget : MonoBehaviour
         {
             DirtyTwinkle();
         }
-
-        // SaveToPNG Test (저장 네이밍 정의 필요)
-        if (IsDrawable() && Input.GetKeyDown(KeyCode.Slash))
-        {
-            SaveToPNG(ToTexture(dirtyRTex));
-        }
     }
 
 
@@ -142,11 +150,19 @@ public class MeshPaintTarget : MonoBehaviour
             if (threadGroupY == -1)
                 threadGroupY = Mathf.CeilToInt(originUvTex.height / 8);
 
-            // 오염 텍스쳐를 생성하고 원본 UV를 복사함
-            dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
-            dirtyRTex.name = mainMat.name;
-            dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
-            Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
+            // 
+            if (false)
+            {
+                
+            }
+            else
+            {
+                // 오염 텍스쳐를 생성하고 원본 UV를 복사함
+                dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
+                dirtyRTex.name = gameObject.name;
+                dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
+                Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
+            }
 
             // !!현재 노이즈 텍스쳐는 생성을 하지만 셰이더에서 사용하고 있지는 않음!!
             // *Compute Shader에서 생성하는데 자연스럽게 뽑아내기 전까지는 Shader Graph의 노이즈를 사용
@@ -492,13 +508,57 @@ public class MeshPaintTarget : MonoBehaviour
 
 
     #region Utility
+    public void SaveMask(string _path)
+    {
+        if (dirtyRTex == null) return;
+
+        SaveToPNG(ToTexture(dirtyRTex), _path);
+    }
+
+    // _path로부터 Texture를 가져와서
+    public bool LoadMask(string _path)
+    {
+        bool load = true;
+
+        StringBuilder path = new StringBuilder();
+        path.Append(_path);
+        path.Append("/");
+        path.Append(gameObject.name);
+        path.Append(".png");
+
+        byte[] bytes = null;
+        try
+        {
+            bytes = File.ReadAllBytes(path.ToString());
+        }
+        catch(FileNotFoundException e)
+        {
+            Debug.LogWarning("'" + e.FileName + "' Not Found.\n\r"+e.StackTrace);
+        }
+        catch(DirectoryNotFoundException d)
+        {
+            Debug.LogWarning("Wrong Directory.\n\r"+d.StackTrace);
+        }
+        finally { }
+
+        if (bytes.Length <= 0) return load = false;
+
+        Texture2D tex = GenerateTexture2D(resolution, resolution);
+        tex.LoadImage(bytes);
+        tex.Apply();
+
+        SetPaintMask(tex);
+
+        return load;
+    }
+
     // Mask Texture를 PNG로 저장하는 용도
-    public void SaveToPNG(Texture2D _tex)
+    private void SaveToPNG(Texture2D _tex, string _path)
     {
         byte[] bytes = _tex.EncodeToPNG();
         StringBuilder savePath = new StringBuilder();
-        savePath.Append(Application.dataPath);
-        savePath.Append("/../");
+        savePath.Append(_path);
+        savePath.Append("/");
         savePath.Append(_tex.name);
         savePath.Append(".png");
 
