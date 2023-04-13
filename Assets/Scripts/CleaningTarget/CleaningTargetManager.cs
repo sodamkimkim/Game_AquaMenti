@@ -41,9 +41,13 @@ public class CleaningTargetManager : MonoBehaviour
     }
     private void SetCleaningTargetStatusUI()
     {
+    
+        // ex) object Name: Barrel_1_1
+        string[] targetNameSplitArr = wandRaySpawner_.cleaningTargetName_.Split("_");
         if (wandRaySpawner_.cleaningTargetName_ != "")
         {
-            objectNameUI_.SetObjectName(wandRaySpawner_.cleaningTargetName_);
+
+            objectNameUI_.SetObjectName(targetNameSplitArr[0]);
             cleaningProgressPanUI.SetCleaningProgressImgFillAmt(0.5f);
             cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);
             cleaningPercentageUI.SetActive(true);
