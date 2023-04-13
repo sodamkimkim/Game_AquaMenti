@@ -28,6 +28,7 @@ public class InventoryManager : MonoBehaviour
 
     public bool isInventoryPanOpen_ { get; set; }
     private Staff nowStaff_ = null;
+    private WaterPumpActivator nowWaterPumpActivator_ = null;
     [SerializeField]
     private GameObject[] invenUIArr_ = new GameObject[3]; // Inventory panel 하위의 Inventory, SelectStaff, SelectSpell UI GameObject 저장하는 Arr
     private void Awake()
@@ -151,6 +152,12 @@ public class InventoryManager : MonoBehaviour
         }
         nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
         playerFocusManager_.SetStaff(nowStaff_);
+        nowWaterPumpActivator_ = staffArr_[_idx].gameObject.GetComponent<WaterPumpActivator>();
+        Debug.Log("waterPumpActivator change? " + nowWaterPumpActivator_.gameObject.name);
+    }
+    public WaterPumpActivator GetWaterPumpActivator()
+    {
+        return nowWaterPumpActivator_;
     }
     private void SetSpell(NowWearingInfo.NowWearingItem _selectItem)
     {

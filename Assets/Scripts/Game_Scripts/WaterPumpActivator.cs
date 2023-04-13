@@ -17,19 +17,19 @@ public class WaterPumpActivator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            PlayPump(true);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            PlayPump(false);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    PlayPump(true);
+        //}
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    PlayPump(false);
+        //}
     }
 
 
 
-    private void PlayPump(bool _play)
+    public void PlayPump(bool _play)
     {
         ActivePump(_play);
         ActiveParticle(_play);

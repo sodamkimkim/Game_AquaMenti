@@ -19,7 +19,9 @@ public class PlayerKeyInput : MonoBehaviour
     private WandRaySpawner wandRaySpawner_ = null;
     [SerializeField]
     private GameManager gameManager_ = null;
-
+    [SerializeField]
+    private UsingToolManager usingToolManager_ = null;
+    private WaterPumpActivator nowWaterPumpActivator_ = null;
     private bool useWand { get; set; }
     private bool isOutGameUIOpen { get; set; }
     private bool isInventoryUIOpen { get; set; }
@@ -99,25 +101,36 @@ public class PlayerKeyInput : MonoBehaviour
         {
             if (inventoryManager_.isInventoryPanOpen_ == false)
             {
-                inventoryManager_.OpenInventoryPan(); Debug.Log("InventoryPan open");
+                inventoryManager_.OpenInventoryPan();
                 isInventoryUIOpen = true;
             }
             else if (inventoryManager_.isInventoryPanOpen_ == true)
             {
-                inventoryManager_.CloseInventoryPan(); Debug.Log("InventoryPan close");
+                inventoryManager_.CloseInventoryPan();
                 isInventoryUIOpen = false;
             }
 
         }
-        if (!isInventoryUIOpen && !isOutGameUIOpen)
+        if (!isInventoryUIOpen && !isOutGameUIOpen && !usingToolManager_.IsLadderMoveable())
         {
+            nowWaterPumpActivator_ = inventoryManager_.GetWaterPumpActivator();
+            if (Input.GetMouseButtonDown(0))
+            {
+                nowWaterPumpActivator_.PlayPump(true);
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                nowWaterPumpActivator_.PlayPump(false);
+            }
+
             // # -È«¼®-
             if (Input.GetMouseButton(0))
             {
 
                 useWand = true;
                 wandRaySpawner_.RaysTimingDraw();
-                Debug.Log("¸¶¿ì½º ÁÂÅ¬¸¯");
+               // Debug.Log(isInventoryUIOpen.ToString() + isOutGameUIOpen.ToString() + "¸¶¿ì½º ÁÂÅ¬¸¯");
+
 
             }
             else if (wandRaySpawner_.RaysIsPainting() == true)

@@ -39,6 +39,7 @@ public class PlayerFocusManager : MonoBehaviour
         staff_ = _staff;
         magicRotate_ = playerGo_.GetComponentInChildren<MagicRotate>();
     }
+  
     private void Update()
     {
         if (!gameManager_.isInGame_) return;
