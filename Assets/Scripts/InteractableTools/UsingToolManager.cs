@@ -56,7 +56,11 @@ public class UsingToolManager : MonoBehaviour
                 ladder_.RotateLadderRight();
             }
         }
+        
 
-
+    }
+    public bool IsLadderMoveable()
+    {
+        return ladder_.isMoveable_;
     }
 } // end of class

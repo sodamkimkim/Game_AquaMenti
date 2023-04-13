@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
@@ -20,11 +21,16 @@ public class PlayerKeyInput : MonoBehaviour
     private GameManager gameManager_ = null;
 
     private bool useWand { get; set; }
+    private bool isOutGameUIOpen { get; set; }
+    private bool isInventoryUIOpen { get; set; }
     private void Awake()
     {
-      //  inventoryManager_ = GetComponent<InventoryManager>();
+        //  inventoryManager_ = GetComponent<InventoryManager>();
         playerMovement_ = GetComponent<PlayerMovement>();
         wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
+
+        isOutGameUIOpen = false;
+        isInventoryUIOpen = false;
     }
     private void Update()
     {
@@ -32,11 +38,14 @@ public class PlayerKeyInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (gameManager_.isStartGame_ && gameManager_.isInGame_)
+            {
                 gameManager_.ActiveOutGameUi();
+                isOutGameUIOpen = true;
+            }
             else if (gameManager_.isStartGame_ && !gameManager_.isInGame_)
             {
                 gameManager_.ActiveInGameUi();
-           
+                isOutGameUIOpen = false;
             }
         }
         if (!gameManager_.isInGame_) return;
@@ -91,37 +100,40 @@ public class PlayerKeyInput : MonoBehaviour
             if (inventoryManager_.isInventoryPanOpen_ == false)
             {
                 inventoryManager_.OpenInventoryPan(); Debug.Log("InventoryPan open");
+                isInventoryUIOpen = true;
             }
             else if (inventoryManager_.isInventoryPanOpen_ == true)
             {
                 inventoryManager_.CloseInventoryPan(); Debug.Log("InventoryPan close");
+                isInventoryUIOpen = false;
             }
 
         }
-
-        // # -홍석-
-        if (Input.GetMouseButton(0))
+        if (!isInventoryUIOpen && !isOutGameUIOpen)
         {
-            //IsPainting(true);
-            //PaintToTarget();
+            // # -홍석-
+            if (Input.GetMouseButton(0))
+            {
 
-            useWand = true;
-            wandRaySpawner_.RaysTimingDraw();
-            //Debug.Log("마우스 좌클릭");
-        }
-        else if (wandRaySpawner_.RaysIsPainting() == true)
-        {
-            wandRaySpawner_.RaysIsPainting(false);
-            wandRaySpawner_.RaysStopCheckTargetProcess();
-            wandRaySpawner_.RaysStopTimingDrow();
-            //Debug.Log("마우스 좌클릭 해제");
-        }
-        else if (useWand == true)
-        {
-            useWand = false;
-            wandRaySpawner_.RaysStopTimingDrow();
-        }
+                useWand = true;
+                wandRaySpawner_.RaysTimingDraw();
+                Debug.Log("마우스 좌클릭");
 
+            }
+            else if (wandRaySpawner_.RaysIsPainting() == true)
+            {
+
+                wandRaySpawner_.RaysIsPainting(false);
+                wandRaySpawner_.RaysStopCheckTargetProcess();
+                wandRaySpawner_.RaysStopTimingDrow();
+                //Debug.Log("마우스 좌클릭 해제");
+            }
+            else if (useWand == true)
+            {
+                useWand = false;
+                wandRaySpawner_.RaysStopTimingDrow();
+            }
+        }
         //// 임시 스펠 변경 //
         //if (Input.GetKeyDown(KeyCode.Alpha1)) // 0도 노즐
         //{
