@@ -7,24 +7,18 @@ using UnityEditor;
 
 public class MeshPaintTarget : MonoBehaviour
 {
-    // °ÔÀÓ Áß¿¡¼­´Â RenderTexture ±×´ë·Î »ç¿ëÀ» ÇÏ°í Save¸¦ ½ÃµµÇÒ ¶§ RenderTextureÀÇ PixelÀ» º¹»çÇØ¼­ º¹»çº»À» ÀúÀåÇÏ´Â °ÍÀ¸·Î ÁøÇà.
-    // ÁÖÀÇÇÒ Á¡Àº Save¸¦ ÇÒ ¶§ ´ë»óÀÌ µÇ´Â ¸ðµç RenderTexture¿¡ ´ëÇØ PixelÀ» º¹»çÇØ¼­ º¹»çº»À» ÀúÀåÇÏ´Â ÀÛ¾÷À» ÁøÇàÇÒ ¼ö ÀÖÀ½.
-    // ¤¤> ÀÌ ºÎºÐÀº ComputeShader¸¦ ÅëÇØ¼­ º¹»çº»°úÀÇ Pixel µ¿ÀÏ¼ºÀ» °ËÁõÀ» ÇÏ°í ´Ù¸£´Ù¸é ÀúÀåÀ» ÁøÇàÇÏ°Ô ÇÏ¸é ±¦ÂúÁö ¾ÊÀ»±î ½ÍÀ½.
-    // ¤¤> ComputeShader¸¦ »ç¿ëÇÑ´Ù°í ÇßÀ» ¶§ µ¿ÀÏÇÏÁö ¾ÊÀ½À» °¨ÁöÇßÀ» ¶§ ¹Ù·Î ÀÛ¾÷À» Áß´ÜÇÏ°í ºüÁ®³ª¿À°Ô ÇÏ´Â ¹æ¹ýÀÌ ÀÖÀ»±î?
-
     [SerializeField]
     private ComputeShader paintShader = null;
     [SerializeField]
     private ComputeShader countShader = null;
 
-    private MeshRenderer mr = null; // ´ë»óÀÇ MeshRenderer
-    private Material mainMat = null; // ´ë»óÀÇ MainTex°¡ ÀÖ´Â Material
-    private readonly string mainMatName = "Cleanable";
+    private MeshRenderer mr = null; // ï¿½ï¿½ï¿½ï¿½ï¿½ MeshRenderer
+    private Material mainMat = null; // ï¿½ï¿½ï¿½ï¿½ï¿½ MainTexï¿½ï¿½ ï¿½Ö´ï¿½ Material
 
-    private Texture originUvTex = null; // UV¿øº»
-    private RenderTexture dirtyRTex = null; // ¿À¿° Mask
-    private RenderTexture wetRTex = null; // Á¥Àº È¿°ú¸¦ ³»±â À§ÇÑ Mask
-    // ±×¸± ¶§ dirtyRTex¿Í wetRTex µÑ ´Ù ±×¸². º¹»ç X
+    private Texture originUvTex = null; // UVï¿½ï¿½ï¿½ï¿½
+    private RenderTexture dirtyRTex = null; // ï¿½ï¿½ï¿½ï¿½ Mask
+    private RenderTexture wetRTex = null; // ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Mask
+    // ï¿½×¸ï¿½ ï¿½ï¿½ dirtyRTexï¿½ï¿½ wetRTex ï¿½ï¿½ ï¿½ï¿½ ï¿½×¸ï¿½. ï¿½ï¿½ï¿½ï¿½ X
     [SerializeField]
     private int resolution = 512;
     private int depth = 32;
@@ -38,7 +32,7 @@ public class MeshPaintTarget : MonoBehaviour
     [SerializeField]
     private float dryTimeMultiply = 1.5f;
 
-    // Compute Shader
+    // Compute Shader //
     private int kernelNoise;
     private int kernelPaint;
     private int kernelWet;
@@ -61,14 +55,18 @@ public class MeshPaintTarget : MonoBehaviour
 
     private int threadGroupX = -1;
     private int threadGroupY = -1;
-    //
+    // End Compute Shader //
 
-    // Material Properties
+    // Material Properties //
+    // -MeshPaint
+    private readonly string dirtyUv = "_PaintUv";
+    private readonly string dirtyMask = "_PaintMask";
+    // -Twinkle
     private readonly string timerName = "_Timer";
     private readonly string twinkleSpeed = "_TwinkleSpeed";
     private bool isCompleteTwinkle { get; set; }
     private bool isDirtyTwinkle { get; set; }
-    //
+    // End Material Properties //
 
 
     #region Properties Getter/Setter
@@ -89,13 +87,29 @@ public class MeshPaintTarget : MonoBehaviour
     {
         isClear = _clear;
     }
+
+    public Texture2D GetPaintMask()
+    {
+        return ToTexture(dirtyRTex);
+    }
+    private void SetPaintMask(Texture2D _tex)
+    {
+        if (dirtyRTex == null)
+        {
+            dirtyRTex = GenerateRenderTexture(resolution, resolution);
+            dirtyRTex.enableRandomWrite = true;
+        }
+
+        Graphics.Blit(_tex, dirtyRTex);
+        mainMat.SetTexture(dirtyMask, dirtyRTex);
+    }
     #endregion
 
 
     private void Awake()
     {
 
-        // MeshRendererÀÏ¼öµµ SkinnedMeshRendererÀÏ¼öµµ ÀÖÀ¸¹Ç·Î ±×³É ¹Þ´Â º¯¼öÀÇ Å¸ÀÔ¿¡ ±¸¾Ö¹Þµµ·Ï Á¦³×¸¯À» ¾²Áö ¾ÊÀ½
+        // MeshRendererï¿½Ï¼ï¿½ï¿½ï¿½ SkinnedMeshRendererï¿½Ï¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½×³ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½Ö¹Þµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (TryGetComponent(out mr))
         {
             mainMat = mr.material;
@@ -104,58 +118,63 @@ public class MeshPaintTarget : MonoBehaviour
 
     private void Start()
     {
-        if (drawable)
-            Init();
+        Init();
     }
 
     private void Update()
     {
-        // ±×¸± ¼ö ÀÖ´Â ´ë»óÀÌ°í Å¬¸®¾î°¡ µÇÁö ¾Ê¾Ò´Ù¸é ³²Àº ±¸¿ªÀ» º¸¿©ÁÙ ¼ö ÀÖµµ·Ï ÇÔ
+        // ï¿½×¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ Å¬ï¿½ï¿½ï¿½î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½
         if (IsDrawable() && !IsClear() && Input.GetKeyDown(KeyCode.Tab))
         {
             DirtyTwinkle();
-        }
-
-        // SaveToPNG Test (ÀúÀå ³×ÀÌ¹Ö Á¤ÀÇ ÇÊ¿ä)
-        if (IsDrawable() && Input.GetKeyDown(KeyCode.Slash))
-        {
-            SaveToPNG(ToTexture(dirtyRTex));
         }
     }
 
 
     private void Init()
     {
-        // _MainTex: ¸ðµ¨¸µÀÇ Texture
-        // _WetMask: Á¥Àº È¿°ú¸¦ À§ÇÑ Mask (default: none). ÄÚµå»ó¿¡¼­ Ãß°¡
+        // _MainTex: ï¿½ðµ¨¸ï¿½ï¿½ï¿½ Texture
+        // _WetMask: ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Mask (default: none). ï¿½Úµï¿½ó¿¡¼ï¿½ ï¿½ß°ï¿½
 
-        // _PaintTex: ¿À¿° Texture. ÄÚµå»ó¿¡¼­ Ãß°¡
-        // _PaintUv: ¿øº» UV Texture
-        // _PaintMask: ¿À¿° Mask (default: none). ÄÚµå»ó¿¡¼­ Ãß°¡
+        // _PaintTex: ï¿½ï¿½ï¿½ï¿½ Texture. ï¿½Úµï¿½ó¿¡¼ï¿½ ï¿½ß°ï¿½
+        // _PaintUv: ï¿½ï¿½ï¿½ï¿½ UV Texture
+        // _PaintMask: ï¿½ï¿½ï¿½ï¿½ Mask (default: none). ï¿½Úµï¿½ó¿¡¼ï¿½ ï¿½ß°ï¿½
 
         if (mainMat != null)
         {
-            originUvTex = mainMat.GetTexture("_PaintUv");
+            originUvTex = mainMat.GetTexture(dirtyUv);
 
             if (threadGroupX == -1)
                 threadGroupX = Mathf.CeilToInt(originUvTex.width / 8);
             if (threadGroupY == -1)
                 threadGroupY = Mathf.CeilToInt(originUvTex.height / 8);
 
-            // ¿À¿° ÅØ½ºÃÄ¸¦ »ý¼ºÇÏ°í ¿øº» UV¸¦ º¹»çÇÔ
-            dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
-            dirtyRTex.name = mainMat.name;
-            dirtyRTex.enableRandomWrite = true; // Graphics.BlitÀ» ÇÏ±â Àü¿¡ Á¢±ÙÇÒ ¼ö ÀÖ°Ô ¼³Á¤ÇØÁà¾ß Àû¿ëµÊ
-            Graphics.Blit(originUvTex, dirtyRTex); // Texture¸¦ RenderTexture¿¡ º¹»ç
+            // ï¿½Ó½ï¿½ //
+            Texture sampleTex = null;
+            sampleTex = mainMat.GetTexture(dirtyMask);
+            // Textureï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ö¾ï¿½ï¿½Ý´Ï´ï¿½.
+            if (sampleTex == null)
+            {
+#if UNITY_EDITOR
+                //Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
+#endif
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Ä¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ UVï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
+                dirtyRTex.name = gameObject.name;
+                dirtyRTex.enableRandomWrite = true; // Graphics.Blitï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+                Graphics.Blit(originUvTex, dirtyRTex); // Textureï¿½ï¿½ RenderTextureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-            // !!ÇöÀç ³ëÀÌÁî ÅØ½ºÃÄ´Â »ý¼ºÀ» ÇÏÁö¸¸ ¼ÎÀÌ´õ¿¡¼­ »ç¿ëÇÏ°í ÀÖÁö´Â ¾ÊÀ½!!
-            // *Compute Shader¿¡¼­ »ý¼ºÇÏ´Âµ¥ ÀÚ¿¬½º·´°Ô »Ì¾Æ³»±â Àü±îÁö´Â Shader GraphÀÇ ³ëÀÌÁî¸¦ »ç¿ë
+                mainMat.SetTexture(dirtyMask, dirtyRTex);
+            }
+            // End ï¿½Ó½ï¿½ //
+
+            // !!ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Ä´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!!
+            // *Compute Shaderï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¾Æ³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Shader Graphï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î¸¦ ï¿½ï¿½ï¿½
             SetNoiseTexture(mainMat);
             SetBasicTwinkleProperties(mainMat);
 
-            mainMat.SetTexture("_PaintMask", dirtyRTex);
 
-            // Á¥Àº ÅØ½ºÃÄ¸¦ À§ÇÑ ¾ËÆÄ°ªÀÌ 0ÀÎ ºó ÅØ½ºÃÄ¸¦ °¡Á®¿Í¼­ º¹»çÇÔ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Ä¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä°ï¿½ï¿½ï¿½ 0ï¿½ï¿½ ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Ä¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             Texture2D tex = GenerateTexture2D(resolution, resolution);
             tex.LoadImage(Resources.Load<Texture2D>("Textures/Utility/Empty").EncodeToPNG());
             tex.Apply();
@@ -170,19 +189,20 @@ public class MeshPaintTarget : MonoBehaviour
     }
 
 
-    // RenderTexture¿¡ Paint RenderingÀ» ÇÔ
+    #region Draw Function
+    // RenderTextureï¿½ï¿½ Paint Renderingï¿½ï¿½ ï¿½ï¿½
     /// <summary>
-    /// Dirty Texture¸¦ Áö¿ì´Â Mask¿¡ ±×¸³´Ï´Ù.
+    /// Dirty Textureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Maskï¿½ï¿½ ï¿½×¸ï¿½ï¿½Ï´ï¿½.
     /// </summary>
-    /// <param name="_drawable">bool | ±×¸®´Â ÁßÀÎÁö ¿©ºÎ</param>
-    /// <param name="_uvPos">Vector2 | UV»ó À§Ä¡ °ª</param>
-    /// <param name="_color">Color(Vector4) | RGB·Î ±¸ºÐ Àû¿ëÇÒ °ª</param>
-    /// <param name="_size">float | ±×¸®´Â Å©±â</param>
-    /// <param name="_distance">float | ´ë»ó°úÀÇ °Å¸® Â÷ÀÌ</param>
+    /// <param name="_drawable">bool | ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="_uvPos">Vector2 | UVï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½</param>
+    /// <param name="_color">Color(Vector4) | RGBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½</param>
+    /// <param name="_size">float | ï¿½×¸ï¿½ï¿½ï¿½ Å©ï¿½ï¿½</param>
+    /// <param name="_distance">float | ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
     public void DrawRender(bool _drawable, Vector2 _uvPos, Color _color, float _size, float _distance)
     {
         if (IsDrawable() == false || IsClear() == true) return;
-        // BrushÀÇ Texture¸¦ ¹Þ¾Æ¼­ »ç¿ëÇÏ°íÀÚ ÇÏ¿´À¸³ª ¹®Á¦°¡ ¹ß»ýÇÏ¿© Áö±ÝÀº »ç¿ëÇÏÁö ¾ÊÀ½
+        // Brushï¿½ï¿½ Textureï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 #if UNITY_EDITOR
         //Debug.Log("DrawRender");
 #endif
@@ -195,54 +215,54 @@ public class MeshPaintTarget : MonoBehaviour
             bool Drawable;
         */
 
-        // 1) KernelÀ» °¡Á®¿È
+        // 1) Kernelï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         kernelPaint = paintShader.FindKernel(kernelPaintName);
 
-        // 2) ÃÊ±âÈ­°¡ ÇÊ¿äÇÑ °æ¿ì ¿©±â¼­ ÃÊ±âÈ­
+        // 2) ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½Ê±ï¿½È­
         // ex) computeBuffer = new ComputeBuffer[count, sizeof(typeof) * cnt]; (uint4) => cnt: 4
-        // uvPos´Â È­¸é»ó¿¡¼­ÀÇ ºñÀ²ÀÌ¹Ç·Î ÇØ»óµµ °ªÀ» °öÇÔ
+        // uvPosï¿½ï¿½ È­ï¿½ï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½Ø»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector2 uvPos = new Vector2((uint)Mathf.CeilToInt(_uvPos.x * resolution), (uint)Mathf.CeilToInt(_uvPos.y * resolution));
-        // ÃÊ°ú °ª¿¡ ´ëÇØ º¸Á¤
+        // ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector4 color = new Vector4(
             _color.r > 1f ? 1f : _color.r,
             _color.g > 1f ? 1f : _color.g,
             _color.b > 1f ? 1f : _color.b,
             0f);
 
-        // 3) ¼³Á¤À» ³¡¸¶ÃÆ´Ù¸é shader¿¡ ³Ñ±è
-        paintShader.SetTexture(kernelPaint, "Result", dirtyRTex); // TargetÀÇ Dirty RenderTexture
+        // 3) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ´Ù¸ï¿½ shaderï¿½ï¿½ ï¿½Ñ±ï¿½
+        paintShader.SetTexture(kernelPaint, "Result", dirtyRTex); // Targetï¿½ï¿½ Dirty RenderTexture
         paintShader.SetVector("UvPos", uvPos);
-        paintShader.SetVector("Color", color); // BrushÀÇ Ã³¸®°ª
-        paintShader.SetFloat("Size", _size); // BrushÀÇ »çÀÌÁî
-        paintShader.SetFloat("Distance", _distance); // ÃÖ´ë»ç°Å¸® / Ãæµ¹°Å¸®
-        paintShader.SetBool("Paintable", _drawable); // ±×¸± ¼ö ÀÖ´ÂÁö ¿©ºÎ
+        paintShader.SetVector("Color", color); // Brushï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
+        paintShader.SetFloat("Size", _size); // Brushï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        paintShader.SetFloat("Distance", _distance); // ï¿½Ö´ï¿½ï¿½Å¸ï¿½ / ï¿½æµ¹ï¿½Å¸ï¿½
+        paintShader.SetBool("Paintable", _drawable); // ï¿½×¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // 4) ÇÊ¿äÇÑ °ÍÀ» ´Ù ³Ñ°å´Ù¸é shader ½ÇÇà
-        // ÇöÀç Shader´Â numthreads(8, 8, 1)ÀÌ¸é shader.Dispatch(kernel, width / 8, height / 8, 1);
+        // 4) ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ñ°ï¿½Ù¸ï¿½ shader ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ Shaderï¿½ï¿½ numthreads(8, 8, 1)ï¿½Ì¸ï¿½ shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelPaint, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
         //Debug.Log("Shader Dispatch");
 #endif
 
-        // 5) Ã³¸®µÈ Á¤º¸¸¦ °¡°øÇÏ´Â ºÎºÐ
-        // Buffer¸¦ º¸³Â¾ú´Ù¸é Data¸¦ °¡Á®¿À°í Release ÈÄ null Ã³¸®
+        // 5) Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Îºï¿½
+        // Bufferï¿½ï¿½ ï¿½ï¿½ï¿½Â¾ï¿½ï¿½Ù¸ï¿½ Dataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Release ï¿½ï¿½ null Ã³ï¿½ï¿½
         Graphics.Blit(dirtyRTex, dirtyRTex);
 
-        // 6) ¹ÝÈ¯ÇÒ °ÍÀÌ ÀÖ´Ù¸é ÇÔ¼öÀÇ ¹ÝÈ¯ÇüÀ» º¯°æ ÈÄ ¹ÝÈ¯
+        // 6) ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯
         // return;
     }
 
 
     /// <summary>
-    /// WetMask¿¡ ±×·Á¼­ Á¥Àº È¿°ú¸¦ ³ªÅ¸³À´Ï´Ù.
+    /// WetMaskï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½Ï´ï¿½.
     /// </summary>
-    /// <param name="_drawable">bool | ±×¸®´Â ÁßÀÎÁö ¿©ºÎ</param>
-    /// <param name="_uvPos">Vector2 | UV»ó À§Ä¡ °ª</param>
-    /// <param name="_size">float | ±×¸®´Â Å©±â</param>
-    /// <param name="_distance">float | ´ë»ó°úÀÇ °Å¸® Â÷ÀÌ</param>
+    /// <param name="_drawable">bool | ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="_uvPos">Vector2 | UVï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½</param>
+    /// <param name="_size">float | ï¿½×¸ï¿½ï¿½ï¿½ Å©ï¿½ï¿½</param>
+    /// <param name="_distance">float | ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
     public void DrawWet(bool _drawable, Vector2 _uvPos, float _size, float _distance)
     {
-        // ±×¸± ¼ö ÀÖ´Â ´ë»ó¿¡¸¸ Á¥´Â È¿°ú ¹ß»ý
+        // ï¿½×¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ó¿¡¸ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ß»ï¿½
         if (IsDrawable() == false) return;
 
 #if UNITY_EDITOR
@@ -256,65 +276,40 @@ public class MeshPaintTarget : MonoBehaviour
             bool Drawable;
         */
 
-        // 1) KernelÀ» °¡Á®¿È
+        // 1) Kernelï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         kernelWet = paintShader.FindKernel(kernelWetName);
 
-        // 2) ÃÊ±âÈ­°¡ ÇÊ¿äÇÑ °æ¿ì ¿©±â¼­ ÃÊ±âÈ­
+        // 2) ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½Ê±ï¿½È­
         // ex) computeBuffer = new ComputeBuffer[count, sizeof(typeof) * cnt]; (uint4) => cnt: 4
-        // uvPos´Â È­¸é»ó¿¡¼­ÀÇ ºñÀ²ÀÌ¹Ç·Î ÇØ»óµµ °ªÀ» °öÇÔ
+        // uvPosï¿½ï¿½ È­ï¿½ï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½Ø»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector2 uvPos = new Vector2((uint)Mathf.CeilToInt(_uvPos.x * resolution), (uint)Mathf.CeilToInt(_uvPos.y * resolution));
 
-        // 3) ¼³Á¤À» ³¡¸¶ÃÆ´Ù¸é shader¿¡ ³Ñ±è
-        paintShader.SetTexture(kernelWet, "WetMask", wetRTex); // TargetÀÇ Wet RenderTexture
+        // 3) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ´Ù¸ï¿½ shaderï¿½ï¿½ ï¿½Ñ±ï¿½
+        paintShader.SetTexture(kernelWet, "WetMask", wetRTex); // Targetï¿½ï¿½ Wet RenderTexture
         paintShader.SetVector("UvPos", uvPos);
-        paintShader.SetFloat("Size", _size); // BrushÀÇ »çÀÌÁî
-        paintShader.SetFloat("Distance", _distance); // ÃÖ´ë»ç°Å¸® / Ãæµ¹°Å¸®
-        paintShader.SetBool("Paintable", _drawable); // ±×¸± ¼ö ÀÖ´ÂÁö ¿©ºÎ
+        paintShader.SetFloat("Size", _size); // Brushï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        paintShader.SetFloat("Distance", _distance); // ï¿½Ö´ï¿½ï¿½Å¸ï¿½ / ï¿½æµ¹ï¿½Å¸ï¿½
+        paintShader.SetBool("Paintable", _drawable); // ï¿½×¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // 4) ÇÊ¿äÇÑ °ÍÀ» ´Ù ³Ñ°å´Ù¸é shader ½ÇÇà
-        // ÇöÀç Shader´Â numthreads(8, 8, 1)ÀÌ¸é shader.Dispatch(kernel, width / 8, height / 8, 1);
+        // 4) ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ñ°ï¿½Ù¸ï¿½ shader ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ Shaderï¿½ï¿½ numthreads(8, 8, 1)ï¿½Ì¸ï¿½ shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelWet, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
         //Debug.Log("Shader Dispatch");
 #endif
 
-        // 5) Ã³¸®µÈ Á¤º¸¸¦ °¡°øÇÏ´Â ºÎºÐ
-        // Buffer¸¦ º¸³Â¾ú´Ù¸é Data¸¦ °¡Á®¿À°í Release ÈÄ null Ã³¸®
+        // 5) Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Îºï¿½
+        // Bufferï¿½ï¿½ ï¿½ï¿½ï¿½Â¾ï¿½ï¿½Ù¸ï¿½ Dataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Release ï¿½ï¿½ null Ã³ï¿½ï¿½
         Graphics.Blit(wetRTex, wetRTex);
 
-        // 6) ¹ÝÈ¯ÇÒ °ÍÀÌ ÀÖ´Ù¸é ÇÔ¼öÀÇ ¹ÝÈ¯ÇüÀ» º¯°æ ÈÄ ¹ÝÈ¯
+        // 6) ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯
         // return;
         DryWetting();
     }
 
-
-    /// <summary>
-    /// ¿À¿°Texture¸¦ »ý¼ºÇÏ°í Material PropertyÀÇ _PaintTex¿¡ Å¾ÀçÇÕ´Ï´Ù.
-    /// </summary>
-    /// <param name="_mat">»ý¼ºÇÑ Texture¸¦ ´ãÀ» Material</param>
-    private void SetNoiseTexture(Material _mat)
-    {
-        RenderTexture rTex = new RenderTexture(resolution, resolution, depth, RenderTextureFormat.ARGB64, RenderTextureReadWrite.Linear);
-        rTex.enableRandomWrite = true;
-        rTex.Create();
-
-        kernelNoise = paintShader.FindKernel(kernelNoiseName);
-
-        paintShader.SetTexture(kernelNoise, "Result", rTex);
-
-        paintShader.Dispatch(kernelNoise, threadGroupX, threadGroupY, 1);
-#if UNITY_EDITOR
-        //Debug.Log("Make Noise Texture");
-#endif
-        Graphics.Blit(rTex, rTex);
-
-        _mat.SetTexture("_PaintTex", rTex);
-    }
-
-
     #region Pixel Counter
     /// <summary>
-    /// ÇöÀç ÁøÇàµµ¿Í clearPercent¸¦ ºñ±³ÇÏ¿© ÁøÇàµµ°¡ clearPercent¿¡ µµ´ÞÇÏ¸é ClearÃ³¸®¸¦ ÇÕ´Ï´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½àµµï¿½ï¿½ clearPercentï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½àµµï¿½ï¿½ clearPercentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ClearÃ³ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.
     /// </summary>
     public void CheckAutoClear()
     {
@@ -332,7 +327,7 @@ public class MeshPaintTarget : MonoBehaviour
 
 
     /// <summary>
-    /// clearPercent¸¦ ±âÃÊ·Î ÇÏ¿© ÁøÇà ¹éºÐÀ²À» Á¦°øÇÕ´Ï´Ù.
+    /// clearPercentï¿½ï¿½ ï¿½ï¿½ï¿½Ê·ï¿½ ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
     /// </summary>
     /// <returns>float | ex) 50.12446...</returns>
     public float GetPercent()
@@ -343,7 +338,7 @@ public class MeshPaintTarget : MonoBehaviour
 
 
     /// <summary>
-    /// ¿øº» UV¸¦ ÀÌ¿ëÇØ¼­ ÃÑ ÇÈ¼¿ ¼ö¸¦ ±¸ÇÏ°í ¿À¿° Texture¿¡¼­ ³²Àº ÇÈ¼¿ ¼ö¸¦ °è»êÇÏ¿© ¹éºÐÀ²À» ¹ÝÈ¯ÇÕ´Ï´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ UVï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ Textureï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.
     /// </summary>
     /// <returns>float | ex) 50.12446...</returns>
     public float GetProcessPercent()
@@ -363,32 +358,32 @@ public class MeshPaintTarget : MonoBehaviour
 
     private uint PixelCount(Texture _tex)
     {
-        // 1) KernelÀ» °¡Á®¿È
+        // 1) Kernelï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         kernelInitCount = countShader.FindKernel(kernelInitCountName);
         kernelCount = countShader.FindKernel(kernelCountName);
 
-        // 2) ÃÊ±âÈ­°¡ ÇÊ¿äÇÑ °æ¿ì ¿©±â¼­ ÃÊ±âÈ­
+        // 2) ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½Ê±ï¿½È­
         // ex) computeBuffer = new ComputeBuffer[count, sizeof(typeof) * cnt]; (uint4) => cnt: 4
-        ComputeBuffer buffer = new ComputeBuffer(1, sizeof(uint) * 1); // size_ * count | uint1À» »ç¿ëÇÒ °ÍÀÌ¹Ç·Î 1¸¸ °öÇÔ
+        ComputeBuffer buffer = new ComputeBuffer(1, sizeof(uint) * 1); // size_ * count | uint1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         uint[] data = new uint[1];
 
-        // 3) ¼³Á¤À» ³¡¸¶ÃÆ´Ù¸é shader¿¡ ³Ñ±è
-        countShader.SetTexture(kernelCount, "InputTexture", _tex); // ComputeShader·Î ÀÌ¹ÌÁö¸¦ º¸³¿
-        countShader.SetBuffer(kernelCount, "CountBuffer", buffer); // Bufferµµ º¸³¿
+        // 3) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ´Ù¸ï¿½ shaderï¿½ï¿½ ï¿½Ñ±ï¿½
+        countShader.SetTexture(kernelCount, "InputTexture", _tex); // ComputeShaderï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        countShader.SetBuffer(kernelCount, "CountBuffer", buffer); // Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         countShader.SetBuffer(kernelInitCount, "CountBuffer", buffer);
 
-        // 4) ÇÊ¿äÇÑ °ÍÀ» ´Ù ³Ñ°å´Ù¸é shader ½ÇÇà
-        // ÇöÀç Shader´Â numthreads(8, 8, 1)ÀÌ¸é shader.Dispatch(kernel, width / 8, height / 8, 1);
+        // 4) ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ñ°ï¿½Ù¸ï¿½ shader ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ Shaderï¿½ï¿½ numthreads(8, 8, 1)ï¿½Ì¸ï¿½ shader.Dispatch(kernel, width / 8, height / 8, 1);
         countShader.Dispatch(kernelInitCount, 1, 1, 1);
         countShader.Dispatch(kernelCount, threadGroupX, threadGroupY, 1);
 
-        // 5) Ã³¸®µÈ Á¤º¸¸¦ °¡°øÇÏ´Â ºÎºÐ
-        // Buffer¸¦ º¸³Â¾ú´Ù¸é Data¸¦ °¡Á®¿À°í Release ÈÄ null Ã³¸®
+        // 5) Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Îºï¿½
+        // Bufferï¿½ï¿½ ï¿½ï¿½ï¿½Â¾ï¿½ï¿½Ù¸ï¿½ Dataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Release ï¿½ï¿½ null Ã³ï¿½ï¿½
         buffer.GetData(data);
         buffer.Release();
         buffer = null;
 
-        // 6) ¹ÝÈ¯ÇÒ °ÍÀÌ ÀÖ´Ù¸é ÇÔ¼öÀÇ ¹ÝÈ¯ÇüÀ» º¯°æ ÈÄ ¹ÝÈ¯
+        // 6) ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯
         return data[0];
     }
     #endregion Pixel Counter
@@ -416,7 +411,7 @@ public class MeshPaintTarget : MonoBehaviour
 #endif
     }
 
-    // ¿øº»UV¸¦ RenderTexture¿¡ º¹»ç
+    // ï¿½ï¿½ï¿½ï¿½UVï¿½ï¿½ RenderTextureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void ResetTexture()
     {
         if ((dirtyRTex.width != originUvTex.width) &&
@@ -435,7 +430,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelCopy, threadGroupX, threadGroupY, 1);
 
-        IsClear(false); // ÃÊ±âÈ­ ÇßÀ¸¹Ç·Î Clear -> false
+        IsClear(false); // ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ Clear -> false
 #if UNITY_EDITOR
         //Debug.Log("Reset Mask with Origin Texture.");
 #endif
@@ -453,7 +448,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelDry, resolution / 8, resolution / 8, 1);
 
-        Graphics.Blit(wetRTex, wetRTex); // °»½ÅÀ» ÇÏ±â À§ÇÔ
+        Graphics.Blit(wetRTex, wetRTex); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
     #endregion Texture Function
 
@@ -461,51 +456,88 @@ public class MeshPaintTarget : MonoBehaviour
     #region Material Property
     private void SetBasicTwinkleProperties(Material _mat)
     {
-        // Property °ª ¼³Á¤
-        _mat.SetFloat("_TwinkleIntensity", 4f); // ¹ÝÂ¦ÀÓ »ö»ó Intensity(¼¼±â)
+        // Property ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        _mat.SetFloat("_TwinkleIntensity", 4f); // ï¿½ï¿½Â¦ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Intensity(ï¿½ï¿½ï¿½ï¿½)
     }
     private void SetTwinkleProperties(bool _onlyDirty, Material _mat)
     {
-        // Property ¼³Á¤°ª ÃÊ±âÈ­
+        // Property ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         Color color;
         if (_onlyDirty)
             color = new Color(1f, 0.6501361f, 0.2783019f, 1f);
         else
             color = new Color(0.4009433f, 0.5723213f, 1f, 1f);
 
-        // Property °ª ¼³Á¤
-        _mat.SetFloat("_ActiveTwinkle", 1); // ¹ÝÂ¦ÀÓ µ¿ÀÛ ¿©ºÎ
-        _mat.SetFloat("_OnlyDirty", _onlyDirty ? 1 : 0); // ¿À¿° ´ë»ó¸¸ÀÎÁö ¿©ºÎ
-        _mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // ¹ÝÂ¦ÀÓ ¼Óµµ
-        _mat.SetColor("_TwinkleColor", color); // »ö»ó
+        // Property ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        _mat.SetFloat("_ActiveTwinkle", 1); // ï¿½ï¿½Â¦ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        _mat.SetFloat("_OnlyDirty", _onlyDirty ? 1 : 0); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        _mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // ï¿½ï¿½Â¦ï¿½ï¿½ ï¿½Óµï¿½
+        _mat.SetColor("_TwinkleColor", color); // ï¿½ï¿½ï¿½ï¿½
 #if UNITY_EDITOR
         //Debug.Log("[SetTwinkleProperties] Before Return");
 #endif
     }
     private void StopTwinkleProperties(Material _mat)
     {
-        // Property °ª ¼³Á¤
-        _mat.SetFloat("_ActiveTwinkle", 0); // ¹ÝÂ¦ÀÓ µ¿ÀÛ ¿©ºÎ
+        // Property ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        _mat.SetFloat("_ActiveTwinkle", 0); // ï¿½ï¿½Â¦ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         _mat.SetFloat(timerName, 0f);
     }
     #endregion Material Property
 
 
     #region Utility
-    // Mask Texture¸¦ PNG·Î ÀúÀåÇÏ´Â ¿ëµµ
-    public void SaveToPNG(Texture2D _tex)
+    /// <summary>
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Maskï¿½ï¿½ png ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+    /// </summary>
+    public void SaveMask()
+    {
+        if (dirtyRTex == null) return;
+
+        SaveToPNG(ToTexture(dirtyRTex), GetPath());
+    }
+
+    /// <summary>
+    /// ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ Maskï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½É´Ï´ï¿½.
+    /// </summary>
+    /// <returns>bool | ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</returns>
+    public bool LoadMask()
+    {
+        bool load = true;
+        string path = GetPath();
+
+        StringBuilder fileName = new StringBuilder();
+        fileName.Append(gameObject.name);
+        fileName.Append(".png");
+
+        byte[] bytes = FileIO.GetFileBinary(path, fileName.ToString());
+
+
+        if (bytes == null || bytes.Length <= 0) return load = false;
+
+        Texture2D tex = GenerateTexture2D(resolution, resolution);
+        tex.LoadImage(bytes);
+        tex.Apply();
+
+        SetPaintMask(tex);
+
+        return load;
+    }
+
+    // Mask Textureï¿½ï¿½ PNGï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ëµµ
+    private void SaveToPNG(Texture2D _tex, string _path)
     {
         byte[] bytes = _tex.EncodeToPNG();
-        StringBuilder savePath = new StringBuilder();
-        savePath.Append(Application.dataPath);
-        savePath.Append("/../");
-        savePath.Append(_tex.name);
-        savePath.Append(".png");
+
+        StringBuilder fileName = new StringBuilder();
+        fileName.Append(gameObject.name);
+        fileName.Append(".png");
+        string savePath = Path.Combine(_path, fileName.ToString());
 
         File.WriteAllBytes(savePath.ToString(), bytes);
     }
 
-    // RenderTexture¸¦ Texture2D·Î º¯È¯ÇÏ¿© ¹ÝÈ¯
+    // RenderTextureï¿½ï¿½ Texture2Dï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¿ï¿½ ï¿½ï¿½È¯
     private Texture2D ToTexture(RenderTexture _rTex)
     {
         Texture2D toTex = GenerateTexture2D(resolution, resolution);
@@ -518,6 +550,47 @@ public class MeshPaintTarget : MonoBehaviour
         RenderTexture.active = oldTex;
 
         return toTex;
+    }
+
+    /// <summary>
+    /// gameObjectï¿½ï¿½ nameï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½ Pathï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½É´Ï´ï¿½.
+    /// </summary>
+    /// <returns></returns>
+    private string GetPath()
+    {
+        // gameObject Nameï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+        // ex) Fence_1_2_3 | 1: Map, 2: Section, 3: Numbering
+        string[] split = gameObject.name.Split('_');
+        int len = split.Length;
+        int mapNum = int.Parse(split[len - 3]) - 1;
+        int sectionNum = int.Parse(split[len - 2]) - 1;
+
+        string path = FilePath.GetPath(FilePath.EPathType.EXTERNAL, (FilePath.EMapType)mapNum, (FilePath.ESection)sectionNum);
+
+        return path;
+    }
+
+    /// <summary>
+    /// ï¿½ï¿½ï¿½ï¿½Textureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ Material Propertyï¿½ï¿½ _PaintTexï¿½ï¿½ Å¾ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+    /// </summary>
+    /// <param name="_mat">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Textureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Material</param>
+    private void SetNoiseTexture(Material _mat)
+    {
+        RenderTexture rTex = new RenderTexture(resolution, resolution, depth, RenderTextureFormat.ARGB64, RenderTextureReadWrite.Linear);
+        rTex.enableRandomWrite = true;
+        rTex.Create();
+
+        kernelNoise = paintShader.FindKernel(kernelNoiseName);
+
+        paintShader.SetTexture(kernelNoise, "Result", rTex);
+
+        paintShader.Dispatch(kernelNoise, threadGroupX, threadGroupY, 1);
+#if UNITY_EDITOR
+        Debug.Log("Make Noise Texture");
+#endif
+        Graphics.Blit(rTex, rTex);
+
+        _mat.SetTexture("_PaintTex", rTex);
     }
 
     private Texture2D GenerateTexture2D(int _width, int _height)
@@ -599,7 +672,7 @@ public class MeshPaintTarget : MonoBehaviour
         }
 
         StopTwinkleProperties(_mat);
-        isDirtyTwinkle = false; // ¾È µÇ´Â°Ô ¸Â±ä ÇÏÁö¸¸ È¤¿©³ªÇÏ¿© ³ÖÀ½
+        isDirtyTwinkle = false; // ï¿½ï¿½ ï¿½Ç´Â°ï¿½ ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¤ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½
         isCompleteTwinkle = false;
         IsClear(true);
     }
