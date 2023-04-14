@@ -14,7 +14,6 @@ public class SaveData
 
     public string name_;
     public int money_;
-    public float power;
 
 }
 public static class SaveSystem
@@ -53,15 +52,17 @@ public static class SaveSystem
 
 public class SaveDataManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void DoSave()
     {
+        SaveData saveData = new SaveData("±èÅÂ¿µ", 5000);
+        SaveSystem.Save(saveData, "saveFile01");
+        DoLoad();
+    }
+    public void DoLoad()
+    {
+        SaveData saveData = SaveSystem.Load("saveFile01");
+        Debug.Log($"{saveData.name_},{saveData.money_}");
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
