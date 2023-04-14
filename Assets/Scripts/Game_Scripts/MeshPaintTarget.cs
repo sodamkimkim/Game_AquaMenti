@@ -307,6 +307,8 @@ public class MeshPaintTarget : MonoBehaviour
         DryWetting();
     }
 
+    #endregion Draw Function
+
     #region Pixel Counter
     /// <summary>
     /// ���� ���൵�� clearPercent�� ���Ͽ� ���൵�� clearPercent�� �����ϸ� Clearó���� �մϴ�.

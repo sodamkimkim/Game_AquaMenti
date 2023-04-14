@@ -76,6 +76,7 @@ public class FilePath
         CreateDirectory(MAP_2_PATH);
         CreateDirectory(MAP_2_SECTION_1_PATH);
         CreateDirectory(MAP_2_SECTION_2_PATH);
+        CreateDirectory(MAP_2_SECTION_3_PATH);
     }
 
 
