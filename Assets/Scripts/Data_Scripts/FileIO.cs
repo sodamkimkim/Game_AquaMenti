@@ -1,10 +1,10 @@
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class FileIO : MonoBehaviour
+public class FileIO
 {
     /// <summary>
     /// External 경로와 Resources 경로를 확인하여 손실된 것이 없다면 true를 반환하고 손실된 것이 있다면 false를 반환합니다.
@@ -14,6 +14,7 @@ public class FileIO : MonoBehaviour
     public static bool CheckFileState(out List<string> _missList, string _fileType = "*")
     {
         bool checker = true;
+
         // System.Linq 사용
         DirectoryInfo externalDir = new DirectoryInfo(FilePath.SAVE_PATH);
         var externalFiles = from file in externalDir.GetFiles(_fileType, SearchOption.AllDirectories) select file;
@@ -26,10 +27,12 @@ public class FileIO : MonoBehaviour
         {
             if (externalFiles.Any(f => f.Name == file.Name) == false)
             {
+                // 경로 구분 문자를 '\'에서 '/'으로 통일시킵니다.
+                string missFilePath = Regex.Replace(file.FullName, @"[\\]", "/").Replace(FilePath.RESOURCES_MAP_PATH, "");
 #if UNITY_EDITOR
-                Debug.LogFormat("[FilePath] {0}- Missing File Name: {1}", i, file.Name, FilePath.RESOURCES_MAP_PATH);
+                //Debug.LogFormat("[FilePath] {0}- Missing File Name: {1}, path: {2}", i, file.Name, missFilePath);
 #endif
-                missDirList.Add(file.FullName.Replace(FilePath.RESOURCES_MAP_PATH, ""));
+                missDirList.Add(missFilePath);
                 checker = false;
             }
             ++i;
@@ -81,9 +84,9 @@ public class FileIO : MonoBehaviour
             {
                 string path = Path.Combine(_destinationDir, file.Name);
 #if UNITY_EDITOR
-                Debug.Log("FullName: " + file.FullName + " And.. Path: " + path);
+                //Debug.Log("FullName: " + file.FullName + " And.. Path: " + path);
 #endif
-                //file.CopyTo(path, _overwrite);
+                file.CopyTo(path, _overwrite);
             }
         }
     }

@@ -7,11 +7,6 @@ using UnityEditor;
 
 public class MeshPaintTarget : MonoBehaviour
 {
-    // 게임 중에서는 RenderTexture 그대로 사용을 하고 Save를 시도할 때 RenderTexture의 Pixel을 복사해서 복사본을 저장하는 것으로 진행.
-    // 주의할 점은 Save를 할 때 대상이 되는 모든 RenderTexture에 대해 Pixel을 복사해서 복사본을 저장하는 작업을 진행할 수 있음.
-    // ㄴ> 이 부분은 ComputeShader를 통해서 복사본과의 Pixel 동일성을 검증을 하고 다르다면 저장을 진행하게 하면 괜찮지 않을까 싶음.
-    // ㄴ> ComputeShader를 사용한다고 했을 때 동일하지 않음을 감지했을 때 바로 작업을 중단하고 빠져나오게 하는 방법이 있을까?
-
     [SerializeField]
     private ComputeShader paintShader = null;
     [SerializeField]
@@ -106,7 +101,7 @@ public class MeshPaintTarget : MonoBehaviour
         }
 
         Graphics.Blit(_tex, dirtyRTex);
-        mr.material.SetTexture(dirtyMask, dirtyRTex);
+        mainMat.SetTexture(dirtyMask, dirtyRTex);
     }
     #endregion
 
@@ -123,8 +118,7 @@ public class MeshPaintTarget : MonoBehaviour
 
     private void Start()
     {
-        if (drawable)
-            Init();
+        Init();
     }
 
     private void Update()
@@ -155,21 +149,24 @@ public class MeshPaintTarget : MonoBehaviour
             if (threadGroupY == -1)
                 threadGroupY = Mathf.CeilToInt(originUvTex.height / 8);
 
-            //// Manager에서 Load까지 처리하도록 함
-            //if ()
-            //{
-                
-            //}
-            //else
-            //{
-            //    // 오염 텍스쳐를 생성하고 원본 UV를 복사함
-            //    dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
-            //    dirtyRTex.name = gameObject.name;
-            //    dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
-            //    Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
+            // 임시 //
+            Texture sampleTex = null;
+            sampleTex = mainMat.GetTexture(dirtyMask);
+            // Texture가 없다면 생성해서 넣어줍니다.
+            if (sampleTex == null)
+            {
+#if UNITY_EDITOR
+                //Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
+#endif
+                // 오염 텍스쳐를 생성하고 원본 UV를 복사함
+                dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
+                dirtyRTex.name = gameObject.name;
+                dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
+                Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
 
-            //    mainMat.SetTexture(dirtyMask, dirtyRTex);
-            //}
+                mainMat.SetTexture(dirtyMask, dirtyRTex);
+            }
+            // End 임시 //
 
             // !!현재 노이즈 텍스쳐는 생성을 하지만 셰이더에서 사용하고 있지는 않음!!
             // *Compute Shader에서 생성하는데 자연스럽게 뽑아내기 전까지는 Shader Graph의 노이즈를 사용
@@ -310,9 +307,6 @@ public class MeshPaintTarget : MonoBehaviour
         DryWetting();
     }
     #endregion Draw Function
-
-
-    
 
 
     #region Pixel Counter
@@ -495,25 +489,33 @@ public class MeshPaintTarget : MonoBehaviour
 
 
     #region Utility
-    public void SaveMask(string _path)
+    /// <summary>
+    /// 진행중인 Mask를 png 형식으로 저장합니다.
+    /// </summary>
+    public void SaveMask()
     {
         if (dirtyRTex == null) return;
 
-        SaveToPNG(ToTexture(dirtyRTex), _path);
+        SaveToPNG(ToTexture(dirtyRTex), GetPath());
     }
 
-    // _path로부터 Texture를 가져와서
-    public bool LoadMask(string _path)
+    /// <summary>
+    /// 진행되었던 Mask를 가져옵니다.
+    /// </summary>
+    /// <returns>bool | 가져왔는지 여부</returns>
+    public bool LoadMask()
     {
         bool load = true;
+        string path = GetPath();
 
         StringBuilder fileName = new StringBuilder();
         fileName.Append(gameObject.name);
         fileName.Append(".png");
 
-        byte[] bytes = FileIO.GetFileBinary(_path, fileName.ToString());
+        byte[] bytes = FileIO.GetFileBinary(path, fileName.ToString());
 
-        if (bytes.Length <= 0) return load = false;
+
+        if (bytes == null || bytes.Length <= 0) return load = false;
 
         Texture2D tex = GenerateTexture2D(resolution, resolution);
         tex.LoadImage(bytes);
@@ -550,6 +552,24 @@ public class MeshPaintTarget : MonoBehaviour
         RenderTexture.active = oldTex;
 
         return toTex;
+    }
+
+    /// <summary>
+    /// gameObject의 name에 있는 정보를 이용하여 Path를 가져옵니다.
+    /// </summary>
+    /// <returns></returns>
+    private string GetPath()
+    {
+        // gameObject Name을 이용하여 불러오는 방식
+        // ex) Fence_1_2_3 | 1: Map, 2: Section, 3: Numbering
+        string[] split = gameObject.name.Split('_');
+        int len = split.Length;
+        int mapNum = int.Parse(split[len - 3]) - 1;
+        int sectionNum = int.Parse(split[len - 2]) - 1;
+
+        string path = FilePath.GetPath(FilePath.EPathType.EXTERNAL, (FilePath.EMapType)mapNum, (FilePath.ESection)sectionNum);
+
+        return path;
     }
 
     /// <summary>

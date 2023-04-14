@@ -4,80 +4,57 @@ using UnityEngine;
 
 public class MeshPaintManager : MonoBehaviour
 {
-    // DirtyMask를 추출하여 저장하는 용도. DirtyMask를 추출 후 사용중지될 예정.
-    private List<MeshPaintTarget> meshTargetList_ = null; // InGame MeshPaintTarget List
-    private bool saveChecker_ = false;
+    private List<MeshPaintTarget> meshTargetList_ = null;
+
 
     private void Awake()
     {
-        // Scene에 존재하는 Object를 대상으로 MeshPaintTarget을 가져옴.
+        // Scene에 존재하는 Object를 대상으로 MeshPaintTarget을 가져옵니다.
         MeshPaintTarget[] targets = FindObjectsOfType<MeshPaintTarget>();
         meshTargetList_ = new List<MeshPaintTarget>(targets);
 #if UNITY_EDITOR
         Debug.Log("[MeshPaintManager] target Count: " + meshTargetList_.Count);
 #endif
     }
-    private void Start()
-    {
-        //LoadTargetMask(0, 0);
-    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        // 임시 Save 버튼
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            SaveTargetMask(0, 0);
+            SaveTargetMask();
         }
     }
 
-    private void LateUpdate()
+
+    public void Init()
     {
-        //if (saveChecker_ == false)
-        //{
-        //    saveChecker_ = true;
-        //    SaveTargetMask(0, 0);
-        //}
+        if (meshTargetList_.Count <= 0) return;
+
+        LoadTargetMask();
     }
 
 
-    public void CopyInitFiles()
+    public void SaveTargetMask()
     {
-        string sourceDir = FilePath.RESOURCES_MAP_PATH;
-        string destinationDir = FilePath.SAVE_PATH;
-
-        FileIO.CopyDirectory(sourceDir, destinationDir, "*.png");
-    }
-
-    public void SaveTargetMask(int _mapNum, int _sectionNum)
-    {
+        // 현재 Section의 그리는 대상만이 저장 대상이 됨
         foreach (MeshPaintTarget target_ in meshTargetList_)
         {
             if (target_.IsDrawable())
             {
-                string path = FilePath.GetPath(
-                    FilePath.EPathType.RESOURCES,
-                    (FilePath.EMapType)_mapNum,
-                    (FilePath.ESection)_sectionNum
-                    );
-
-                target_.SaveMask(path);
+                target_.SaveMask();
             }
         }
     }
 
-    public void LoadTargetMask(int _mapNum, int _sectionNum)
+    public void LoadTargetMask()
     {
+        // 그리는 대상이 아니어도 다른 세션의 진행도도 볼 수 있도록 하기 위해 조건 해제
         foreach (MeshPaintTarget target_ in meshTargetList_)
         {
-            if (target_.IsDrawable())
+            if (target_.LoadMask() == false)
             {
-                string path = FilePath.GetPath(
-                    FilePath.EPathType.EXTERNAL,
-                    (FilePath.EMapType)_mapNum,
-                    (FilePath.ESection)_sectionNum
-                    );
-
-                target_.LoadMask(path);
+                Debug.LogWarning("일부 대상의 Mask를 불러오는데 실패하였습니다.");
             }
         }
     }
