@@ -11,7 +11,8 @@ using UnityEngine;
 public class CleaningTargetManager : MonoBehaviour
 {
     [SerializeField]
-    private InGameAllItemInfo inGameAllItemInfo = null;
+    private InGameAllItemInfo inGameAllItemInfo_ = null;
+    private TargetObjectData targetObjectData_ = null;
     [SerializeField]
     private GameObject playerGo_ = null;
     private WandRaySpawner wandRaySpawner_ = null;
@@ -25,6 +26,7 @@ public class CleaningTargetManager : MonoBehaviour
     //private 
     private void Awake()
     {
+        targetObjectData_ = GetComponent<TargetObjectData>();
         wandRaySpawner_ = playerGo_.GetComponentInChildren<WandRaySpawner>();
 
         // # UI
@@ -42,10 +44,10 @@ public class CleaningTargetManager : MonoBehaviour
     private void SetCleaningTargetStatusUI()
     {
         // ex) object Name: Barrel_1_1
-        string[] targetNameSplitArr = wandRaySpawner_.cleaningTargetName_.Split("_");
+        string koreanName = targetObjectData_.GetKoreanName(wandRaySpawner_.cleaningTargetName_);
         if (wandRaySpawner_.cleaningTargetName_ != "")
         {
-            objectNameUI_.SetObjectName(targetNameSplitArr[0]);
+            objectNameUI_.SetObjectName(koreanName);
             cleaningProgressPanUI.SetCleaningProgressImgFillAmt(0.5f);
             cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);
             cleaningPercentageUI.SetActive(true);
