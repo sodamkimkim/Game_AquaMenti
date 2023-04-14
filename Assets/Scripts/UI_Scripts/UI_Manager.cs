@@ -166,20 +166,18 @@ public class UI_Manager : MonoBehaviour
 
     private void SetTapColor(int _index)
     {
-        Color changeColor = Color.clear;
-        ColorUtility.TryParseHtmlString("#FF8B88", out changeColor);
+
         for (int i = 0; i < btns_.Length; ++i)
         {
             ColorBlock cb = btns_[i].colors;
+
             if (btns_[_index] == btns_[i])
             {
-                Debug.Log("in");
-                cb.normalColor = changeColor;
-                cb.selectedColor = changeColor;
+                cb.normalColor = Color.grey;
+                cb.selectedColor = Color.grey;
                 btns_[i].colors = cb;
 
-            }
-            else
+            }else
             {
                 cb.normalColor = defaultNomalColor_;
                 cb.selectedColor = defaultNomalColor_;

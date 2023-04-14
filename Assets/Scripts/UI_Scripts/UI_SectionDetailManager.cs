@@ -22,7 +22,7 @@ public class UI_SectionDetailManager : MonoBehaviour
             if(workSectionDics["MapNumber"].ToString() == $"{_selectedMapNum}"&& workSectionDics["SectionNumber"].ToString() == $"{_selectedSectionNum}")
             {
                 intermediaryTMPGUI_.text = $"의뢰인 : {workSectionDics["Intermediary"].ToString()}";
-                storyDescriptionTMPGUI_.text = $"To 작업자 에게..\n\n{workSectionDics["StoryBegin"].ToString()}";
+                storyDescriptionTMPGUI_.text = $"To 작업자 에게..\n{workSectionDics["StoryBegin"].ToString()}";
             }
         }
     }
