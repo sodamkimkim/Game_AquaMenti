@@ -23,9 +23,9 @@ public class UpperBodyLook : MonoBehaviour
         mainCam_.transform.SetParent(this.transform);
         Vector3 newCamPos = mainCam_.transform.localPosition;
 
-        //   newCamPos.x = -0.78f;
-        newCamPos.y = 0.28f;
-        newCamPos.z = 0.38f;
+       newCamPos.x = -0.085f;
+        newCamPos.y = 0.413f;
+        newCamPos.z = 0.1f;
         mainCam_.transform.localPosition = newCamPos;
     }
     public Vector3 GetEuler()
