@@ -1,7 +1,6 @@
 ItemCategory,ItemName,Description,Useable,ImageFileName
-Staff,Staff1,기본 Staff,TRUE,Staff1
-Staff,Staff2,1차 진화된 Staff,TRUE,Staff2
-Staff,Staff3,2차 진화된 Staff,TRUE,Staff3
+Staff,AmberStaff,호박보석이 박혀있는 지팡이,TRUE,AmberStaff
+Staff,RubyStaff,루비가 박혀있는 지팡이,FALSE,RubyStaff
 ,,,,
 Spell,Deg0MagicSpell,각도0도로 분출되는 물 마법,TRUE,Deg0MagicSpell
 Spell,Deg15MagicSpell,각도15도로 분출되는 물 마법,TRUE,Deg15MagicSpell
