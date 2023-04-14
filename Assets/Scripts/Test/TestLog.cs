@@ -10,8 +10,16 @@ public class TestLog : MonoBehaviour
     private void Awake()
     {
         FilePath.Init();
-        FilePath.CheckFileState(out missFileList_);
+        FileIO.CheckFileState(out missFileList_, "*.png");
+        byte[] bytes = FileIO.GetFileBinary(FilePath.MAP_1_SECTION_1_PATH, "Test_Box.png");
+        if (bytes == null)
+            FileIO.CopyFile(
+                FilePath.RESOURCES_MAP_1_SECTION_1_PATH,
+                FilePath.MAP_1_SECTION_1_PATH,
+                "Test_Box.png",
+                true);
     }
+
     private void Start()
     {
         PrintList(missFileList_);

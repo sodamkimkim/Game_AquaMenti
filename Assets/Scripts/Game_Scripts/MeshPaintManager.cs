@@ -10,21 +10,33 @@ public class MeshPaintManager : MonoBehaviour
 
     private void Awake()
     {
+        // Scene에 존재하는 Object를 대상으로 MeshPaintTarget을 가져옴.
         MeshPaintTarget[] targets = FindObjectsOfType<MeshPaintTarget>();
         meshTargetList_ = new List<MeshPaintTarget>(targets);
+#if UNITY_EDITOR
+        Debug.Log("[MeshPaintManager] target Count: " + meshTargetList_.Count);
+#endif
     }
     private void Start()
     {
         //LoadTargetMask(0, 0);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        if (saveChecker_ == false)
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            saveChecker_ = true;
             SaveTargetMask(0, 0);
         }
+    }
+
+    private void LateUpdate()
+    {
+        //if (saveChecker_ == false)
+        //{
+        //    saveChecker_ = true;
+        //    SaveTargetMask(0, 0);
+        //}
     }
 
 
@@ -33,7 +45,7 @@ public class MeshPaintManager : MonoBehaviour
         string sourceDir = FilePath.RESOURCES_MAP_PATH;
         string destinationDir = FilePath.SAVE_PATH;
 
-        FilePath.CopyDirectory(sourceDir, destinationDir, "*.png");
+        FileIO.CopyDirectory(sourceDir, destinationDir, "*.png");
     }
 
     public void SaveTargetMask(int _mapNum, int _sectionNum)
@@ -60,10 +72,10 @@ public class MeshPaintManager : MonoBehaviour
             if (target_.IsDrawable())
             {
                 string path = FilePath.GetPath(
-                FilePath.EPathType.EXTERNAL,
-                (FilePath.EMapType)_mapNum,
-                (FilePath.ESection)_sectionNum
-                );
+                    FilePath.EPathType.EXTERNAL,
+                    (FilePath.EMapType)_mapNum,
+                    (FilePath.ESection)_sectionNum
+                    );
 
                 target_.LoadMask(path);
             }

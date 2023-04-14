@@ -37,7 +37,7 @@ public class MeshPaintTarget : MonoBehaviour
     [SerializeField]
     private float dryTimeMultiply = 1.5f;
 
-    // Compute Shader
+    // Compute Shader //
     private int kernelNoise;
     private int kernelPaint;
     private int kernelWet;
@@ -60,14 +60,18 @@ public class MeshPaintTarget : MonoBehaviour
 
     private int threadGroupX = -1;
     private int threadGroupY = -1;
-    //
+    // End Compute Shader //
 
-    // Material Properties
+    // Material Properties //
+    // -MeshPaint
+    private readonly string dirtyUv = "_PaintUv";
+    private readonly string dirtyMask = "_PaintMask";
+    // -Twinkle
     private readonly string timerName = "_Timer";
     private readonly string twinkleSpeed = "_TwinkleSpeed";
     private bool isCompleteTwinkle { get; set; }
     private bool isDirtyTwinkle { get; set; }
-    //
+    // End Material Properties //
 
 
     #region Properties Getter/Setter
@@ -102,6 +106,7 @@ public class MeshPaintTarget : MonoBehaviour
         }
 
         Graphics.Blit(_tex, dirtyRTex);
+        mr.material.SetTexture(dirtyMask, dirtyRTex);
     }
     #endregion
 
@@ -143,33 +148,34 @@ public class MeshPaintTarget : MonoBehaviour
 
         if (mainMat != null)
         {
-            originUvTex = mainMat.GetTexture("_PaintUv");
+            originUvTex = mainMat.GetTexture(dirtyUv);
 
             if (threadGroupX == -1)
                 threadGroupX = Mathf.CeilToInt(originUvTex.width / 8);
             if (threadGroupY == -1)
                 threadGroupY = Mathf.CeilToInt(originUvTex.height / 8);
 
-            // 
-            if (false)
-            {
+            //// Manager에서 Load까지 처리하도록 함
+            //if ()
+            //{
                 
-            }
-            else
-            {
-                // 오염 텍스쳐를 생성하고 원본 UV를 복사함
-                dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
-                dirtyRTex.name = gameObject.name;
-                dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
-                Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
-            }
+            //}
+            //else
+            //{
+            //    // 오염 텍스쳐를 생성하고 원본 UV를 복사함
+            //    dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
+            //    dirtyRTex.name = gameObject.name;
+            //    dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
+            //    Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
+
+            //    mainMat.SetTexture(dirtyMask, dirtyRTex);
+            //}
 
             // !!현재 노이즈 텍스쳐는 생성을 하지만 셰이더에서 사용하고 있지는 않음!!
             // *Compute Shader에서 생성하는데 자연스럽게 뽑아내기 전까지는 Shader Graph의 노이즈를 사용
             SetNoiseTexture(mainMat);
             SetBasicTwinkleProperties(mainMat);
 
-            mainMat.SetTexture("_PaintMask", dirtyRTex);
 
             // 젖은 텍스쳐를 위한 알파값이 0인 빈 텍스쳐를 가져와서 복사함
             Texture2D tex = GenerateTexture2D(resolution, resolution);
@@ -186,6 +192,7 @@ public class MeshPaintTarget : MonoBehaviour
     }
 
 
+    #region Draw Function
     // RenderTexture에 Paint Rendering을 함
     /// <summary>
     /// Dirty Texture를 지우는 Mask에 그립니다.
@@ -302,30 +309,10 @@ public class MeshPaintTarget : MonoBehaviour
         // return;
         DryWetting();
     }
+    #endregion Draw Function
 
 
-    /// <summary>
-    /// 오염Texture를 생성하고 Material Property의 _PaintTex에 탑재합니다.
-    /// </summary>
-    /// <param name="_mat">생성한 Texture를 담을 Material</param>
-    private void SetNoiseTexture(Material _mat)
-    {
-        RenderTexture rTex = new RenderTexture(resolution, resolution, depth, RenderTextureFormat.ARGB64, RenderTextureReadWrite.Linear);
-        rTex.enableRandomWrite = true;
-        rTex.Create();
-
-        kernelNoise = paintShader.FindKernel(kernelNoiseName);
-
-        paintShader.SetTexture(kernelNoise, "Result", rTex);
-
-        paintShader.Dispatch(kernelNoise, threadGroupX, threadGroupY, 1);
-#if UNITY_EDITOR
-        Debug.Log("Make Noise Texture");
-#endif
-        Graphics.Blit(rTex, rTex);
-
-        _mat.SetTexture("_PaintTex", rTex);
-    }
+    
 
 
     #region Pixel Counter
@@ -520,26 +507,11 @@ public class MeshPaintTarget : MonoBehaviour
     {
         bool load = true;
 
-        StringBuilder path = new StringBuilder();
-        path.Append(_path);
-        path.Append("/");
-        path.Append(gameObject.name);
-        path.Append(".png");
+        StringBuilder fileName = new StringBuilder();
+        fileName.Append(gameObject.name);
+        fileName.Append(".png");
 
-        byte[] bytes = null;
-        try
-        {
-            bytes = File.ReadAllBytes(path.ToString());
-        }
-        catch(FileNotFoundException e)
-        {
-            Debug.LogWarning("'" + e.FileName + "' Not Found.\n\r"+e.StackTrace);
-        }
-        catch(DirectoryNotFoundException d)
-        {
-            Debug.LogWarning("Wrong Directory.\n\r"+d.StackTrace);
-        }
-        finally { }
+        byte[] bytes = FileIO.GetFileBinary(_path, fileName.ToString());
 
         if (bytes.Length <= 0) return load = false;
 
@@ -556,11 +528,11 @@ public class MeshPaintTarget : MonoBehaviour
     private void SaveToPNG(Texture2D _tex, string _path)
     {
         byte[] bytes = _tex.EncodeToPNG();
-        StringBuilder savePath = new StringBuilder();
-        savePath.Append(_path);
-        savePath.Append("/");
-        savePath.Append(_tex.name);
-        savePath.Append(".png");
+
+        StringBuilder fileName = new StringBuilder();
+        fileName.Append(gameObject.name);
+        fileName.Append(".png");
+        string savePath = Path.Combine(_path, fileName.ToString());
 
         File.WriteAllBytes(savePath.ToString(), bytes);
     }
@@ -578,6 +550,29 @@ public class MeshPaintTarget : MonoBehaviour
         RenderTexture.active = oldTex;
 
         return toTex;
+    }
+
+    /// <summary>
+    /// 오염Texture를 생성하고 Material Property의 _PaintTex에 탑재합니다.
+    /// </summary>
+    /// <param name="_mat">생성한 Texture를 담을 Material</param>
+    private void SetNoiseTexture(Material _mat)
+    {
+        RenderTexture rTex = new RenderTexture(resolution, resolution, depth, RenderTextureFormat.ARGB64, RenderTextureReadWrite.Linear);
+        rTex.enableRandomWrite = true;
+        rTex.Create();
+
+        kernelNoise = paintShader.FindKernel(kernelNoiseName);
+
+        paintShader.SetTexture(kernelNoise, "Result", rTex);
+
+        paintShader.Dispatch(kernelNoise, threadGroupX, threadGroupY, 1);
+#if UNITY_EDITOR
+        Debug.Log("Make Noise Texture");
+#endif
+        Graphics.Blit(rTex, rTex);
+
+        _mat.SetTexture("_PaintTex", rTex);
     }
 
     private Texture2D GenerateTexture2D(int _width, int _height)
