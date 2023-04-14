@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class TargetNamingManager : MonoBehaviour
@@ -8,70 +9,68 @@ public class TargetNamingManager : MonoBehaviour
     private GameObject map1_ = null;
     [SerializeField]
     private GameObject[] map1WorkSectionsArr_ = null;
-    //[SerializeField]
-    //private GameObject map2_ = null;
-    ////[SerializeField]
-    ////private GameObject[] map2WorkSectionsArr_ = null;
 
-    private MeshPaintTarget[] meshPaintTarget_m1__w1 = null;
-    private MeshPaintTarget[] meshPaintTarget_m1__w2 = null;
+    [SerializeField]
+    private GameObject map2_ = null;
+    [SerializeField]
+    private GameObject[] map2WorkSectionsArr_ = null;
 
-    private List<Dictionary<string, object>> doubleNameTargetDicList_ = new List<Dictionary<string, object>>();
+    private MeshPaintTarget[] meshPaintTarget_m1__w1_ = null;
+    private MeshPaintTarget[] meshPaintTarget_m1__w2_ = null;
+
+    private Dictionary<string, int[]> sameNameDic_ = new Dictionary<string, int[]>();
     private void Awake()
     {
-        meshPaintTarget_m1__w1 = map1WorkSectionsArr_[0].gameObject.GetComponentsInChildren<MeshPaintTarget>();
-        meshPaintTarget_m1__w2 = map1WorkSectionsArr_[1].gameObject.GetComponentsInChildren<MeshPaintTarget>();
+        meshPaintTarget_m1__w1_ = map1WorkSectionsArr_[0].gameObject.GetComponentsInChildren<MeshPaintTarget>();
+        meshPaintTarget_m1__w2_ = map1WorkSectionsArr_[1].gameObject.GetComponentsInChildren<MeshPaintTarget>();
 
-        ChangeTargetName_m1__w1();
+        ChangeTargetName1(meshPaintTarget_m1__w1_);
+        CountTargets(meshPaintTarget_m1__w1_);
+        ChangeTargetName2(meshPaintTarget_m1__w1_);
     }
-    private void ChangeTargetName_m1__w1()
+    private void ChangeTargetName1(MeshPaintTarget[] _meshPaintTargetArr)
     {
-        foreach (MeshPaintTarget mpt in meshPaintTarget_m1__w1)
+        foreach (MeshPaintTarget mpt in _meshPaintTargetArr)
         {
             // Debug.Log(mpt.gameObject.name);
             string prevName = mpt.gameObject.name;
             mpt.gameObject.name = prevName + "_1_1";
 
         }
-        //for (int i = 0; i < meshPaintTarget_m1__w1.Length; i++)
-        //{
-        //    if (CheckDoubleName(meshPaintTarget_m1__w1[i].gameObject.name, meshPaintTarget_m1__w1) > 1)
-        //    {
-        //        // 1. doubleName 이면 이름별로 따로 저장하자. Dictionary<string, object>
-        //        // 2. 저장된거 따로 불러서 번호 붙여주자.  - string 으로 key search 해서 object 번호 붙여주기.
-        //        string prevName = meshPaintTarget_m1__w1[i].gameObject.name;
-        //        Dictionary<string, object> dic = new Dictionary<string, object>();
-        //        dic.Add(prevName, meshPaintTarget_m1__w1[i]);
-
-        //        doubleNameTargetDicList_.Add(dic);
-        //        // meshPaintTarget_m1__w1[i].gameObject.name = prevName + "_" + i;
-        //        PrintAllDicList(prevName);
-        //    }
-        //}
-
-        // # dic 키별 조회해서 object 네임 바꿔주기
     }
-    private void PrintAllDicList(string _name)
+    private void CountTargets(MeshPaintTarget[] _meshPaintTargetArr)
     {
-        for (int i = 0; i < doubleNameTargetDicList_.Count; i++)
+        foreach (MeshPaintTarget mpt in _meshPaintTargetArr)
         {
-
-            Debug.Log(doubleNameTargetDicList_[i].ContainsKey(_name));
+            string targetName = mpt.gameObject.name;
+            int nameCount = CheckDoubleName(targetName, _meshPaintTargetArr);
+            if (nameCount > 1)
+            {
+                if (!sameNameDic_.ContainsKey(targetName))
+                {
+                    int[] intArr = new int[2];
+                    intArr[0] = nameCount;
+                    intArr[1] = 1;
+                    sameNameDic_.Add(targetName, intArr);
+                }
+            }
+        }
+        foreach (var item in sameNameDic_)
+        {
+            //  Debug.Log(item);
 
         }
     }
-    private void ChangeDoubleName(string _prevName)
+    private void ChangeTargetName2(MeshPaintTarget[] _meshPaintTargetArr)
     {
-        for (int i = 0; i < doubleNameTargetDicList_.Count; i++)
+        foreach (var item in _meshPaintTargetArr)
         {
-            //CheckDoubleName(doubleNameTargetDicList_[i])
-            if (doubleNameTargetDicList_[i].ContainsKey(_prevName))
+            string targetName = item.name;
+            if (sameNameDic_.ContainsKey(targetName) && sameNameDic_[targetName][0] > 0)
             {
-                Debug.Log("???" + doubleNameTargetDicList_[i][_prevName]);
-            }
-            else
-            {
-                Debug.Log(_prevName + " -> 해당하는 중복 이름 없음");
+
+                item.name = targetName + "_" + sameNameDic_[targetName][1];
+                sameNameDic_[targetName][1]++;
 
             }
         }
