@@ -44,9 +44,9 @@ public class CleaningTargetManager : MonoBehaviour
     private void SetCleaningTargetStatusUI()
     {
         // ex) object Name: Barrel_1_1
-        string koreanName = targetObjectData_.GetKoreanName(wandRaySpawner_.cleaningTargetName_);
         if (wandRaySpawner_.cleaningTargetName_ != "")
         {
+            string koreanName = targetObjectData_.GetKoreanName(wandRaySpawner_.cleaningTargetName_);
             objectNameUI_.SetObjectName(koreanName);
             cleaningProgressPanUI.SetCleaningProgressImgFillAmt(0.5f);
             cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);

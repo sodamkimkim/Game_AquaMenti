@@ -22,7 +22,7 @@ public class SelectItemContentUIControl : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(rtr.sizeDelta.x);
+        //Debug.Log(rtr.sizeDelta.x);
     }
     private void SettSpellUIList()
     {

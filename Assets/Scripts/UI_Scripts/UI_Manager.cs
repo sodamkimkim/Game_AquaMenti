@@ -173,7 +173,6 @@ public class UI_Manager : MonoBehaviour
             ColorBlock cb = btns_[i].colors;
             if (btns_[_index] == btns_[i])
             {
-                Debug.Log("in");
                 cb.normalColor = changeColor;
                 cb.selectedColor = changeColor;
                 btns_[i].colors = cb;

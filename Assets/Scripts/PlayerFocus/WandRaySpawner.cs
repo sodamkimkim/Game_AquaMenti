@@ -39,10 +39,7 @@ public class WandRaySpawner : MonoBehaviour
         Debug.DrawRay(GetPos(), centerRay_.direction * mainRayMaxDistance_, Color.red);
      
     }
-    private void SetTargetName_(string _targetName)
-    {
-        cleaningTargetName_ = _targetName;
-    }
+
     public void RotateFocusPointUI()
     {
         uIFocusPoint_.transform.Rotate(new Vector3(0f, 0f, 90f));
@@ -114,12 +111,12 @@ public class WandRaySpawner : MonoBehaviour
             if (meshPaintTarget != null)
             {
                 cleaningTargetName_ = meshPaintTarget.gameObject.name;
-                Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
+                //Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
             }
             else
             {
                 cleaningTargetName_ = "";
-                Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
+                //Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
             }
         }
         else
