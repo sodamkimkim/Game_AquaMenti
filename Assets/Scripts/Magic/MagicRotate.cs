@@ -11,7 +11,7 @@ public class MagicRotate : MonoBehaviour
     public void RotateWaterMagic()
     {
         this.GetTransform().Rotate(new Vector3(0f, 0f, 90f));
-    //  rayGroup.transform.Rotate(new Vector3(0f, 0f, 90f));
+     rayGroup.transform.Rotate(new Vector3(0f, 0f, 90f));
     }
 
 } // end of class

@@ -161,7 +161,7 @@ public class WandRaySpawner : MonoBehaviour
         sideRayBrushArr[4].TimingDraw(centerRay_);
 
         // 노즐의 방향을 구함
-        Vector3 nozzleDirection = transform.forward;
+        Vector3 nozzleDirection = centerRay_.direction;
         // 노즐 방향을 기준으로 sprayAngle만큼 회전한 방향 벡터를 구함
         Quaternion dir0Rotation = Quaternion.AngleAxis(rayAngle_/12, -transform.right);
         Quaternion dir1Rotation = Quaternion.AngleAxis(rayAngle_/(12*2), -transform.right);
@@ -176,7 +176,7 @@ public class WandRaySpawner : MonoBehaviour
 
         sideRayBrushArr[0].SetRayDirection(dir0);
         sideRayBrushArr[1].SetRayDirection(dir1);
-        sideRayBrushArr[2].SetRayDirection(transform.forward);
+        sideRayBrushArr[2].SetRayDirection(centerRay_.direction);
         sideRayBrushArr[3].SetRayDirection(dir3);
         sideRayBrushArr[4].SetRayDirection(dir4);
     }
