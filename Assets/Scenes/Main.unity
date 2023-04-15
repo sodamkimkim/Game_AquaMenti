@@ -4875,6 +4875,7 @@ MonoBehaviour:
   wandRaySpawner_: {fileID: 149418535364017932}
   gameManager_: {fileID: 1481302895329777750}
   usingToolManager_: {fileID: 5241878060062340009}
+  inGameAllItemInfo_: {fileID: 0}
 --- !u!1 &832144956
 GameObject:
   m_ObjectHideFlags: 0
@@ -14171,7 +14172,6 @@ MonoBehaviour:
   rayPosDefaultOffset_: 0.05
   mainRayMaxDistance_: 10
   sideRayMaxDistance_: 5
-  sprayAngle: 45
 --- !u!114 &149418535838019017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48654,6 +48654,7 @@ MonoBehaviour:
   - {fileID: 5241878060992207594}
   - {fileID: 5241878059381801187}
   - {fileID: 5241878060307974354}
+  wandRaySpawner_: {fileID: 149418535364017932}
 --- !u!4 &5241878059554819725
 Transform:
   m_ObjectHideFlags: 0
@@ -51925,6 +51926,7 @@ MonoBehaviour:
   wandRaySpawner_: {fileID: 149418535364017932}
   gameManager_: {fileID: 1481302895329777750}
   usingToolManager_: {fileID: 5241878060062340009}
+  inGameAllItemInfo_: {fileID: 5241878059674354952}
 --- !u!114 &5241878060400726277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53520,6 +53522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4c7f818f95ea04cb02e68f64587c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipedItemArr:
+  - {fileID: 5241878061079033532}
+  - {fileID: 5241878060495422860}
 --- !u!224 &5241878060992207593
 RectTransform:
   m_ObjectHideFlags: 0

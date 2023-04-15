@@ -46,7 +46,7 @@ public class PlayerKeyInput : MonoBehaviour
     private void Start()
     {
         inGameAllItemInfo_.GetSpellItemList(out spellList_);
-        Debug.Log("######" + spellList_.Count);
+
     }
     private void Update()
     {
