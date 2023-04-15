@@ -27,7 +27,7 @@ public class CleaningTargetManager : MonoBehaviour
     private void Awake()
     {
         targetObjectData_ = GetComponent<TargetObjectData>();
-        wandRaySpawner_ = playerGo_.GetComponentInChildren<WandRaySpawner>();
+        wandRaySpawner_ = Camera.main.GetComponentInChildren<WandRaySpawner>();
 
         // # UI
         objectNameUI_ = washInfoGO_.GetComponentInChildren<ObjectNameUI>();
