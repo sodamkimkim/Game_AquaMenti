@@ -26,7 +26,8 @@ public class WandRaySpawner : MonoBehaviour
     public bool isLadder_ { get; set; }
 
     public string cleaningTargetName_ { get; private set; }
-    public float sprayAngle = 45.0f; // 물 분사 각도
+    public float rayAngle_ { get; set; } // 물 분사 각도
+
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class WandRaySpawner : MonoBehaviour
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
         isLadder_ = false;
         cleaningTargetName_ = "";
+        rayAngle_ = 0f;
     }
     private void Update()
     {
@@ -161,10 +163,10 @@ public class WandRaySpawner : MonoBehaviour
         // 노즐의 방향을 구함
         Vector3 nozzleDirection = transform.forward;
         // 노즐 방향을 기준으로 sprayAngle만큼 회전한 방향 벡터를 구함
-        Quaternion dir0Rotation = Quaternion.AngleAxis(sprayAngle/4, -transform.right);
-        Quaternion dir1Rotation = Quaternion.AngleAxis(sprayAngle/(4*2), -transform.right);
-        Quaternion dir3Rotation = Quaternion.AngleAxis(sprayAngle/(4*2), transform.right);
-        Quaternion dir4Rotation = Quaternion.AngleAxis(sprayAngle/4, transform.right);
+        Quaternion dir0Rotation = Quaternion.AngleAxis(rayAngle_/12, -transform.right);
+        Quaternion dir1Rotation = Quaternion.AngleAxis(rayAngle_/(12*2), -transform.right);
+        Quaternion dir3Rotation = Quaternion.AngleAxis(rayAngle_/(12*2), transform.right);
+        Quaternion dir4Rotation = Quaternion.AngleAxis(rayAngle_/12, transform.right);
 
         Vector3 dir0 = dir0Rotation * nozzleDirection;
         Vector3 dir1 = dir1Rotation * nozzleDirection;

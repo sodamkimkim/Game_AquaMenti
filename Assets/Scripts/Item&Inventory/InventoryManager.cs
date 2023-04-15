@@ -31,6 +31,9 @@ public class InventoryManager : MonoBehaviour
     private WaterPumpActivator nowWaterPumpActivator_ = null;
     [SerializeField]
     private GameObject[] invenUIArr_ = new GameObject[3]; // Inventory panel 하위의 Inventory, SelectStaff, SelectSpell UI GameObject 저장하는 Arr
+
+    [SerializeField]
+    private WandRaySpawner wandRaySpawner_ = null;
     private void Awake()
     {
         // # 변수 초기화
@@ -164,22 +167,22 @@ public class InventoryManager : MonoBehaviour
         // TODO
         if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg0MagicSpell.ToString())
         { // # AmberStaff 켜기
-            //SetSpell(0);
+            wandRaySpawner_.rayAngle_ = 0f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg15MagicSpell.ToString())
         { // # RubyStaff 켜기
-            //SetSpell(1);
+            wandRaySpawner_.rayAngle_ = 15f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg25MagicSpell.ToString())
         { // # RubyStaff 켜기
-            //SetSpell(3);
+            wandRaySpawner_.rayAngle_ = 25f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg45MagicSpell.ToString())
         { // # RubyStaff 켜기
-            //SetSpell(4);
+            wandRaySpawner_.rayAngle_ = 45f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
 
