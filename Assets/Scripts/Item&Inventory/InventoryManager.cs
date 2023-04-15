@@ -76,7 +76,7 @@ public class InventoryManager : MonoBehaviour
     /// : 하위 매니져에서 item 선택하면 콜백으로 이 메서드 실행.
     /// - invenUI다꺼주고 invenUI켜주는 메서드
     /// </summary>
-    private void SelectItem(NowWearingInfo.NowWearingItem _selectItem)
+    public void SelectItem(NowWearingInfo.NowWearingItem _selectItem)
     {
         CloseAllInvenUIAndOpenDefaultUI();
         // # staff spell 구분해서 NowWearing 함수 호출
@@ -89,7 +89,7 @@ public class InventoryManager : MonoBehaviour
         else if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
         { // # Spell
             nowWearingInfo_.SetNowWearingItem(_selectItem);
-            SetSpell(_selectItem); // TODO
+            SetSpell(_selectItem);
 
         }
     }

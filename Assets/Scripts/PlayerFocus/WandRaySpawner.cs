@@ -81,8 +81,6 @@ public class WandRaySpawner : MonoBehaviour
         centerRay_ = Camera.main.ScreenPointToRay(mousePos);
         uIFocusPoint_.SetPos(mousePos);
         RayFindObject();
-
-
     }
     private void RayFindObject()
     {
@@ -117,12 +115,12 @@ public class WandRaySpawner : MonoBehaviour
             if (meshPaintTarget != null)
             {
                 cleaningTargetName_ = meshPaintTarget.gameObject.name;
-                Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
+                //Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
             }
             else
             {
                 cleaningTargetName_ = "";
-                Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
+                //Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
             }
         }
         else

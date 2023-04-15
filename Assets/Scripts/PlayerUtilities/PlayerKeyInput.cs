@@ -25,6 +25,11 @@ public class PlayerKeyInput : MonoBehaviour
     private bool useWand { get; set; }
     private bool isOutGameUIOpen { get; set; }
     private bool isInventoryUIOpen { get; set; }
+
+    [SerializeField]
+    private InGameAllItemInfo inGameAllItemInfo_ = null;
+    private List<NowWearingInfo.NowWearingItem> spellList_ = new List<NowWearingInfo.NowWearingItem>();
+    private int spellIdx_ = 0;
     private void Awake()
     {
         //  inventoryManager_ = GetComponent<InventoryManager>();
@@ -33,6 +38,15 @@ public class PlayerKeyInput : MonoBehaviour
 
         isOutGameUIOpen = false;
         isInventoryUIOpen = false;
+
+        spellList_.Clear();
+ 
+
+    }
+    private void Start()
+    {
+        inGameAllItemInfo_.GetSpellItemList(out spellList_);
+        Debug.Log("######" + spellList_.Count);
     }
     private void Update()
     {
@@ -146,6 +160,29 @@ public class PlayerKeyInput : MonoBehaviour
                 useWand = false;
                 wandRaySpawner_.RaysStopTimingDrow();
             }
+        }
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0.0f)
+        {
+            Debug.Log(scroll);
+            spellIdx_ += Mathf.RoundToInt(scroll * 10);
+
+            if(spellIdx_ > spellList_.Count-1)
+            {
+                spellIdx_ = 0;
+            }
+            else if(spellIdx_ < 0)
+            {
+                spellIdx_ = spellList_.Count - 1;
+            }
+            Debug.Log(spellIdx_);
+            inventoryManager_.SelectItem(spellList_[spellIdx_]);
+            foreach (var spell in spellList_)
+            {
+                Debug.Log(spell.ToString());
+            }
+         //   wandRaySpawner_.rayAngle_ += scroll * angleIncrement;
+         //  sprayAngle = Mathf.Clamp(sprayAngle, minAngle, maxAngle);
         }
         //// ÀÓ½Ã ½ºÆç º¯°æ //
         //if (Input.GetKeyDown(KeyCode.Alpha1)) // 0µµ ³ëÁñ

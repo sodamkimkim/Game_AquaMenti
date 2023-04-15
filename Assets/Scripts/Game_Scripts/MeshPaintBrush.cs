@@ -267,6 +267,7 @@ public class MeshPaintBrush : MonoBehaviour
         {
             // _ray∑Œ πŸ≤„¡÷±‚
             Ray Ray = ray_;
+        
 
          Ray.origin = this.transform.position;
 
