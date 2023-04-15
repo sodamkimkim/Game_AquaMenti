@@ -5175,7 +5175,7 @@ GameObject:
   - component: {fileID: 870797589}
   - component: {fileID: 870797588}
   - component: {fileID: 870797587}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Staff1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7384,7 +7384,7 @@ GameObject:
   - component: {fileID: 1175960444}
   - component: {fileID: 1175960443}
   - component: {fileID: 1175960442}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8229,7 +8229,7 @@ GameObject:
   - component: {fileID: 1415555084}
   - component: {fileID: 1415555083}
   - component: {fileID: 1415555082}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Staff3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8429,7 +8429,7 @@ GameObject:
   - component: {fileID: 1445303936}
   - component: {fileID: 1445303935}
   - component: {fileID: 1445303934}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14171,6 +14171,7 @@ MonoBehaviour:
   rayPosDefaultOffset_: 0.05
   mainRayMaxDistance_: 10
   sideRayMaxDistance_: 5
+  sprayAngle: 45
 --- !u!114 &149418535838019017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14302,7 +14303,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149418536064215008}
-  m_LocalRotation: {x: 0.009249598, y: -0, z: -0, w: 0.99995726}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.4922688, z: 0.5001546}
   m_ConstrainProportionsScale: 0
@@ -14310,7 +14311,7 @@ Transform:
   - {fileID: 149418535364017928}
   m_Father: {fileID: 565416730}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &149418536077917760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22036,7 +22037,7 @@ GameObject:
   - component: {fileID: 2902483438985993425}
   - component: {fileID: 2299205094529946484}
   - component: {fileID: 4038776224408479678}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WaterFluid2 Variant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22384,7 +22385,7 @@ GameObject:
   - component: {fileID: 3329086040878018929}
   - component: {fileID: 1845509964562562772}
   - component: {fileID: 4501460806690474526}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AmberStaff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22764,7 +22765,7 @@ GameObject:
   - component: {fileID: 2580494333472760240}
   - component: {fileID: 1468202589232459285}
   - component: {fileID: 3712352784206699231}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WaterFluid0 Variant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22952,7 +22953,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3022571608161580809}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WaterPump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22970,7 +22971,7 @@ GameObject:
   - component: {fileID: 3022571608776176075}
   - component: {fileID: 3022571608776176085}
   - component: {fileID: 3022571608776176074}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PS_WaterSplash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27858,7 +27859,7 @@ GameObject:
   - component: {fileID: 3022571609144080236}
   - component: {fileID: 3022571609144080238}
   - component: {fileID: 3022571609144080239}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PS_WaterTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37518,7 +37519,7 @@ GameObject:
   - component: {fileID: 3022571609238204613}
   - component: {fileID: 3022571609238204615}
   - component: {fileID: 3022571609238204612}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PS_WaterSplash 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42310,7 +42311,7 @@ GameObject:
   - component: {fileID: 3022571609292831311}
   - component: {fileID: 3022571609292831305}
   - component: {fileID: 3022571609292831310}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PS_WaterSteam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52534,7 +52535,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5241878060670884691}
   - component: {fileID: 5241878060670884701}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Staff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74237,7 +74238,7 @@ GameObject:
   - component: {fileID: 6321263485953252153}
   - component: {fileID: 6321263485953252150}
   - component: {fileID: 6321263485953252154}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Staff2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74409,7 +74410,7 @@ GameObject:
   - component: {fileID: 6321263486305807152}
   - component: {fileID: 6321263486305807153}
   - component: {fileID: 6321263486305807154}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}

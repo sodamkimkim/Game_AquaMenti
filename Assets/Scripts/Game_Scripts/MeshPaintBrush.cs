@@ -228,6 +228,10 @@ public class MeshPaintBrush : MonoBehaviour
             StartCoroutine("TimingDrawCoroutine");
         }
     }
+    public void SetRayDirection(Vector3 _dir)
+    {
+        ray_.direction = _dir;
+    }
     public void StopTimingDraw()
     {
         if (drawCoroutine_ == true)
