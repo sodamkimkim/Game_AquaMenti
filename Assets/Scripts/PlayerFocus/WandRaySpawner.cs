@@ -26,6 +26,7 @@ public class WandRaySpawner : MonoBehaviour
     public bool isLadder_ { get; set; }
 
     public string cleaningTargetName_ { get; private set; }
+    public float cleaningPercent_ { get; private set; }
 
     private void Awake()
     {
@@ -111,6 +112,7 @@ public class WandRaySpawner : MonoBehaviour
             if (meshPaintTarget != null)
             {
                 cleaningTargetName_ = meshPaintTarget.gameObject.name;
+                cleaningPercent_ = meshPaintTarget.GetPercent();
                 //Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
             }
             else
