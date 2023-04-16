@@ -3,7 +3,6 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class MeshPaintTarget : MonoBehaviour
 {
@@ -12,13 +11,13 @@ public class MeshPaintTarget : MonoBehaviour
     [SerializeField]
     private ComputeShader countShader = null;
 
-    private MeshRenderer mr = null; // ����� MeshRenderer
-    private Material mainMat = null; // ����� MainTex�� �ִ� Material
+    private MeshRenderer mr = null; // 대상의 MeshRenderer
+    private Material mainMat = null; // 대상의 MainTex가 있는 Material
 
-    private Texture originUvTex = null; // UV����
-    private RenderTexture dirtyRTex = null; // ���� Mask
-    private RenderTexture wetRTex = null; // ���� ȿ���� ���� ���� Mask
-    // �׸� �� dirtyRTex�� wetRTex �� �� �׸�. ���� X
+    private Texture originUvTex = null; // UV원본
+    private RenderTexture dirtyRTex = null; // 오염 Mask
+    private RenderTexture wetRTex = null; // 젖은 효과를 내기 위한 Mask
+    // 그릴 때 dirtyRTex와 wetRTex 둘 다 그림. 복사 X
     [SerializeField]
     private int resolution = 512;
     private int depth = 32;
@@ -109,7 +108,7 @@ public class MeshPaintTarget : MonoBehaviour
     private void Awake()
     {
 
-        // MeshRenderer�ϼ��� SkinnedMeshRenderer�ϼ��� �����Ƿ� �׳� �޴� ������ Ÿ�Կ� ���ֹ޵��� ���׸��� ���� ����
+        // MeshRenderer일수도 SkinnedMeshRenderer일수도 있으므로 그냥 받는 변수의 타입에 구애받도록 제네릭을 쓰지 않음
         if (TryGetComponent(out mr))
         {
             mainMat = mr.material;
@@ -123,7 +122,7 @@ public class MeshPaintTarget : MonoBehaviour
 
     private void Update()
     {
-        // �׸� �� �ִ� ����̰� Ŭ��� ���� �ʾҴٸ� ���� ������ ������ �� �ֵ��� ��
+        // 그릴 수 있는 대상이고 클리어가 되지 않았다면 남은 구역을 보여줄 수 있도록 함
         if (IsDrawable() && !IsClear() && Input.GetKeyDown(KeyCode.Tab))
         {
             DirtyTwinkle();
@@ -133,12 +132,12 @@ public class MeshPaintTarget : MonoBehaviour
 
     private void Init()
     {
-        // _MainTex: �𵨸��� Texture
-        // _WetMask: ���� ȿ���� ���� Mask (default: none). �ڵ�󿡼� �߰�
+        // _MainTex: 모델링의 Texture
+        // _WetMask: 젖은 효과를 위한 Mask (default: none). 코드상에서 추가
 
-        // _PaintTex: ���� Texture. �ڵ�󿡼� �߰�
-        // _PaintUv: ���� UV Texture
-        // _PaintMask: ���� Mask (default: none). �ڵ�󿡼� �߰�
+        // _PaintTex: 오염 Texture. 코드상에서 추가
+        // _PaintUv: 원본 UV Texture
+        // _PaintMask: 오염 Mask (default: none). 코드상에서 추가
 
         if (mainMat != null)
         {
@@ -149,32 +148,32 @@ public class MeshPaintTarget : MonoBehaviour
             if (threadGroupY == -1)
                 threadGroupY = Mathf.CeilToInt(originUvTex.height / 8);
 
-            // �ӽ� //
+            // 임시 //
             Texture sampleTex = null;
             sampleTex = mainMat.GetTexture(dirtyMask);
-            // Texture�� ���ٸ� �����ؼ� �־��ݴϴ�.
+            // Texture가 없다면 생성해서 넣어줍니다.
             if (sampleTex == null)
             {
 #if UNITY_EDITOR
                 //Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
 #endif
-                // ���� �ؽ��ĸ� �����ϰ� ���� UV�� ������
+                // 오염 텍스쳐를 생성하고 원본 UV를 복사함
                 dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
                 dirtyRTex.name = gameObject.name;
-                dirtyRTex.enableRandomWrite = true; // Graphics.Blit�� �ϱ� ���� ������ �� �ְ� ��������� �����
-                Graphics.Blit(originUvTex, dirtyRTex); // Texture�� RenderTexture�� ����
+                dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
+                Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
 
                 mainMat.SetTexture(dirtyMask, dirtyRTex);
             }
-            // End �ӽ� //
+            // End 임시 //
 
-            // !!���� ������ �ؽ��Ĵ� ������ ������ ���̴����� ����ϰ� ������ ����!!
-            // *Compute Shader���� �����ϴµ� �ڿ������� �̾Ƴ��� �������� Shader Graph�� ����� ���
+            // !!현재 노이즈 텍스쳐는 생성을 하지만 셰이더에서 사용하고 있지는 않음!!
+            // *Compute Shader에서 생성하는데 자연스럽게 뽑아내기 전까지는 Shader Graph의 노이즈를 사용
             SetNoiseTexture(mainMat);
             SetBasicTwinkleProperties(mainMat);
 
 
-            // ���� �ؽ��ĸ� ���� ���İ��� 0�� �� �ؽ��ĸ� �����ͼ� ������
+            // 젖은 텍스쳐를 위한 알파값이 0인 빈 텍스쳐를 가져와서 복사함
             Texture2D tex = GenerateTexture2D(resolution, resolution);
             tex.LoadImage(Resources.Load<Texture2D>("Textures/Utility/Empty").EncodeToPNG());
             tex.Apply();
@@ -190,21 +189,21 @@ public class MeshPaintTarget : MonoBehaviour
 
 
     #region Draw Function
-    // RenderTexture�� Paint Rendering�� ��
+    // RenderTexture에 Paint Rendering을 함
     /// <summary>
-    /// Dirty Texture�� ����� Mask�� �׸��ϴ�.
+    /// Dirty Texture를 지우는 Mask에 그립니다.
     /// </summary>
-    /// <param name="_drawable">bool | �׸��� ������ ����</param>
-    /// <param name="_uvPos">Vector2 | UV�� ��ġ ��</param>
-    /// <param name="_color">Color(Vector4) | RGB�� ���� ������ ��</param>
-    /// <param name="_size">float | �׸��� ũ��</param>
-    /// <param name="_distance">float | ������ �Ÿ� ����</param>
+    /// <param name="_drawable">bool | 그리는 중인지 여부</param>
+    /// <param name="_uvPos">Vector2 | UV상 위치 값</param>
+    /// <param name="_color">Color(Vector4) | RGB로 구분 적용할 값</param>
+    /// <param name="_size">float | 그리는 크기</param>
+    /// <param name="_distance">float | 대상과의 거리 차이</param>
     public void DrawRender(bool _drawable, Vector2 _uvPos, Color _color, float _size, float _distance)
     {
         if (IsDrawable() == false || IsClear() == true) return;
-        // Brush�� Texture�� �޾Ƽ� ����ϰ��� �Ͽ����� ������ �߻��Ͽ� ������ ������� ����
+        // Brush의 Texture를 받아서 사용하고자 하였으나 문제가 발생하여 지금은 사용하지 않음
 #if UNITY_EDITOR
-        //Debug.Log("DrawRender");
+        Debug.Log("DrawRender");
 #endif
         /*
             RWTexture2D<float4> PaintMask;
@@ -215,58 +214,58 @@ public class MeshPaintTarget : MonoBehaviour
             bool Drawable;
         */
 
-        // 1) Kernel�� ������
+        // 1) Kernel을 가져옴
         kernelPaint = paintShader.FindKernel(kernelPaintName);
 
-        // 2) �ʱ�ȭ�� �ʿ��� ��� ���⼭ �ʱ�ȭ
+        // 2) 초기화가 필요한 경우 여기서 초기화
         // ex) computeBuffer = new ComputeBuffer[count, sizeof(typeof) * cnt]; (uint4) => cnt: 4
-        // uvPos�� ȭ��󿡼��� �����̹Ƿ� �ػ� ���� ����
+        // uvPos는 화면상에서의 비율이므로 해상도 값을 곱함
         Vector2 uvPos = new Vector2((uint)Mathf.CeilToInt(_uvPos.x * resolution), (uint)Mathf.CeilToInt(_uvPos.y * resolution));
-        // �ʰ� ���� ���� ����
+        // 초과 값에 대해 보정
         Vector4 color = new Vector4(
             _color.r > 1f ? 1f : _color.r,
             _color.g > 1f ? 1f : _color.g,
             _color.b > 1f ? 1f : _color.b,
             0f);
 
-        // 3) ������ �����ƴٸ� shader�� �ѱ�
-        paintShader.SetTexture(kernelPaint, "Result", dirtyRTex); // Target�� Dirty RenderTexture
+        // 3) 설정을 끝마쳤다면 shader에 넘김
+        paintShader.SetTexture(kernelPaint, "Result", dirtyRTex); // Target의 Dirty RenderTexture
         paintShader.SetVector("UvPos", uvPos);
-        paintShader.SetVector("Color", color); // Brush�� ó����
-        paintShader.SetFloat("Size", _size); // Brush�� ������
-        paintShader.SetFloat("Distance", _distance); // �ִ��Ÿ� / �浹�Ÿ�
-        paintShader.SetBool("Paintable", _drawable); // �׸� �� �ִ��� ����
+        paintShader.SetVector("Color", color); // Brush의 처리값
+        paintShader.SetFloat("Size", _size); // Brush의 사이즈
+        paintShader.SetFloat("Distance", _distance); // 최대사거리 / 충돌거리
+        paintShader.SetBool("Paintable", _drawable); // 그릴 수 있는지 여부
 
-        // 4) �ʿ��� ���� �� �Ѱ�ٸ� shader ����
-        // ���� Shader�� numthreads(8, 8, 1)�̸� shader.Dispatch(kernel, width / 8, height / 8, 1);
+        // 4) 필요한 것을 다 넘겼다면 shader 실행
+        // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelPaint, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        //Debug.Log("Shader Dispatch");
+        Debug.Log("Shader Dispatch");
 #endif
 
-        // 5) ó���� ������ �����ϴ� �κ�
-        // Buffer�� ���¾��ٸ� Data�� �������� Release �� null ó��
+        // 5) 처리된 정보를 가공하는 부분
+        // Buffer를 보냈었다면 Data를 가져오고 Release 후 null 처리
         Graphics.Blit(dirtyRTex, dirtyRTex);
 
-        // 6) ��ȯ�� ���� �ִٸ� �Լ��� ��ȯ���� ���� �� ��ȯ
+        // 6) 반환할 것이 있다면 함수의 반환형을 변경 후 반환
         // return;
     }
 
 
     /// <summary>
-    /// WetMask�� �׷��� ���� ȿ���� ��Ÿ���ϴ�.
+    /// WetMask에 그려서 젖은 효과를 나타냅니다.
     /// </summary>
-    /// <param name="_drawable">bool | �׸��� ������ ����</param>
-    /// <param name="_uvPos">Vector2 | UV�� ��ġ ��</param>
-    /// <param name="_size">float | �׸��� ũ��</param>
-    /// <param name="_distance">float | ������ �Ÿ� ����</param>
+    /// <param name="_drawable">bool | 그리는 중인지 여부</param>
+    /// <param name="_uvPos">Vector2 | UV상 위치 값</param>
+    /// <param name="_size">float | 그리는 크기</param>
+    /// <param name="_distance">float | 대상과의 거리 차이</param>
     public void DrawWet(bool _drawable, Vector2 _uvPos, float _size, float _distance)
     {
-        // �׸� �� �ִ� ��󿡸� ���� ȿ�� �߻�
+        // 그릴 수 있는 대상에만 젖는 효과 발생
         if (IsDrawable() == false) return;
 
 #if UNITY_EDITOR
-        //Debug.Log("DrawWet");
+        Debug.Log("DrawWet");
 #endif
         /*
             RWTexture2D<float4> WetMask;
@@ -276,42 +275,42 @@ public class MeshPaintTarget : MonoBehaviour
             bool Drawable;
         */
 
-        // 1) Kernel�� ������
+        // 1) Kernel을 가져옴
         kernelWet = paintShader.FindKernel(kernelWetName);
 
-        // 2) �ʱ�ȭ�� �ʿ��� ��� ���⼭ �ʱ�ȭ
+        // 2) 초기화가 필요한 경우 여기서 초기화
         // ex) computeBuffer = new ComputeBuffer[count, sizeof(typeof) * cnt]; (uint4) => cnt: 4
-        // uvPos�� ȭ��󿡼��� �����̹Ƿ� �ػ� ���� ����
+        // uvPos는 화면상에서의 비율이므로 해상도 값을 곱함
         Vector2 uvPos = new Vector2((uint)Mathf.CeilToInt(_uvPos.x * resolution), (uint)Mathf.CeilToInt(_uvPos.y * resolution));
 
-        // 3) ������ �����ƴٸ� shader�� �ѱ�
-        paintShader.SetTexture(kernelWet, "WetMask", wetRTex); // Target�� Wet RenderTexture
+        // 3) 설정을 끝마쳤다면 shader에 넘김
+        paintShader.SetTexture(kernelWet, "WetMask", wetRTex); // Target의 Wet RenderTexture
         paintShader.SetVector("UvPos", uvPos);
-        paintShader.SetFloat("Size", _size); // Brush�� ������
-        paintShader.SetFloat("Distance", _distance); // �ִ��Ÿ� / �浹�Ÿ�
-        paintShader.SetBool("Paintable", _drawable); // �׸� �� �ִ��� ����
+        paintShader.SetFloat("Size", _size); // Brush의 사이즈
+        paintShader.SetFloat("Distance", _distance); // 최대사거리 / 충돌거리
+        paintShader.SetBool("Paintable", _drawable); // 그릴 수 있는지 여부
 
-        // 4) �ʿ��� ���� �� �Ѱ�ٸ� shader ����
-        // ���� Shader�� numthreads(8, 8, 1)�̸� shader.Dispatch(kernel, width / 8, height / 8, 1);
+        // 4) 필요한 것을 다 넘겼다면 shader 실행
+        // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelWet, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        //Debug.Log("Shader Dispatch");
+        Debug.Log("Shader Dispatch");
 #endif
 
-        // 5) ó���� ������ �����ϴ� �κ�
-        // Buffer�� ���¾��ٸ� Data�� �������� Release �� null ó��
+        // 5) 처리된 정보를 가공하는 부분
+        // Buffer를 보냈었다면 Data를 가져오고 Release 후 null 처리
         Graphics.Blit(wetRTex, wetRTex);
 
-        // 6) ��ȯ�� ���� �ִٸ� �Լ��� ��ȯ���� ���� �� ��ȯ
+        // 6) 반환할 것이 있다면 함수의 반환형을 변경 후 반환
         // return;
         DryWetting();
     }
-
     #endregion Draw Function
+
 
     #region Pixel Counter
     /// <summary>
-    /// ���� ���൵�� clearPercent�� ���Ͽ� ���൵�� clearPercent�� �����ϸ� Clearó���� �մϴ�.
+    /// 현재 진행도와 clearPercent를 비교하여 진행도가 clearPercent에 도달하면 Clear처리를 합니다.
     /// </summary>
     public void CheckAutoClear()
     {
@@ -329,7 +328,7 @@ public class MeshPaintTarget : MonoBehaviour
 
 
     /// <summary>
-    /// clearPercent�� ���ʷ� �Ͽ� ���� ������� �����մϴ�.
+    /// clearPercent를 기초로 하여 진행 백분율을 제공합니다.
     /// </summary>
     /// <returns>float | ex) 50.12446...</returns>
     public float GetPercent()
@@ -340,7 +339,7 @@ public class MeshPaintTarget : MonoBehaviour
 
 
     /// <summary>
-    /// ���� UV�� �̿��ؼ� �� �ȼ� ���� ���ϰ� ���� Texture���� ���� �ȼ� ���� ����Ͽ� ������� ��ȯ�մϴ�.
+    /// 원본 UV를 이용해서 총 픽셀 수를 구하고 오염 Texture에서 남은 픽셀 수를 계산하여 백분율을 반환합니다.
     /// </summary>
     /// <returns>float | ex) 50.12446...</returns>
     public float GetProcessPercent()
@@ -360,32 +359,32 @@ public class MeshPaintTarget : MonoBehaviour
 
     private uint PixelCount(Texture _tex)
     {
-        // 1) Kernel�� ������
+        // 1) Kernel을 가져옴
         kernelInitCount = countShader.FindKernel(kernelInitCountName);
         kernelCount = countShader.FindKernel(kernelCountName);
 
-        // 2) �ʱ�ȭ�� �ʿ��� ��� ���⼭ �ʱ�ȭ
+        // 2) 초기화가 필요한 경우 여기서 초기화
         // ex) computeBuffer = new ComputeBuffer[count, sizeof(typeof) * cnt]; (uint4) => cnt: 4
-        ComputeBuffer buffer = new ComputeBuffer(1, sizeof(uint) * 1); // size_ * count | uint1�� ����� ���̹Ƿ� 1�� ����
+        ComputeBuffer buffer = new ComputeBuffer(1, sizeof(uint) * 1); // size_ * count | uint1을 사용할 것이므로 1만 곱함
         uint[] data = new uint[1];
 
-        // 3) ������ �����ƴٸ� shader�� �ѱ�
-        countShader.SetTexture(kernelCount, "InputTexture", _tex); // ComputeShader�� �̹����� ����
-        countShader.SetBuffer(kernelCount, "CountBuffer", buffer); // Buffer�� ����
+        // 3) 설정을 끝마쳤다면 shader에 넘김
+        countShader.SetTexture(kernelCount, "InputTexture", _tex); // ComputeShader로 이미지를 보냄
+        countShader.SetBuffer(kernelCount, "CountBuffer", buffer); // Buffer도 보냄
         countShader.SetBuffer(kernelInitCount, "CountBuffer", buffer);
 
-        // 4) �ʿ��� ���� �� �Ѱ�ٸ� shader ����
-        // ���� Shader�� numthreads(8, 8, 1)�̸� shader.Dispatch(kernel, width / 8, height / 8, 1);
+        // 4) 필요한 것을 다 넘겼다면 shader 실행
+        // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         countShader.Dispatch(kernelInitCount, 1, 1, 1);
         countShader.Dispatch(kernelCount, threadGroupX, threadGroupY, 1);
 
-        // 5) ó���� ������ �����ϴ� �κ�
-        // Buffer�� ���¾��ٸ� Data�� �������� Release �� null ó��
+        // 5) 처리된 정보를 가공하는 부분
+        // Buffer를 보냈었다면 Data를 가져오고 Release 후 null 처리
         buffer.GetData(data);
         buffer.Release();
         buffer = null;
 
-        // 6) ��ȯ�� ���� �ִٸ� �Լ��� ��ȯ���� ���� �� ��ȯ
+        // 6) 반환할 것이 있다면 함수의 반환형을 변경 후 반환
         return data[0];
     }
     #endregion Pixel Counter
@@ -409,11 +408,11 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelClear, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        //Debug.Log("Dirty Clear.");
+        Debug.Log("Dirty Clear.");
 #endif
     }
 
-    // ����UV�� RenderTexture�� ����
+    // 원본UV를 RenderTexture에 복사
     public void ResetTexture()
     {
         if ((dirtyRTex.width != originUvTex.width) &&
@@ -432,9 +431,9 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelCopy, threadGroupX, threadGroupY, 1);
 
-        IsClear(false); // �ʱ�ȭ �����Ƿ� Clear -> false
+        IsClear(false); // 초기화 했으므로 Clear -> false
 #if UNITY_EDITOR
-        //Debug.Log("Reset Mask with Origin Texture.");
+        Debug.Log("Reset Mask with Origin Texture.");
 #endif
     }
 
@@ -450,7 +449,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelDry, resolution / 8, resolution / 8, 1);
 
-        Graphics.Blit(wetRTex, wetRTex); // ������ �ϱ� ����
+        Graphics.Blit(wetRTex, wetRTex); // 갱신을 하기 위함
     }
     #endregion Texture Function
 
@@ -458,31 +457,31 @@ public class MeshPaintTarget : MonoBehaviour
     #region Material Property
     private void SetBasicTwinkleProperties(Material _mat)
     {
-        // Property �� ����
-        _mat.SetFloat("_TwinkleIntensity", 4f); // ��¦�� ���� Intensity(����)
+        // Property 값 설정
+        _mat.SetFloat("_TwinkleIntensity", 4f); // 반짝임 색상 Intensity(세기)
     }
     private void SetTwinkleProperties(bool _onlyDirty, Material _mat)
     {
-        // Property ������ �ʱ�ȭ
+        // Property 설정값 초기화
         Color color;
         if (_onlyDirty)
             color = new Color(1f, 0.6501361f, 0.2783019f, 1f);
         else
             color = new Color(0.4009433f, 0.5723213f, 1f, 1f);
 
-        // Property �� ����
-        _mat.SetFloat("_ActiveTwinkle", 1); // ��¦�� ���� ����
-        _mat.SetFloat("_OnlyDirty", _onlyDirty ? 1 : 0); // ���� ������� ����
-        _mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // ��¦�� �ӵ�
-        _mat.SetColor("_TwinkleColor", color); // ����
+        // Property 값 설정
+        _mat.SetFloat("_ActiveTwinkle", 1); // 반짝임 동작 여부
+        _mat.SetFloat("_OnlyDirty", _onlyDirty ? 1 : 0); // 오염 대상만인지 여부
+        _mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // 반짝임 속도
+        _mat.SetColor("_TwinkleColor", color); // 색상
 #if UNITY_EDITOR
-        //Debug.Log("[SetTwinkleProperties] Before Return");
+        Debug.Log("[SetTwinkleProperties] Before Return");
 #endif
     }
     private void StopTwinkleProperties(Material _mat)
     {
-        // Property �� ����
-        _mat.SetFloat("_ActiveTwinkle", 0); // ��¦�� ���� ����
+        // Property 값 설정
+        _mat.SetFloat("_ActiveTwinkle", 0); // 반짝임 동작 여부
         _mat.SetFloat(timerName, 0f);
     }
     #endregion Material Property
@@ -490,7 +489,7 @@ public class MeshPaintTarget : MonoBehaviour
 
     #region Utility
     /// <summary>
-    /// �������� Mask�� png �������� �����մϴ�.
+    /// 진행중인 Mask를 png 형식으로 저장합니다.
     /// </summary>
     public void SaveMask()
     {
@@ -500,9 +499,9 @@ public class MeshPaintTarget : MonoBehaviour
     }
 
     /// <summary>
-    /// ����Ǿ��� Mask�� �����ɴϴ�.
+    /// 진행되었던 Mask를 가져옵니다.
     /// </summary>
-    /// <returns>bool | �����Դ��� ����</returns>
+    /// <returns>bool | 가져왔는지 여부</returns>
     public bool LoadMask()
     {
         bool load = true;
@@ -526,7 +525,7 @@ public class MeshPaintTarget : MonoBehaviour
         return load;
     }
 
-    // Mask Texture�� PNG�� �����ϴ� �뵵
+    // Mask Texture를 PNG로 저장하는 용도
     private void SaveToPNG(Texture2D _tex, string _path)
     {
         byte[] bytes = _tex.EncodeToPNG();
@@ -539,7 +538,7 @@ public class MeshPaintTarget : MonoBehaviour
         File.WriteAllBytes(savePath.ToString(), bytes);
     }
 
-    // RenderTexture�� Texture2D�� ��ȯ�Ͽ� ��ȯ
+    // RenderTexture를 Texture2D로 변환하여 반환
     private Texture2D ToTexture(RenderTexture _rTex)
     {
         Texture2D toTex = GenerateTexture2D(resolution, resolution);
@@ -555,12 +554,12 @@ public class MeshPaintTarget : MonoBehaviour
     }
 
     /// <summary>
-    /// gameObject�� name�� �ִ� ������ �̿��Ͽ� Path�� �����ɴϴ�.
+    /// gameObject의 name에 있는 정보를 이용하여 Path를 가져옵니다.
     /// </summary>
     /// <returns></returns>
     private string GetPath()
     {
-        // gameObject Name�� �̿��Ͽ� �ҷ����� ���
+        // gameObject Name을 이용하여 불러오는 방식
         // ex) Fence_1_2_3 | 1: Map, 2: Section, 3: Numbering
         string[] split = gameObject.name.Split('_');
         int len = split.Length;
@@ -573,9 +572,9 @@ public class MeshPaintTarget : MonoBehaviour
     }
 
     /// <summary>
-    /// ����Texture�� �����ϰ� Material Property�� _PaintTex�� ž���մϴ�.
+    /// 오염Texture를 생성하고 Material Property의 _PaintTex에 탑재합니다.
     /// </summary>
-    /// <param name="_mat">������ Texture�� ���� Material</param>
+    /// <param name="_mat">생성한 Texture를 담을 Material</param>
     private void SetNoiseTexture(Material _mat)
     {
         RenderTexture rTex = new RenderTexture(resolution, resolution, depth, RenderTextureFormat.ARGB64, RenderTextureReadWrite.Linear);
@@ -641,7 +640,7 @@ public class MeshPaintTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
 #if UNITY_EDITOR
-        //Debug.Log("StartCoroutine");
+        Debug.Log("StartCoroutine");
 #endif
         float t = 0f;
         while (t < 1f)
@@ -651,20 +650,20 @@ public class MeshPaintTarget : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 #if UNITY_EDITOR
-        //Debug.Log("EndCoroutine");
+        Debug.Log("EndCoroutine");
 #endif
         StopDryWetting();
     }
 
     private IEnumerator CompleteTwinkleCoroutine(Material _mat)
     {
-        float time = 3f;
+        float time = _mat.GetFloat(twinkleSpeed);
         float t = 0f;
 
         SetTwinkleProperties(_onlyDirty: false, _mat);
         _mat.SetFloat(timerName, t);
 
-        time /= _mat.GetFloat(twinkleSpeed) * 0.5f;
+        time /= time;
 
         while (t < time)
         {
@@ -674,23 +673,23 @@ public class MeshPaintTarget : MonoBehaviour
         }
 
         StopTwinkleProperties(_mat);
-        isDirtyTwinkle = false; // �� �Ǵ°� �±� ������ Ȥ�����Ͽ� ����
+        isDirtyTwinkle = false; // 안 되는게 맞긴 하지만 혹여나하여 넣음
         isCompleteTwinkle = false;
         IsClear(true);
     }
     private IEnumerator DirtyTwinkleCoroutine(Material _mat)
     {
-        float time = 3f;
-        float t = 0f;
+        float time = _mat.GetFloat(twinkleSpeed);
+        float t = -0.1f;
 
         SetTwinkleProperties(_onlyDirty: true, _mat);
         _mat.SetFloat(timerName, t);
 
-        time /= _mat.GetFloat(twinkleSpeed) * 0.5f;
+        time /= time;
 
         while (t < time)
         {
-            t += Time.deltaTime;
+            t += Time.deltaTime * 0.66f;
             _mat.SetFloat(timerName, t);
             yield return null;
         }
