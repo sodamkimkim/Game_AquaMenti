@@ -60,31 +60,35 @@ public class PlayerKeyInput : MonoBehaviour
         {
             playerMovement_.isLeftShiftKeyInput_ = false;
         }
-        // move forward
-        if (Input.GetKey(KeyCode.W))
-        {
-            playerMovement_.Walk(playerMovement_.GetPlayerTransform().forward);
-        }
-        // move backWard
-        if (Input.GetKey(KeyCode.S))
-        {
-            playerMovement_.Walk(-playerMovement_.GetPlayerTransform().forward);
-        }
-        // move left
-        if (Input.GetKey(KeyCode.A))
-        {
-            playerMovement_.Walk(-playerMovement_.GetPlayerTransform().right);
-        }
-        // move right
-        if (Input.GetKey(KeyCode.D))
-        {
-            playerMovement_.Walk(playerMovement_.GetPlayerTransform().right);
-        }
+        /*        // move forward
+                if (Input.GetKey(KeyCode.W))
+                {
+                    playerMovement_.Walk(playerMovement_.GetPlayerTransform().forward);
+                }
+                // move backWard
+                if (Input.GetKey(KeyCode.S))
+                {
+                    playerMovement_.Walk(-playerMovement_.GetPlayerTransform().forward);
+                }
+                // move left
+                if (Input.GetKey(KeyCode.A))
+                {
+                    playerMovement_.Walk(-playerMovement_.GetPlayerTransform().right);
+                }
+                // move right
+                if (Input.GetKey(KeyCode.D))
+                {
+                    playerMovement_.Walk(playerMovement_.GetPlayerTransform().right);
+                }*/
         // jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
             playerMovement_.Jump();
         }
+        // move
+        float axisH = Input.GetAxis("Horizontal");
+        float axisV = Input.GetAxis("Vertical");
+        playerMovement_.Walk(new Vector3(axisH, 0f, axisV));
         // focus Center
         if (Input.GetKeyDown(KeyCode.C))
         {
