@@ -48,7 +48,8 @@ public class CleaningTargetManager : MonoBehaviour
         {
             string koreanName = targetObjectData_.GetKoreanName(wandRaySpawner_.cleaningTargetName_);
             objectNameUI_.SetObjectName(koreanName);
-            cleaningProgressPanUI.SetCleaningProgressImgFillAmt(0.5f);
+            //Debug.Log(1f - wandRaySpawner_.cleaningPercent_ * 0.01f);
+            cleaningProgressPanUI.SetCleaningProgressImgFillAmt(1f - wandRaySpawner_.cleaningPercent_ * 0.01f);
             cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);
             cleaningPercentageUI.SetActive(true);
         }
