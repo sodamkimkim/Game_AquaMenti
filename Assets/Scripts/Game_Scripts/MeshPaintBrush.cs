@@ -23,9 +23,11 @@ public class MeshPaintBrush : MonoBehaviour
 
     private float drawTiming_ = 0.01f;
     private float waitTime_ = 0.1f;
+    private float saveTiming_ = 1f;
 
     private bool drawCoroutine_ = false;
     private bool runCoroutine_ = false;
+    private bool saveCoroutine_ = false;
 
     private Ray ray_;
 
@@ -161,6 +163,7 @@ public class MeshPaintBrush : MonoBehaviour
                             target_.DrawRender(isPainting_, uvPos_, color_, size_, distance);
                         target_.DrawWet(isPainting_, uvPos_, size_, distance);
                         CheckTargetProcess();
+                        SaveTargetProcess();
                     }
                 }
             }
@@ -243,7 +246,8 @@ public class MeshPaintBrush : MonoBehaviour
         if (runCoroutine_ == false)
         {
             runCoroutine_ = true;
-            StartCoroutine("CheckTargetProcessCoroutine");
+            if (target_ != null && target_.IsDrawable() && target_.IsClear() == false)
+                StartCoroutine("CheckTargetProcessCoroutine");
         }
     }
     public void StopCheckTargetProcess()
@@ -252,6 +256,24 @@ public class MeshPaintBrush : MonoBehaviour
         {
             runCoroutine_ = false;
             StopCoroutine("CheckTargetProcessCoroutine");
+        }
+    }
+
+    private void SaveTargetProcess()
+    {
+        if (saveCoroutine_ == false)
+        {
+            saveCoroutine_ = true;
+            if (target_ != null && target_.IsDrawable() && target_.IsClear() == false)
+                StartCoroutine("SaveTargetProcessCoroutine");
+        }
+    }
+    public void StopSaveTargetProcess()
+    {
+        if (saveCoroutine_ == true)
+        {
+            saveCoroutine_ = false;
+            StopCoroutine("SaveTargetProcessCoroutine");
         }
     }
 
@@ -264,11 +286,11 @@ public class MeshPaintBrush : MonoBehaviour
             // _ray로 바꿔주기
             Ray Ray = ray_;
 
-         Ray.origin = this.transform.position;
+            Ray.origin = this.transform.position;
 
             //Ray.direction = _direction;
             PaintToTarget(Ray);
-           // Debug.Log("in");
+            // Debug.Log("in");
             Debug.DrawRay(Ray.origin, Ray.direction * effectiveDistance_, Color.green);
             yield return new WaitForSeconds(drawTiming_);
         }
@@ -281,9 +303,30 @@ public class MeshPaintBrush : MonoBehaviour
 #endif
         while (true)
         {
-            if (target_ != null && target_.IsDrawable())
+            if (target_ != null && target_.IsDrawable() && target_.IsClear())
+                StopCheckTargetProcess();
+            else if (target_ != null && target_.IsDrawable())
                 target_.CheckAutoClear();
             yield return new WaitForSeconds(waitTime_);
+        }
+    }
+
+    private IEnumerator SaveTargetProcessCoroutine()
+    {
+#if UNITY_EDITOR
+        Debug.Log("[SaveTargetProcessCoroutine]");
+#endif
+        while(true)
+        {
+            // 클리어 상태가 되었다면 마지막 진행도를 저장 후 Coroutine을 멈춥니다.
+            if (target_ != null && target_.IsDrawable() && target_.IsClear())
+            {
+                target_.SaveMask();
+                StopSaveTargetProcess();
+            }
+            else if (target_ != null && target_.IsDrawable() && target_.IsClear() == false)
+                target_.SaveMask();
+            yield return new WaitForSeconds(saveTiming_);
         }
     }
     #endregion
