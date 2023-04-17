@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FilePath
 {
-    public enum EPathType { EXTERNAL, RESOURCES, LEN }
+    public enum EPathType { EXTERNAL, ASSETS, LEN }
     public enum EMapType { MAP_1, MAP_2, LEN }
     public enum ESection { SECTION_1, SECTION_2, SECTION_3, SECTION_4, SECTION_5, LEN }
 
@@ -14,40 +14,41 @@ public class FilePath
 
     public static readonly string SAVE_PATH = Application.persistentDataPath + "/Saves";
 
-    public static readonly string MAP_1_PATH = Application.persistentDataPath + "/Saves/Map_1";
-    public static readonly string MAP_1_SECTION_1_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_1";
-    public static readonly string MAP_1_SECTION_2_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_2";
-    public static readonly string MAP_1_SECTION_3_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_3";
-    public static readonly string MAP_1_SECTION_4_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_4";
-    public static readonly string MAP_1_SECTION_5_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_5";
+    public static readonly string SAVE_MAP_1_PATH = Application.persistentDataPath + "/Saves/Map_1";
+    public static readonly string SAVE_MAP_1_SECTION_1_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_1";
+    public static readonly string SAVE_MAP_1_SECTION_2_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_2";
+    public static readonly string SAVE_MAP_1_SECTION_3_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_3";
+    public static readonly string SAVE_MAP_1_SECTION_4_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_4";
+    public static readonly string SAVE_MAP_1_SECTION_5_PATH = Application.persistentDataPath + "/Saves/Map_1/Section_5";
     
-    public static readonly string MAP_2_PATH = Application.persistentDataPath + "/Saves/Map_2";
-    public static readonly string MAP_2_SECTION_1_PATH = Application.persistentDataPath + "/Saves/Map_2/Section_1";
-    public static readonly string MAP_2_SECTION_2_PATH = Application.persistentDataPath + "/Saves/Map_2/Section_2";
-    public static readonly string MAP_2_SECTION_3_PATH = Application.persistentDataPath + "/Saves/Map_2/Section_3";
+    public static readonly string SAVE_MAP_2_PATH = Application.persistentDataPath + "/Saves/Map_2";
+    public static readonly string SAVE_MAP_2_SECTION_1_PATH = Application.persistentDataPath + "/Saves/Map_2/Section_1";
+    public static readonly string SAVE_MAP_2_SECTION_2_PATH = Application.persistentDataPath + "/Saves/Map_2/Section_2";
+    public static readonly string SAVE_MAP_2_SECTION_3_PATH = Application.persistentDataPath + "/Saves/Map_2/Section_3";
     //
 
-    // DataPath //
-    public static readonly string DATA_PATH = Application.dataPath; // Assets
-
     public static readonly string RESOURCES_PATH = Application.dataPath + "/Resources";
-    public static readonly string RESOURCES_MAP_PATH = Application.dataPath + "/Resources/Maps";
 
-    public static readonly string RESOURCES_MAP_1_PATH = Application.dataPath + "/Resources/Maps/Map_1";
-    public static readonly string RESOURCES_MAP_1_SECTION_1_PATH = Application.dataPath + "/Resources/Maps/Map_1/Section_1";
-    public static readonly string RESOURCES_MAP_1_SECTION_2_PATH = Application.dataPath + "/Resources/Maps/Map_1/Section_2";
-    public static readonly string RESOURCES_MAP_1_SECTION_3_PATH = Application.dataPath + "/Resources/Maps/Map_1/Section_3";
-    public static readonly string RESOURCES_MAP_1_SECTION_4_PATH = Application.dataPath + "/Resources/Maps/Map_1/Section_4";
-    public static readonly string RESOURCES_MAP_1_SECTION_5_PATH = Application.dataPath + "/Resources/Maps/Map_1/Section_5";
+    // StreamingAssetsPath //
+    public static readonly string ASSETS_PATH = Application.streamingAssetsPath;
 
-    public static readonly string RESOURCES_MAP_2_PATH = Application.dataPath + "/Resources/Maps/Map_2";
-    public static readonly string RESOURCES_MAP_2_SECTION_1_PATH = Application.dataPath + "/Resources/Maps/Map_2/Section_1";
-    public static readonly string RESOURCES_MAP_2_SECTION_2_PATH = Application.dataPath + "/Resources/Maps/Map_2/Section_2";
-    public static readonly string RESOURCES_MAP_2_SECTION_3_PATH = Application.dataPath + "/Resources/Maps/Map_2/Section_3";
+    public static readonly string ASSETS_MAP_PATH = Application.streamingAssetsPath + "/Maps";
+
+    public static readonly string ASSETS_MAP_1_PATH = Application.streamingAssetsPath + "/Maps/Map_1";
+    public static readonly string ASSETS_MAP_1_SECTION_1_PATH = Application.streamingAssetsPath + "/Maps/Map_1/Section_1";
+    public static readonly string ASSETS_MAP_1_SECTION_2_PATH = Application.streamingAssetsPath + "/Maps/Map_1/Section_2";
+    public static readonly string ASSETS_MAP_1_SECTION_3_PATH = Application.streamingAssetsPath + "/Maps/Map_1/Section_3";
+    public static readonly string ASSETS_MAP_1_SECTION_4_PATH = Application.streamingAssetsPath + "/Maps/Map_1/Section_4";
+    public static readonly string ASSETS_MAP_1_SECTION_5_PATH = Application.streamingAssetsPath + "/Maps/Map_1/Section_5";
+
+    public static readonly string ASSETS_MAP_2_PATH = Application.streamingAssetsPath + "/Maps/Map_2";
+    public static readonly string ASSETS_MAP_2_SECTION_1_PATH = Application.streamingAssetsPath + "/Maps/Map_2/Section_1";
+    public static readonly string ASSETS_MAP_2_SECTION_2_PATH = Application.streamingAssetsPath + "/Maps/Map_2/Section_2";
+    public static readonly string ASSETS_MAP_2_SECTION_3_PATH = Application.streamingAssetsPath + "/Maps/Map_2/Section_3";
     //
 
     public static readonly string SAVE_PATH_NAME = "Saves";
-    public static readonly string RESOURCES_MAP_PATH_NAME = "Maps";
+    public static readonly string MAP_PATH_NAME = "Maps";
 
     public static readonly string MAP_1_PATH_NAME = "Map_1";
     public static readonly string MAP_2_PATH_NAME = "Map_2";
@@ -66,17 +67,17 @@ public class FilePath
         // External 영역에 기본 Directory 생성
         CreateDirectory(SAVE_PATH);
 
-        CreateDirectory(MAP_1_PATH);
-        CreateDirectory(MAP_1_SECTION_1_PATH);
-        CreateDirectory(MAP_1_SECTION_2_PATH);
-        CreateDirectory(MAP_1_SECTION_3_PATH);
-        CreateDirectory(MAP_1_SECTION_4_PATH);
-        CreateDirectory(MAP_1_SECTION_5_PATH);
+        CreateDirectory(SAVE_MAP_1_PATH);
+        CreateDirectory(SAVE_MAP_1_SECTION_1_PATH);
+        CreateDirectory(SAVE_MAP_1_SECTION_2_PATH);
+        CreateDirectory(SAVE_MAP_1_SECTION_3_PATH);
+        CreateDirectory(SAVE_MAP_1_SECTION_4_PATH);
+        CreateDirectory(SAVE_MAP_1_SECTION_5_PATH);
 
-        CreateDirectory(MAP_2_PATH);
-        CreateDirectory(MAP_2_SECTION_1_PATH);
-        CreateDirectory(MAP_2_SECTION_2_PATH);
-        CreateDirectory(MAP_2_SECTION_3_PATH);
+        CreateDirectory(SAVE_MAP_2_PATH);
+        CreateDirectory(SAVE_MAP_2_SECTION_1_PATH);
+        CreateDirectory(SAVE_MAP_2_SECTION_2_PATH);
+        CreateDirectory(SAVE_MAP_2_SECTION_3_PATH);
     }
 
 
@@ -91,7 +92,7 @@ public class FilePath
         {
             case EPathType.EXTERNAL:
                 return EXTERNAL_PATH;
-            case EPathType.RESOURCES:
+            case EPathType.ASSETS:
                 return RESOURCES_PATH;
         }
 
@@ -110,19 +111,19 @@ public class FilePath
             switch (_mapType)
             {
                 case EMapType.MAP_1:
-                    return MAP_1_PATH;
+                    return SAVE_MAP_1_PATH;
                 case EMapType.MAP_2:
-                    return MAP_2_PATH;
+                    return SAVE_MAP_2_PATH;
             }
         }
-        else if (_pathType == EPathType.RESOURCES)
+        else if (_pathType == EPathType.ASSETS)
         {
             switch (_mapType)
             {
                 case EMapType.MAP_1:
-                    return RESOURCES_MAP_1_PATH;
+                    return ASSETS_MAP_1_PATH;
                 case EMapType.MAP_2:
-                    return RESOURCES_MAP_2_PATH;
+                    return ASSETS_MAP_2_PATH;
             }
         }
 
@@ -144,15 +145,15 @@ public class FilePath
                 switch (_sectionType)
                 {
                     case ESection.SECTION_1:
-                        return MAP_1_SECTION_1_PATH;
+                        return SAVE_MAP_1_SECTION_1_PATH;
                     case ESection.SECTION_2:
-                        return MAP_1_SECTION_2_PATH;
+                        return SAVE_MAP_1_SECTION_2_PATH;
                     case ESection.SECTION_3:
-                        return MAP_1_SECTION_3_PATH;
+                        return SAVE_MAP_1_SECTION_3_PATH;
                     case ESection.SECTION_4:
-                        return MAP_1_SECTION_4_PATH;
+                        return SAVE_MAP_1_SECTION_4_PATH;
                     case ESection.SECTION_5:
-                        return MAP_1_SECTION_5_PATH;
+                        return SAVE_MAP_1_SECTION_5_PATH;
                 }
             }
             else if (_mapType == EMapType.MAP_2)
@@ -160,30 +161,30 @@ public class FilePath
                 switch (_sectionType)
                 {
                     case ESection.SECTION_1:
-                        return MAP_2_SECTION_1_PATH;
+                        return SAVE_MAP_2_SECTION_1_PATH;
                     case ESection.SECTION_2:
-                        return MAP_2_SECTION_2_PATH;
+                        return SAVE_MAP_2_SECTION_2_PATH;
                     case ESection.SECTION_3:
-                        return MAP_2_SECTION_3_PATH;
+                        return SAVE_MAP_2_SECTION_3_PATH;
                 }
             }
         }
-        else if (_pathType == EPathType.RESOURCES)
+        else if (_pathType == EPathType.ASSETS)
         {
             if (_mapType == EMapType.MAP_1)
             {
                 switch (_sectionType)
                 {
                     case ESection.SECTION_1:
-                        return RESOURCES_MAP_1_SECTION_1_PATH;
+                        return ASSETS_MAP_1_SECTION_1_PATH;
                     case ESection.SECTION_2:
-                        return RESOURCES_MAP_1_SECTION_2_PATH;
+                        return ASSETS_MAP_1_SECTION_2_PATH;
                     case ESection.SECTION_3:
-                        return RESOURCES_MAP_1_SECTION_3_PATH;
+                        return ASSETS_MAP_1_SECTION_3_PATH;
                     case ESection.SECTION_4:
-                        return RESOURCES_MAP_1_SECTION_4_PATH;
+                        return ASSETS_MAP_1_SECTION_4_PATH;
                     case ESection.SECTION_5:
-                        return RESOURCES_MAP_1_SECTION_5_PATH;
+                        return ASSETS_MAP_1_SECTION_5_PATH;
                 }
             }
             else if (_mapType == EMapType.MAP_2)
@@ -191,11 +192,11 @@ public class FilePath
                 switch (_sectionType)
                 {
                     case ESection.SECTION_1:
-                        return RESOURCES_MAP_2_SECTION_1_PATH;
+                        return ASSETS_MAP_2_SECTION_1_PATH;
                     case ESection.SECTION_2:
-                        return RESOURCES_MAP_2_SECTION_2_PATH;
+                        return ASSETS_MAP_2_SECTION_2_PATH;
                     case ESection.SECTION_3:
-                        return RESOURCES_MAP_2_SECTION_3_PATH;
+                        return ASSETS_MAP_2_SECTION_3_PATH;
                 }
             }
         }

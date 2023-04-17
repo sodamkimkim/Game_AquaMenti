@@ -36,7 +36,7 @@ public class TestGameManager : MonoBehaviour
 #endif
                 // 3-2) Resources 경로로부터 Save경로로 파일을 복사합니다.
                 FileIO.CopyFile(
-                    FilePath.RESOURCES_MAP_PATH + dir,
+                    FilePath.ASSETS_MAP_PATH + dir,
                     FilePath.SAVE_PATH + dir,
                     fileName);
             }
