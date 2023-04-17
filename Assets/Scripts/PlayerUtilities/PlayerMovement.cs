@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         isJump_ = false;
         isLeftShiftKeyInput_ = false;
         //  characterController = this.GetComponent<CharacterController>();
+
     }
     public Transform GetPlayerTransform()
     {
@@ -40,6 +41,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
     public void Walk(Vector3 _direction)
     {
+
         if (isJump_)
         {
             gravity_ = jumpPower_;
@@ -59,8 +61,16 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         _direction.y = gravity_;
         // rb_.velocity = (_direction * walkSpeed_);
         // transform.position = GetPlayerPos() + _direction * walkSpeed_ * Time.deltaTime;
-        if (isLeftShiftKeyInput_) { Run(_direction); }
-        else characterController_.Move(transform.TransformDirection(_direction) * Time.deltaTime * walkSpeed_);
+        if (isLeftShiftKeyInput_)
+        {
+       
+            Run(_direction);
+        }
+        else
+        {
+            characterController_.Move(transform.TransformDirection(_direction) * Time.deltaTime * walkSpeed_);
+            
+        };
     }
     public void Run(Vector3 _direction)
     {
@@ -108,7 +118,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
     public void OnCollisionEnter(Collision _collision)
     {
-     //   if (_collision.gameObject.layer ==3) isGround_ = true;
-        if (_collision.gameObject.tag =="Floor" || _collision.gameObject.tag == "Ladder") isGround_ = true;
+        //   if (_collision.gameObject.layer ==3) isGround_ = true;
+        if (_collision.gameObject.tag == "Floor" || _collision.gameObject.tag == "Ladder") isGround_ = true;
     }
 } // end of class
