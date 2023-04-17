@@ -14,4 +14,5 @@ public interface IPlayerMovement
     void KneelDown(); // ¾þµå¸®±â
     void Jump();
     void SetPosition(Vector3 _direction, Quaternion _rotation);
+    void SetAnimation();
 }

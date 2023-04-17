@@ -58,7 +58,7 @@ public class TargetNamingManager : MonoBehaviour
         foreach (MeshPaintTarget mpt in _meshPaintTargetArr)
         {
             // Debug.Log(mpt.gameObject.name);
-            string prevName = mpt.gameObject.name.Trim();
+            string prevName = mpt.gameObject.name;
             mpt.gameObject.name = prevName + "_"+_mapIdx + "_"+_wsIdx;
 
         }
@@ -103,7 +103,7 @@ public class TargetNamingManager : MonoBehaviour
         int nameCount = 0;
         foreach (var item in _worksectionTargetsArr)
         {
-            if (_name == item.gameObject.name.Trim())
+            if (_name == item.gameObject.name)
             {
                 nameCount += 1;
             }

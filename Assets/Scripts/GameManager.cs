@@ -47,4 +47,8 @@ public class GameManager : MonoBehaviour
         outGameObjectsGo_.SetActive(true);
         isInGame_ = false;
     }
-} // end of class
+
+
+
+
+}
