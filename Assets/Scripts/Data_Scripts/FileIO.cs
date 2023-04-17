@@ -18,7 +18,7 @@ public class FileIO
         // System.Linq 사용
         DirectoryInfo externalDir = new DirectoryInfo(FilePath.SAVE_PATH);
         var externalFiles = from file in externalDir.GetFiles(_fileType, SearchOption.AllDirectories) select file;
-        DirectoryInfo resourceDir = new DirectoryInfo(FilePath.RESOURCES_MAP_PATH);
+        DirectoryInfo resourceDir = new DirectoryInfo(FilePath.ASSETS_MAP_PATH);
         var resourceFiles = from file in resourceDir.GetFiles(_fileType, SearchOption.AllDirectories) select file;
 
         List<string> missDirList = new List<string>();
@@ -28,7 +28,7 @@ public class FileIO
             if (externalFiles.Any(f => f.Name == file.Name) == false)
             {
                 // 경로 구분 문자를 '\'에서 '/'으로 통일시킵니다.
-                string missFilePath = Regex.Replace(file.FullName, @"[\\]", "/").Replace(FilePath.RESOURCES_MAP_PATH, "");
+                string missFilePath = Regex.Replace(file.FullName, @"[\\]", "/").Replace(FilePath.ASSETS_MAP_PATH, "");
 #if UNITY_EDITOR
                 //Debug.LogFormat("[FilePath] {0}- Missing File Name: {1}, path: {2}", i, file.Name, missFilePath);
 #endif

@@ -155,7 +155,7 @@ public class MeshPaintTarget : MonoBehaviour
             if (sampleTex == null)
             {
 #if UNITY_EDITOR
-                //Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
+                Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
 #endif
                 // 오염 텍스쳐를 생성하고 원본 UV를 복사함
                 dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
@@ -510,7 +510,7 @@ public class MeshPaintTarget : MonoBehaviour
         StringBuilder fileName = new StringBuilder();
         fileName.Append(gameObject.name);
         fileName.Append(".png");
-
+        Debug.LogErrorFormat("[MeshPaintTarget] LoadMask - fileName: {0}", fileName.ToString());
         byte[] bytes = FileIO.GetFileBinary(path, fileName.ToString());
 
 
@@ -567,6 +567,7 @@ public class MeshPaintTarget : MonoBehaviour
         int sectionNum = int.Parse(split[len - 2]) - 1;
 
         string path = FilePath.GetPath(FilePath.EPathType.EXTERNAL, (FilePath.EMapType)mapNum, (FilePath.ESection)sectionNum);
+        Debug.LogErrorFormat("[MeshPaintTarget] GetPath - {0}", path);
 
         return path;
     }
@@ -587,7 +588,7 @@ public class MeshPaintTarget : MonoBehaviour
 
         paintShader.Dispatch(kernelNoise, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Make Noise Texture");
+        //Debug.Log("Make Noise Texture");
 #endif
         Graphics.Blit(rTex, rTex);
 
