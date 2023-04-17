@@ -118,19 +118,14 @@ public class InventoryManager : MonoBehaviour
 
     private void SetStaff(NowWearingInfo.NowWearingItem _selectItem)
     {
-        if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff1.ToString())
+        if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.AmberStaff.ToString())
         { // # AmberStaff 켜기
             SetStaff(0);
             SetBottomUIStaffImg(_selectItem.itemImgFileName_);
         }
-        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff2.ToString())
+        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.DiamondStaff.ToString())
         { // # RubyStaff 켜기
             SetStaff(1);
-            SetBottomUIStaffImg(_selectItem.itemImgFileName_);
-        }
-        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff3.ToString())
-        { // # RubyStaff 켜기
-            SetStaff(2);
             SetBottomUIStaffImg(_selectItem.itemImgFileName_);
         }
     }
