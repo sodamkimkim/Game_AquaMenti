@@ -13986,7 +13986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectiveDistance_: 4
   maxDistance_: 6
-  size_: 10
+  size_: 20
 --- !u!4 &149418535000990398
 Transform:
   m_ObjectHideFlags: 0
@@ -14092,7 +14092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectiveDistance_: 4
   maxDistance_: 6
-  size_: 10
+  size_: 20
 --- !u!4 &149418535838019062
 Transform:
   m_ObjectHideFlags: 0
@@ -14156,7 +14156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectiveDistance_: 4
   maxDistance_: 6
-  size_: 10
+  size_: 20
 --- !u!4 &149418536054900427
 Transform:
   m_ObjectHideFlags: 0
@@ -14232,7 +14232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectiveDistance_: 4
   maxDistance_: 6
-  size_: 10
+  size_: 20
 --- !u!4 &149418536077917761
 Transform:
   m_ObjectHideFlags: 0
@@ -14296,7 +14296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectiveDistance_: 4
   maxDistance_: 6
-  size_: 10
+  size_: 20
 --- !u!4 &149418536164257051
 Transform:
   m_ObjectHideFlags: 0
@@ -20713,6 +20713,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!4 &2031158891146915152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031158891146915182}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2031158891146915153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031158891146915182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d346d44d1a83f584da8f77f1e9b07cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPaintManager_: {fileID: 4512926308869293143}
+--- !u!1 &2031158891146915182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2031158891146915152}
+  - component: {fileID: 2031158891146915153}
+  m_Layer: 0
+  m_Name: TestGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!114 &2038840250214606736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45993,6 +46038,50 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &4512926308869293140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4512926308869293142}
+  - component: {fileID: 4512926308869293143}
+  m_Layer: 0
+  m_Name: MeshPaintManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4512926308869293142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4512926308869293140}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4512926308869293143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4512926308869293140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79fd702c70102a042bdbb11a1ac57841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &4528078415695348496
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51847,7 +51936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed_: 5
-  jumpPower_: 5
+  jumpPower_: 2
   runSpeed_: 7.5
 --- !u!114 &5241878060400726520
 MonoBehaviour:

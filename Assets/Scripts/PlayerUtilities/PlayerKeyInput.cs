@@ -22,7 +22,7 @@ public class PlayerKeyInput : MonoBehaviour
     [SerializeField]
     private UsingToolManager usingToolManager_ = null;
     private WaterPumpActivator nowWaterPumpActivator_ = null;
-    private PlayerAnimation playerAnimation_ = null;
+
     private PlayerYRotate playerYRotate_ = null;
 
     private bool useWand { get; set; }
@@ -32,18 +32,19 @@ public class PlayerKeyInput : MonoBehaviour
     [SerializeField]
     private InGameAllItemInfo inGameAllItemInfo_ = null;
     private List<NowWearingInfo.NowWearingItem> spellList_ = new List<NowWearingInfo.NowWearingItem>();
+    private PlayerAnimation playerAnimation_ = null;
     private int spellIdx_ = 0;
     private void Awake()
     {
         //  inventoryManager_ = GetComponent<InventoryManager>();
         playerMovement_ = GetComponent<PlayerMovement>();
         wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
-        playerAnimation_ = GetComponent<PlayerAnimation>();
+
         isOutGameUIOpen = false;
         isInventoryUIOpen = false;
 
         spellList_.Clear();
-
+        playerAnimation_ = GetComponent<PlayerAnimation>();
 
 
     }
@@ -84,14 +85,17 @@ public class PlayerKeyInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             playerMovement_.Jump();
-            playerAnimation_.IsWalk(true);
         }
         // move
         float axisH = Input.GetAxis("Horizontal");
         float axisV = Input.GetAxis("Vertical");
+        if (axisH != 0 || axisV != 0)
+        {
+            playerAnimation_.IsWalk(true);
+        }
         playerMovement_.Walk(new Vector3(axisH, 0f, axisV));
         // focus Center
-        if (Input.GetKeyDown(KeyCode.C)&& !playerFocusManager_.isInventoryOpen_)
+        if (Input.GetKeyDown(KeyCode.C) && !playerFocusManager_.isInventoryOpen_)
         {
             if (playerFocusManager_.isFocusFixed_ == true) { playerFocusManager_.isFocusFixed_ = false; Debug.Log("isFocusFixed_ = false"); }
             else if (playerFocusManager_.isFocusFixed_ == false) { playerFocusManager_.isFocusFixed_ = true; Debug.Log("isFocusFixed_ = true"); }
