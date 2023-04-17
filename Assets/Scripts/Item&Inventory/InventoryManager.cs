@@ -58,7 +58,7 @@ public class InventoryManager : MonoBehaviour
     {
         SetStaff(0);
         SetBottomUIStaffImg("Staff1"); // TODO 임시, save load 들어가면 변경해야함!
-       // SetSpell(0);
+                                       // SetSpell(0);
         SetBottomUISpellImg("Deg0MagicSpell"); // TODO 임시, save load 들어가면 변경해야함!
     }
     public void OpenInventoryPan()
@@ -144,8 +144,8 @@ public class InventoryManager : MonoBehaviour
         {
             go.SetActive(true);
             go.transform.SetParent(staffArr_[_idx].transform);
-            //TODO
-            // staff 변경할 때, parts default 셋팅 해줘야 함!
+            go.transform.localPosition = new Vector3(0f, 0f, 0f);
+            go.transform.localRotation = Quaternion.identity;    
 
         }
         nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
