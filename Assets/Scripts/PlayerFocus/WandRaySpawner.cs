@@ -11,13 +11,13 @@ public class WandRaySpawner : MonoBehaviour
     [SerializeField]
     private MeshPaintBrush[] sideRayBrushArr = new MeshPaintBrush[5];
 
-    // # side rays endPosition±¸ÇÒ ÇÊµå
+    // # side rays endPositionï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½
     [SerializeField]
-    private float rayPosDefaultOffset_ = 0.05f; // 5°³ °¢ rayÀÇ offset, center¸¦ ±âÁØÀ¸·Î ÇØ´ç °ª¸¸Å­ ¶³¾îÁ®¼­ »ý¼º (RotateÀü ±âº» Ãà : X)
+    private float rayPosDefaultOffset_ = 0.05f; // 5ï¿½ï¿½ ï¿½ï¿½ rayï¿½ï¿½ offset, centerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (Rotateï¿½ï¿½ ï¿½âº» ï¿½ï¿½ : X)
     [SerializeField]
     private float mainRayMaxDistance_ = 10f;
     [SerializeField]
-    private float sideRayMaxDistance_ = 0f; // centerRayMaxDistance ÀÇ 0.5¸¸Å­À¸·Î ÃÊ±âÈ­
+    private float sideRayMaxDistance_ = 0f; // centerRayMaxDistance ï¿½ï¿½ 0.5ï¿½ï¿½Å­ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 
     private Ray centerRay_;
 
@@ -27,6 +27,7 @@ public class WandRaySpawner : MonoBehaviour
 
     public string cleaningTargetName_ { get; private set; }
     public float cleaningPercent_ { get; private set; }
+    public float rayAngle_ { get; set; } // ï¿½ï¿½ ï¿½Ð»ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class WandRaySpawner : MonoBehaviour
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
         isLadder_ = false;
         cleaningTargetName_ = "";
+        rayAngle_ = 0f;
     }
     private void Update()
     {
@@ -58,8 +60,8 @@ public class WandRaySpawner : MonoBehaviour
         return transform.localPosition;
     }
     /// <summary>
-    /// WandRaySpawner·ÎºÎÅÍ SreenCenter·Î Ray½÷ÁÖ´Â ¸Þ¼­µå
-    /// Ray ¸ÂÀº IInteractableObject ¹°Ã¼ ÀÎ½Ä ÇÔ.
+    /// WandRaySpawnerï¿½Îºï¿½ï¿½ï¿½ SreenCenterï¿½ï¿½ Rayï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+    /// Ray ï¿½ï¿½ï¿½ï¿½ IInteractableObject ï¿½ï¿½Ã¼ ï¿½Î½ï¿½ ï¿½ï¿½.
     /// </summary>
     public void RayScreenCenterShot()
     {
@@ -68,7 +70,7 @@ public class WandRaySpawner : MonoBehaviour
         RayFindObject();
     }
     /// <summary>
-    /// WandRaySpawner·ÎºÎÅÍ MousePositionÀ¸·Î Ray½÷ÁÖ´Â ¸Þ¼­µå
+    /// WandRaySpawnerï¿½Îºï¿½ï¿½ï¿½ MousePositionï¿½ï¿½ï¿½ï¿½ Rayï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     /// </summary>
     public void RayMoveFocusShot()
     {
@@ -76,21 +78,19 @@ public class WandRaySpawner : MonoBehaviour
         centerRay_ = Camera.main.ScreenPointToRay(mousePos);
         uIFocusPoint_.SetPos(mousePos);
         RayFindObject();
-
-
     }
     private void RayFindObject()
     {
         RaycastHit hit;
         if (Physics.Raycast(centerRay_, out hit, mainRayMaxDistance_))
         {
-            // # »ç´Ù¸® ÀÎ½Ä
+            // # ï¿½ï¿½Ù¸ï¿½ ï¿½Î½ï¿½
             IInteractableObject target = hit.collider.GetComponentInParent<IInteractableObject>();
             if (target != null)
             {
                 //Debug.Log(target.GetName());
 
-                // targetÀÌ¸§ÀÌ LadderÀÌ¸é bool °ªÀ» ¹Ù²ã¼­ LadderÀÇ À§Ä¡¸¦ ¿Å±æ ¼ö ÀÖÀ½
+                // targetï¿½Ì¸ï¿½ï¿½ï¿½ Ladderï¿½Ì¸ï¿½ bool ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ã¼­ Ladderï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Å±ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (target.GetName() == IInteractableTool.EInteractableTool.Ladder.ToString())
                 {
                     isLadder_ = true;
@@ -107,7 +107,7 @@ public class WandRaySpawner : MonoBehaviour
             }
             hitPos_ = hit.point;
 
-            // # meshpaint target ÀÎ½Ä
+            // # meshpaint target ï¿½Î½ï¿½
             MeshPaintTarget meshPaintTarget = hit.collider.gameObject.GetComponent<MeshPaintTarget>();
             if (meshPaintTarget != null)
             {
@@ -155,6 +155,26 @@ public class WandRaySpawner : MonoBehaviour
         sideRayBrushArr[2].TimingDraw(centerRay_);
         sideRayBrushArr[3].TimingDraw(centerRay_);
         sideRayBrushArr[4].TimingDraw(centerRay_);
+
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Vector3 nozzleDirection = centerRay_.direction;
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sprayAngleï¿½ï¿½Å­ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Quaternion dir0Rotation = Quaternion.AngleAxis(rayAngle_/12, -transform.right);
+        Quaternion dir1Rotation = Quaternion.AngleAxis(rayAngle_/(12*2), -transform.right);
+        Quaternion dir3Rotation = Quaternion.AngleAxis(rayAngle_/(12*2), transform.right);
+        Quaternion dir4Rotation = Quaternion.AngleAxis(rayAngle_/12, transform.right);
+
+        Vector3 dir0 = dir0Rotation * nozzleDirection;
+        Vector3 dir1 = dir1Rotation * nozzleDirection;
+      
+        Vector3 dir3 = dir3Rotation * nozzleDirection;
+        Vector3 dir4 = dir4Rotation * nozzleDirection;
+
+        sideRayBrushArr[0].SetRayDirection(dir0);
+        sideRayBrushArr[1].SetRayDirection(dir1);
+        sideRayBrushArr[2].SetRayDirection(centerRay_.direction);
+        sideRayBrushArr[3].SetRayDirection(dir3);
+        sideRayBrushArr[4].SetRayDirection(dir4);
     }
     public bool RaysIsPainting()
     {

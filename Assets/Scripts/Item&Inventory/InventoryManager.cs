@@ -31,6 +31,9 @@ public class InventoryManager : MonoBehaviour
     private WaterPumpActivator nowWaterPumpActivator_ = null;
     [SerializeField]
     private GameObject[] invenUIArr_ = new GameObject[3]; // Inventory panel 하위의 Inventory, SelectStaff, SelectSpell UI GameObject 저장하는 Arr
+
+    [SerializeField]
+    private WandRaySpawner wandRaySpawner_ = null;
     private void Awake()
     {
         // # 변수 초기화
@@ -55,7 +58,7 @@ public class InventoryManager : MonoBehaviour
     {
         SetStaff(0);
         SetBottomUIStaffImg("Staff1"); // TODO 임시, save load 들어가면 변경해야함!
-       // SetSpell(0);
+                                       // SetSpell(0);
         SetBottomUISpellImg("Deg0MagicSpell"); // TODO 임시, save load 들어가면 변경해야함!
     }
     public void OpenInventoryPan()
@@ -73,7 +76,7 @@ public class InventoryManager : MonoBehaviour
     /// : 하위 매니져에서 item 선택하면 콜백으로 이 메서드 실행.
     /// - invenUI다꺼주고 invenUI켜주는 메서드
     /// </summary>
-    private void SelectItem(NowWearingInfo.NowWearingItem _selectItem)
+    public void SelectItem(NowWearingInfo.NowWearingItem _selectItem)
     {
         CloseAllInvenUIAndOpenDefaultUI();
         // # staff spell 구분해서 NowWearing 함수 호출
@@ -86,7 +89,7 @@ public class InventoryManager : MonoBehaviour
         else if (_selectItem.itemCategory_.Equals(InGameAllItemInfo.EItemCategory.Spell.ToString()))
         { // # Spell
             nowWearingInfo_.SetNowWearingItem(_selectItem);
-            SetSpell(_selectItem); // TODO
+            SetSpell(_selectItem);
 
         }
     }
@@ -118,19 +121,14 @@ public class InventoryManager : MonoBehaviour
 
     private void SetStaff(NowWearingInfo.NowWearingItem _selectItem)
     {
-        if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff1.ToString())
+        if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.AmberStaff.ToString())
         { // # AmberStaff 켜기
             SetStaff(0);
             SetBottomUIStaffImg(_selectItem.itemImgFileName_);
         }
-        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff2.ToString())
+        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.DiamondStaff.ToString())
         { // # RubyStaff 켜기
             SetStaff(1);
-            SetBottomUIStaffImg(_selectItem.itemImgFileName_);
-        }
-        else if (_selectItem.itemName_ == InGameAllItemInfo.EStaffName.Staff3.ToString())
-        { // # RubyStaff 켜기
-            SetStaff(2);
             SetBottomUIStaffImg(_selectItem.itemImgFileName_);
         }
     }
@@ -146,8 +144,8 @@ public class InventoryManager : MonoBehaviour
         {
             go.SetActive(true);
             go.transform.SetParent(staffArr_[_idx].transform);
-            //TODO
-            // staff 변경할 때, parts default 셋팅 해줘야 함!
+            go.transform.localPosition = new Vector3(0f, 0f, 0f);
+            go.transform.localRotation = Quaternion.identity;    
 
         }
         nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
@@ -164,22 +162,22 @@ public class InventoryManager : MonoBehaviour
         // TODO
         if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg0MagicSpell.ToString())
         { // # AmberStaff 켜기
-            //SetSpell(0);
+            wandRaySpawner_.rayAngle_ = 0f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg15MagicSpell.ToString())
         { // # RubyStaff 켜기
-            //SetSpell(1);
+            wandRaySpawner_.rayAngle_ = 15f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg25MagicSpell.ToString())
         { // # RubyStaff 켜기
-            //SetSpell(3);
+            wandRaySpawner_.rayAngle_ = 25f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg45MagicSpell.ToString())
         { // # RubyStaff 켜기
-            //SetSpell(4);
+            wandRaySpawner_.rayAngle_ = 45f;
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
 

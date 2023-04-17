@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class NowWearingInfo : MonoBehaviour
 {
     // 0: EquipedStaff, 1: EquipedSpell
+    [SerializeField]
     private EquipedItem[] equipedItemArr = null;
     
     // 현재 착용 중인 아이템 정보 기록에 사용할 structure
@@ -45,9 +46,9 @@ public class NowWearingInfo : MonoBehaviour
     {
         NowWearingItem defaultStaff = new NowWearingItem();
         defaultStaff.itemCategory_ = "Staff";
-        defaultStaff.itemName_ = "Staff1";
+        defaultStaff.itemName_ = "AmberStaff";
         defaultStaff.itemDescription_ = "기본 Staff";
-        defaultStaff.itemImgFileName_ = "Staff1";
+        defaultStaff.itemImgFileName_ = "AmberStaff";
         //nowWearingArr_[0] = defaultStaff;
         SetNowWearingItem(defaultStaff);
 
@@ -76,8 +77,8 @@ public class NowWearingInfo : MonoBehaviour
         }
 
         nowWearingArr_[idx] = _selectItem;
-        Debug.Log(nowWearingArr_[idx].ToString());
-        Debug.Log(nowWearingArr_[idx].ToString());
+     //   Debug.Log(nowWearingArr_[idx].ToString());
+    //    Debug.Log(nowWearingArr_[idx].ToString());
 
         equipedItemArr[idx].itemCategory = nowWearingArr_[idx].itemCategory_;
         equipedItemArr[idx].itemName = nowWearingArr_[idx].itemName_;
