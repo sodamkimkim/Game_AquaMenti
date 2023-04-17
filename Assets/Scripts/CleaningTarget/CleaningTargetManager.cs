@@ -15,6 +15,7 @@ public class CleaningTargetManager : MonoBehaviour
     private TargetObjectData targetObjectData_ = null;
     [SerializeField]
     private GameObject playerGo_ = null;
+    [SerializeField]
     private WandRaySpawner wandRaySpawner_ = null;
 
     [SerializeField]
@@ -43,6 +44,7 @@ public class CleaningTargetManager : MonoBehaviour
     }
     private void SetCleaningTargetStatusUI()
     {
+        Debug.Log(wandRaySpawner_);
         // ex) object Name: Barrel_1_1
         if (wandRaySpawner_.cleaningTargetName_ != "")
         {
