@@ -231,6 +231,10 @@ public class MeshPaintBrush : MonoBehaviour
             StartCoroutine("TimingDrawCoroutine");
         }
     }
+    public void SetRayDirection(Vector3 _dir)
+    {
+        ray_.direction = _dir;
+    }
     public void StopTimingDraw()
     {
         if (drawCoroutine_ == true)
@@ -286,6 +290,7 @@ public class MeshPaintBrush : MonoBehaviour
             // _ray로 바꿔주기
             Ray Ray = ray_;
 
+
             Ray.origin = this.transform.position;
 
             //Ray.direction = _direction;
@@ -316,7 +321,7 @@ public class MeshPaintBrush : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log("[SaveTargetProcessCoroutine]");
 #endif
-        while(true)
+        while (true)
         {
             // 클리어 상태가 되었다면 마지막 진행도를 저장 후 Coroutine을 멈춥니다.
             if (target_ != null && target_.IsDrawable() && target_.IsClear())
