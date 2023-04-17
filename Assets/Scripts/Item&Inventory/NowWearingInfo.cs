@@ -46,9 +46,9 @@ public class NowWearingInfo : MonoBehaviour
     {
         NowWearingItem defaultStaff = new NowWearingItem();
         defaultStaff.itemCategory_ = "Staff";
-        defaultStaff.itemName_ = "Staff1";
+        defaultStaff.itemName_ = "AmberStaff";
         defaultStaff.itemDescription_ = "±âº» Staff";
-        defaultStaff.itemImgFileName_ = "Staff1";
+        defaultStaff.itemImgFileName_ = "AmberStaff";
         //nowWearingArr_[0] = defaultStaff;
         SetNowWearingItem(defaultStaff);
 

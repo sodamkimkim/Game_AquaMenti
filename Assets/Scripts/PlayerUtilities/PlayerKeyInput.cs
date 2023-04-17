@@ -22,6 +22,7 @@ public class PlayerKeyInput : MonoBehaviour
     [SerializeField]
     private UsingToolManager usingToolManager_ = null;
     private WaterPumpActivator nowWaterPumpActivator_ = null;
+    private PlayerAnimation playerAnimation_ = null;
     private bool useWand { get; set; }
     private bool isOutGameUIOpen { get; set; }
     private bool isInventoryUIOpen { get; set; }
@@ -35,7 +36,7 @@ public class PlayerKeyInput : MonoBehaviour
         //  inventoryManager_ = GetComponent<InventoryManager>();
         playerMovement_ = GetComponent<PlayerMovement>();
         wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
-
+        playerAnimation_ = GetComponent<PlayerAnimation>();
         isOutGameUIOpen = false;
         isInventoryUIOpen = false;
 
@@ -50,6 +51,7 @@ public class PlayerKeyInput : MonoBehaviour
     }
     private void Update()
     {
+        playerAnimation_.IsWalk(false);
         // OutGameUI on / off
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -78,26 +80,31 @@ public class PlayerKeyInput : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             playerMovement_.Walk(playerMovement_.GetPlayerTransform().forward);
+            playerAnimation_.IsWalk(true);
         }
         // move backWard
         if (Input.GetKey(KeyCode.S))
         {
             playerMovement_.Walk(-playerMovement_.GetPlayerTransform().forward);
+            playerAnimation_.IsWalk(true);
         }
         // move left
         if (Input.GetKey(KeyCode.A))
         {
             playerMovement_.Walk(-playerMovement_.GetPlayerTransform().right);
+            playerAnimation_.IsWalk(true);
         }
         // move right
         if (Input.GetKey(KeyCode.D))
         {
             playerMovement_.Walk(playerMovement_.GetPlayerTransform().right);
+            playerAnimation_.IsWalk(true);
         }
         // jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
             playerMovement_.Jump();
+            playerAnimation_.IsWalk(true);
         }
         // focus Center
         if (Input.GetKeyDown(KeyCode.C))

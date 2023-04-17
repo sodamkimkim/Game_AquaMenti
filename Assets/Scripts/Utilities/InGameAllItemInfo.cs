@@ -13,7 +13,7 @@ public class InGameAllItemInfo : MonoBehaviour
     private List<Dictionary<string, object>> itemSpellInfoList_ = new List<Dictionary<string, object>>();
     private List<NowWearingInfo.NowWearingItem> spellList_ = new List<NowWearingInfo.NowWearingItem>();
     public enum EItemCategory { Staff, Spell, Len }
-    public enum EStaffName { Staff1, Staff2, Staff3, Len }
+    public enum EStaffName { AmberStaff, DiamondStaff, Len }
     public enum ESpellName
     {
         Deg0MagicSpell,
