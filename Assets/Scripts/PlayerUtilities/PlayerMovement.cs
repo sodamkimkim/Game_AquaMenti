@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     [SerializeField] private float walkSpeed_ = 5f;
     [SerializeField] private float jumpPower_ = 5f;
     [SerializeField] private float runSpeed_ = 7.5f;
+    private PlayerAnimation playerAnimation_ = null;
     private float gravity_ = -9.8f;
     private float beforePosY_ = 0f;
 
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     {
         //rb_ = this.GetComponent<Rigidbody>();
         characterController_ = GetComponent<CharacterController>();
+        playerAnimation_ = GetComponent<PlayerAnimation>();
         isGround_ = true;
         isJump_ = false;
         isLeftShiftKeyInput_ = false;
@@ -59,8 +61,13 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         _direction.y = gravity_;
         // rb_.velocity = (_direction * walkSpeed_);
         // transform.position = GetPlayerPos() + _direction * walkSpeed_ * Time.deltaTime;
-        if (isLeftShiftKeyInput_) { Run(_direction); }
-        else characterController_.Move(transform.TransformDirection(_direction) * Time.deltaTime * walkSpeed_);
+        if (isLeftShiftKeyInput_) { 
+            Run(_direction);
+        }
+        else
+        {
+            characterController_.Move(transform.TransformDirection(_direction) * Time.deltaTime * walkSpeed_);
+        }
     }
     public void Run(Vector3 _direction)
     {

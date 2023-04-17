@@ -83,11 +83,14 @@ public class PlayerKeyInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             playerMovement_.Jump();
-            playerAnimation_.IsWalk(true);
         }
         // move
         float axisH = Input.GetAxis("Horizontal");
         float axisV = Input.GetAxis("Vertical");
+        if(axisH != 0 || axisV != 0)
+        {
+            playerAnimation_.IsWalk(true);
+        }
         playerMovement_.Walk(new Vector3(axisH, 0f, axisV));
         // focus Center
         if (Input.GetKeyDown(KeyCode.C)&& !playerFocusManager_.isInventoryOpen_)

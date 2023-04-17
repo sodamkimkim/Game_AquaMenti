@@ -28,7 +28,6 @@ public class CleaningTargetManager : MonoBehaviour
     private void Awake()
     {
         targetObjectData_ = GetComponent<TargetObjectData>();
-        wandRaySpawner_ = playerGo_.GetComponentInChildren<WandRaySpawner>();
 
         // # UI
         objectNameUI_ = washInfoGO_.GetComponentInChildren<ObjectNameUI>();
@@ -44,7 +43,6 @@ public class CleaningTargetManager : MonoBehaviour
     }
     private void SetCleaningTargetStatusUI()
     {
-        Debug.Log(wandRaySpawner_);
         // ex) object Name: Barrel_1_1
         if (wandRaySpawner_.cleaningTargetName_ != "")
         {
