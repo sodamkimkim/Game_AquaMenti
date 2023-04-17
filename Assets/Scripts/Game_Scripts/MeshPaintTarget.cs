@@ -510,7 +510,7 @@ public class MeshPaintTarget : MonoBehaviour
         StringBuilder fileName = new StringBuilder();
         fileName.Append(gameObject.name);
         fileName.Append(".png");
-        Debug.LogErrorFormat("[MeshPaintTarget] LoadMask - fileName: {0}", fileName.ToString());
+        //Debug.LogErrorFormat("[MeshPaintTarget] LoadMask - fileName: {0}", fileName.ToString());
         byte[] bytes = FileIO.GetFileBinary(path, fileName.ToString());
 
 
@@ -567,7 +567,7 @@ public class MeshPaintTarget : MonoBehaviour
         int sectionNum = int.Parse(split[len - 2]) - 1;
 
         string path = FilePath.GetPath(FilePath.EPathType.EXTERNAL, (FilePath.EMapType)mapNum, (FilePath.ESection)sectionNum);
-        Debug.LogErrorFormat("[MeshPaintTarget] GetPath - {0}", path);
+        //Debug.LogErrorFormat("[MeshPaintTarget] GetPath - {0}", path);
 
         return path;
     }
