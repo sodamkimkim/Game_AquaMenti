@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class UpperBodyLook : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject rayGroup = null;
     private readonly float focusFixedModeOffsetAngle_ = 2f;
     private readonly float focusMoveModeOffsetAngle_ = 1f;
     private Camera mainCam_;
+
     private void Awake()
     {
         SetCameraPos();
@@ -21,12 +24,16 @@ public class UpperBodyLook : MonoBehaviour
     {
         mainCam_ = Camera.main;
         mainCam_.transform.SetParent(this.transform);
-        Vector3 newCamPos = mainCam_.transform.localPosition;
 
-        //   newCamPos.x = -0.78f;
-        newCamPos.y = 0.28f;
-        newCamPos.z = 0.38f;
+        Vector3 newCamPos = mainCam_.transform.localPosition;
+        newCamPos.x = -0.085f;
+        newCamPos.y = 0.413f;
+        newCamPos.z = 0.1f;
         mainCam_.transform.localPosition = newCamPos;
+
+        rayGroup.transform.SetParent(null);
+        rayGroup.transform.SetParent(mainCam_.transform);
+        rayGroup.transform.localPosition = new Vector3(0f, 0f, 0f);
     }
     public Vector3 GetEuler()
     {
@@ -80,10 +87,10 @@ public class UpperBodyLook : MonoBehaviour
                 transform.localRotation = q;
             }
             float mouseY = Input.GetAxis("Mouse Y");
-              transform.Rotate(-mouseY * focusFixedModeOffsetAngle_, 0f, 0f);
+            transform.Rotate(-mouseY * focusFixedModeOffsetAngle_, 0f, 0f);
             //float rotAngle = 0f;
             //rotAngle = focusFixedModeOffsetAngle_;
-      //      transform.Rotate(Vector3.right, Mathf.Clamp(rotAngle* -mouseY, -0.3f, 0.22f));
+            //      transform.Rotate(Vector3.right, Mathf.Clamp(rotAngle* -mouseY, -0.3f, 0.22f));
 
         }
     }
@@ -94,20 +101,20 @@ public class UpperBodyLook : MonoBehaviour
     /// <param name="_para"></param>
     public void RotateUpperBodyUP(bool _para)
     {
-            //Debug.Log("RotateUpperBodyAxisXUP()");
-            //if (transform.localRotation.x > 0.22)
-            //{
-            //    Quaternion q = transform.localRotation;
-            //    q.x = 0.22f;
-            //    transform.localRotation = q;
-            //}
+        //Debug.Log("RotateUpperBodyAxisXUP()");
+        //if (transform.localRotation.x > 0.22)
+        //{
+        //    Quaternion q = transform.localRotation;
+        //    q.x = 0.22f;
+        //    transform.localRotation = q;
+        //}
         if (_para)
         {
 
             float rotAngle = 0f;
             rotAngle = -focusMoveModeOffsetAngle_;
             transform.Rotate(Vector3.right, Mathf.Clamp(rotAngle, -0.3f, 0.22f));
-         //   transform.Rotate(Vector3.right, Mathf.Clamp(transform.localRotation.x, -0.3f, 0.22f));
+            //   transform.Rotate(Vector3.right, Mathf.Clamp(transform.localRotation.x, -0.3f, 0.22f));
 
         }
     }
@@ -117,13 +124,13 @@ public class UpperBodyLook : MonoBehaviour
     /// <param name="_para"></param>
     public void RotateUpperBodyDown(bool _para)
     {
-            //Debug.Log("RotateUpperBodyAxisXDown()");
-            //if (transform.localRotation.x < -0.31)
-            //{
-            //    Quaternion q = transform.localRotation;
-            //    q.x = -0.31f;
-            //    transform.localRotation = q;
-            //}
+        //Debug.Log("RotateUpperBodyAxisXDown()");
+        //if (transform.localRotation.x < -0.31)
+        //{
+        //    Quaternion q = transform.localRotation;
+        //    q.x = -0.31f;
+        //    transform.localRotation = q;
+        //}
         if (_para)
         {
 

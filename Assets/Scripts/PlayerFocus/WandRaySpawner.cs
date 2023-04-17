@@ -27,6 +27,8 @@ public class WandRaySpawner : MonoBehaviour
 
     public string cleaningTargetName_ { get; private set; }
     public float cleaningPercent_ { get; private set; }
+    public float rayAngle_ { get; set; } // 물 분사 각도
+
 
     private void Awake()
     {
@@ -34,6 +36,7 @@ public class WandRaySpawner : MonoBehaviour
         screenCenter_ = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
         isLadder_ = false;
         cleaningTargetName_ = "";
+        rayAngle_ = 0f;
     }
     private void Update()
     {
@@ -76,8 +79,6 @@ public class WandRaySpawner : MonoBehaviour
         centerRay_ = Camera.main.ScreenPointToRay(mousePos);
         uIFocusPoint_.SetPos(mousePos);
         RayFindObject();
-
-
     }
     private void RayFindObject()
     {
@@ -113,6 +114,7 @@ public class WandRaySpawner : MonoBehaviour
             {
                 cleaningTargetName_ = meshPaintTarget.gameObject.name;
                 cleaningPercent_ = meshPaintTarget.GetPercent();
+
                 //Debug.Log("meshPaintTarget Name: " + cleaningTargetName_);
             }
             else
@@ -155,6 +157,26 @@ public class WandRaySpawner : MonoBehaviour
         sideRayBrushArr[2].TimingDraw(centerRay_);
         sideRayBrushArr[3].TimingDraw(centerRay_);
         sideRayBrushArr[4].TimingDraw(centerRay_);
+
+        // 노즐의 방향을 구함
+        Vector3 nozzleDirection = centerRay_.direction;
+        // 노즐 방향을 기준으로 sprayAngle만큼 회전한 방향 벡터를 구함
+        Quaternion dir0Rotation = Quaternion.AngleAxis(rayAngle_/12, -transform.right);
+        Quaternion dir1Rotation = Quaternion.AngleAxis(rayAngle_/(12*2), -transform.right);
+        Quaternion dir3Rotation = Quaternion.AngleAxis(rayAngle_/(12*2), transform.right);
+        Quaternion dir4Rotation = Quaternion.AngleAxis(rayAngle_/12, transform.right);
+
+        Vector3 dir0 = dir0Rotation * nozzleDirection;
+        Vector3 dir1 = dir1Rotation * nozzleDirection;
+      
+        Vector3 dir3 = dir3Rotation * nozzleDirection;
+        Vector3 dir4 = dir4Rotation * nozzleDirection;
+
+        sideRayBrushArr[0].SetRayDirection(dir0);
+        sideRayBrushArr[1].SetRayDirection(dir1);
+        sideRayBrushArr[2].SetRayDirection(centerRay_.direction);
+        sideRayBrushArr[3].SetRayDirection(dir3);
+        sideRayBrushArr[4].SetRayDirection(dir4);
     }
     public bool RaysIsPainting()
     {

@@ -27,7 +27,7 @@ public class CleaningTargetManager : MonoBehaviour
     private void Awake()
     {
         targetObjectData_ = GetComponent<TargetObjectData>();
-        wandRaySpawner_ = playerGo_.GetComponentInChildren<WandRaySpawner>();
+        wandRaySpawner_ = Camera.main.GetComponentInChildren<WandRaySpawner>();
 
         // # UI
         objectNameUI_ = washInfoGO_.GetComponentInChildren<ObjectNameUI>();
@@ -48,9 +48,11 @@ public class CleaningTargetManager : MonoBehaviour
         {
             string koreanName = targetObjectData_.GetKoreanName(wandRaySpawner_.cleaningTargetName_);
             objectNameUI_.SetObjectName(koreanName);
+
             //Debug.Log(1f - wandRaySpawner_.cleaningPercent_ * 0.01f);
             cleaningProgressPanUI.SetCleaningProgressImgFillAmt(1f - wandRaySpawner_.cleaningPercent_ * 0.01f);
             cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);
+
             cleaningPercentageUI.SetActive(true);
         }
         else
