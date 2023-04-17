@@ -31,7 +31,7 @@ public class InGameAllItemInfo : MonoBehaviour
         itemImgSpriteArr_ = Resources.LoadAll<Sprite>("Textures\\UI\\Items");
         foreach (var item in itemImgSpriteArr_)
         {
-            Debug.Log(item);
+           // Debug.Log(item);
         }
 
     }
@@ -166,7 +166,7 @@ public class InGameAllItemInfo : MonoBehaviour
             spellItem.itemImgFileName_ = itemSpellInfoList_[i]["ImageFileName"].ToString();
             //spellItem.itemCategory_ = itemSpellInfoList_[i]["Useable"].ToString();
             spellList_.Add(spellItem);
-        Debug.Log("######" + spellList_[i].itemName_);
+       // Debug.Log("######" + spellList_[i].itemName_);
         }
     }
     public void GetSpellItemList(out List<NowWearingInfo.NowWearingItem> _spellList)

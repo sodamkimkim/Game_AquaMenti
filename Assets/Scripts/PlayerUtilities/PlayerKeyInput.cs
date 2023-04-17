@@ -23,6 +23,8 @@ public class PlayerKeyInput : MonoBehaviour
     private UsingToolManager usingToolManager_ = null;
     private WaterPumpActivator nowWaterPumpActivator_ = null;
     private PlayerAnimation playerAnimation_ = null;
+    private PlayerYRotate playerYRotate_ = null;
+
     private bool useWand { get; set; }
     private bool isOutGameUIOpen { get; set; }
     private bool isInventoryUIOpen { get; set; }
@@ -41,7 +43,8 @@ public class PlayerKeyInput : MonoBehaviour
         isInventoryUIOpen = false;
 
         spellList_.Clear();
- 
+
+
 
     }
     private void Start()
@@ -107,13 +110,13 @@ public class PlayerKeyInput : MonoBehaviour
             playerAnimation_.IsWalk(true);
         }
         // focus Center
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C)&& !playerFocusManager_.isInventoryOpen_)
         {
             if (playerFocusManager_.isFocusFixed_ == true) { playerFocusManager_.isFocusFixed_ = false; Debug.Log("isFocusFixed_ = false"); }
             else if (playerFocusManager_.isFocusFixed_ == false) { playerFocusManager_.isFocusFixed_ = true; Debug.Log("isFocusFixed_ = true"); }
         }
         // 마법영역 Rotate
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !playerFocusManager_.isInventoryOpen_)
         {
             playerFocusManager_.RotateWaterMagic();
         }
@@ -122,13 +125,17 @@ public class PlayerKeyInput : MonoBehaviour
         {
             if (inventoryManager_.isInventoryPanOpen_ == false)
             {
+                playerFocusManager_.isInventoryOpen_ = true;
                 inventoryManager_.OpenInventoryPan();
                 isInventoryUIOpen = true;
+                Debug.Log("?????????????? " + gameManager_.isInGame_);
             }
             else if (inventoryManager_.isInventoryPanOpen_ == true)
             {
+                gameManager_.isInGame_ = true;
                 inventoryManager_.CloseInventoryPan();
                 isInventoryUIOpen = false;
+                playerFocusManager_.isInventoryOpen_ = false;
             }
 
         }
@@ -150,7 +157,7 @@ public class PlayerKeyInput : MonoBehaviour
 
                 useWand = true;
                 wandRaySpawner_.RaysTimingDraw();
-               // Debug.Log(isInventoryUIOpen.ToString() + isOutGameUIOpen.ToString() + "마우스 좌클릭");
+                // Debug.Log(isInventoryUIOpen.ToString() + isOutGameUIOpen.ToString() + "마우스 좌클릭");
 
 
             }
@@ -174,11 +181,11 @@ public class PlayerKeyInput : MonoBehaviour
             Debug.Log(scroll);
             spellIdx_ += Mathf.RoundToInt(scroll * 10);
 
-            if(spellIdx_ > spellList_.Count-1)
+            if (spellIdx_ > spellList_.Count - 1)
             {
                 spellIdx_ = 0;
             }
-            else if(spellIdx_ < 0)
+            else if (spellIdx_ < 0)
             {
                 spellIdx_ = spellList_.Count - 1;
             }
@@ -188,8 +195,8 @@ public class PlayerKeyInput : MonoBehaviour
             {
                 Debug.Log(spell.ToString());
             }
-         //   wandRaySpawner_.rayAngle_ += scroll * angleIncrement;
-         //  sprayAngle = Mathf.Clamp(sprayAngle, minAngle, maxAngle);
+            //   wandRaySpawner_.rayAngle_ += scroll * angleIncrement;
+            //  sprayAngle = Mathf.Clamp(sprayAngle, minAngle, maxAngle);
         }
         //// 임시 스펠 변경 //
         //if (Input.GetKeyDown(KeyCode.Alpha1)) // 0도 노즐

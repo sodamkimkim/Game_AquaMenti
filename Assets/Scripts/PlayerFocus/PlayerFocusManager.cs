@@ -22,7 +22,7 @@ public class PlayerFocusManager : MonoBehaviour
     private MagicRotate magicRotate_;
     // Flag
     public bool isFocusFixed_ { get; set; }
-
+    public bool isInventoryOpen_ { get; set; }
 
     private void Awake()
     {
@@ -32,14 +32,14 @@ public class PlayerFocusManager : MonoBehaviour
         //screenSideManager_ = GameObject.FindWithTag("Canvas_ScreenSide").GetComponent<ScreenSideManager>();
 
         isFocusFixed_ = true;
-
+        isInventoryOpen_ = false;
     }
     public void SetStaff(Staff _staff)
     {
         staff_ = _staff;
         magicRotate_ = playerGo_.GetComponentInChildren<MagicRotate>();
     }
-  
+
     private void Update()
     {
         if (!gameManager_.isInGame_) return;
@@ -47,24 +47,32 @@ public class PlayerFocusManager : MonoBehaviour
         // # FocusFixed 모드 or FocusMove 모드
         if (isFocusFixed_)
         { // # FocusFixed 모드
-            wandRaySpawner_.RayScreenCenterShot();
-            playerYRotate_.RotateBodyAxisY(true);
-            upperBodyLook_.RotateUpperBodyAxisX(true);
-
-            if (staff_ != null)
+            if (!isInventoryOpen_)
             {
-                staff_.LookAtCenter();
+
+                wandRaySpawner_.RayScreenCenterShot();
+                playerYRotate_.RotateBodyAxisY(true);
+                upperBodyLook_.RotateUpperBodyAxisX(true);
+
+                if (staff_ != null)
+                {
+                    staff_.LookAtCenter();
+                }
             }
         }
         else if (!isFocusFixed_)
         { // # FocusMove 모드
-            wandRaySpawner_.RayMoveFocusShot();
-            // # ScreenSide MouseOver 체크
-            PlayerLookControlWhenScreenSideMouseHover();
-          
-            if (staff_ != null)
+            if (!isInventoryOpen_)
             {
-                staff_.Move(wandRaySpawner_.GetCenterRayDir());
+
+                wandRaySpawner_.RayMoveFocusShot();
+                // # ScreenSide MouseOver 체크
+                PlayerLookControlWhenScreenSideMouseHover();
+
+                if (staff_ != null)
+                {
+                    staff_.Move(wandRaySpawner_.GetCenterRayDir());
+                }
             }
         }
 

@@ -4875,6 +4875,8 @@ MonoBehaviour:
   wandRaySpawner_: {fileID: 149418535364017932}
   gameManager_: {fileID: 1481302895329777750}
   usingToolManager_: {fileID: 5241878060062340009}
+  playerYRotate_: {fileID: 0}
+  upperbodyLook_: {fileID: 0}
   inGameAllItemInfo_: {fileID: 0}
 --- !u!1 &832144956
 GameObject:
@@ -51830,6 +51832,8 @@ MonoBehaviour:
   wandRaySpawner_: {fileID: 149418535364017932}
   gameManager_: {fileID: 1481302895329777750}
   usingToolManager_: {fileID: 5241878060062340009}
+  playerYRotate_: {fileID: 5241878060400726520}
+  upperbodyLook_: {fileID: 5241878061167574805}
   inGameAllItemInfo_: {fileID: 5241878059674354952}
 --- !u!114 &5241878060400726277
 MonoBehaviour:
