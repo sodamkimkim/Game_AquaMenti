@@ -18,30 +18,31 @@
 > + 지원 플랫폼 : PC<br/>
 ----------------------------------------
 ## (기능) In & Out 게임
-### + UI
+### UI
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
-### + Ray
+### Ray
 ![image](https://user-images.githubusercontent.com/100888879/232946723-50d275ad-320a-474e-a994-5b6e5af511ea.png)
-### + Focus_Fixed Mode
+### Focus_Fixed Mode
 ![Focus_Fixed](https://user-images.githubusercontent.com/100888879/232946782-52bbfcb4-3738-4882-8865-d2d0f72eb53b.gif)
-### + Focus_Move Mode
+### Focus_Move Mode
 ![Focus_Move](https://user-images.githubusercontent.com/100888879/232946807-3200493b-6fe0-4dd2-b549-9db8cca037f1.gif)
-### + 인벤토리
+### 인벤토리
 ![인벤토리](https://user-images.githubusercontent.com/100888879/232946867-7860fcbc-79ba-4877-b722-fca1ebda6df3.gif)
-### + 주문서변경_마우스스크롤
+### 주문서변경_마우스스크롤
 ![주문서변경_마우스스크롤2](https://user-images.githubusercontent.com/100888879/232947540-ea707b8e-3d8a-48be-b1b2-6f2147536819.gif)
-### + 주문서변경_인벤토리
+### 주문서변경_인벤토리
 ![주문서변경_인벤토리](https://user-images.githubusercontent.com/100888879/232946931-09e22ca8-338e-4fb7-9dc2-b937f459aeb3.gif)
-### + 사다리 인식
+### 사다리 인식
 ![사다리 인식](https://user-images.githubusercontent.com/100888879/232947578-d171d3ad-2fd7-44c1-aa1f-bb89d3e14a03.gif)
 ![사다리](https://user-images.githubusercontent.com/100888879/232947791-7fe5ccda-1950-4145-b45d-ee29ab8ad00d.gif)
 
 
 
-## (디자인) 캐릭터 모델링
+## (디자인) 캐릭터 & 지팡이 모델링
 
 
 ## (디자인) 배경 모델링
+
 ![modular](https://user-images.githubusercontent.com/100888879/232946187-8d718fa9-cce4-4c65-8421-d47550777e3f.png)
 ![bench_gif](https://user-images.githubusercontent.com/100888879/232946211-50d83377-e08a-4a0b-bb11-e4a3ff8c9fe6.gif)
 ![box_gif](https://user-images.githubusercontent.com/100888879/232946218-fd282aa4-b97b-4556-a815-9e8bb2098411.gif)
