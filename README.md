@@ -37,8 +37,6 @@
 ![인벤토리](https://user-images.githubusercontent.com/100888879/232946867-7860fcbc-79ba-4877-b722-fca1ebda6df3.gif)
 ### 주문서변경_마우스스크롤
 ![주문서변경_마우스스크롤2](https://user-images.githubusercontent.com/100888879/232947540-ea707b8e-3d8a-48be-b1b2-6f2147536819.gif)
-### 주문서변경_인벤토리
-![주문서변경_인벤토리](https://user-images.githubusercontent.com/100888879/232946931-09e22ca8-338e-4fb7-9dc2-b937f459aeb3.gif)
 ### 사다리 인식
 ![사다리 인식](https://user-images.githubusercontent.com/100888879/232947578-d171d3ad-2fd7-44c1-aa1f-bb89d3e14a03.gif)
 ![사다리](https://user-images.githubusercontent.com/100888879/232947791-7fe5ccda-1950-4145-b45d-ee29ab8ad00d.gif)
