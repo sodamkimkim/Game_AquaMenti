@@ -42,10 +42,12 @@
 
 
 ## (디자인) 캐릭터 & 지팡이 모델링
+![지팡이1](https://user-images.githubusercontent.com/100888879/232950357-118d9137-f844-416f-9ab1-60529cf6fc57.gif)
+![지팡이2](https://user-images.githubusercontent.com/100888879/232950704-df0c85e4-c4c3-4652-bc48-7acd47c000c2.png)
 
 
 ## (디자인) 배경 모델링
-
+![배경2](https://user-images.githubusercontent.com/100888879/232950811-007d31bf-b1cc-479a-8c49-d0655e3694e7.gif)
 ![modular](https://user-images.githubusercontent.com/100888879/232946187-8d718fa9-cce4-4c65-8421-d47550777e3f.png)
 ![bench_gif](https://user-images.githubusercontent.com/100888879/232946211-50d83377-e08a-4a0b-bb11-e4a3ff8c9fe6.gif)
 ![box_gif](https://user-images.githubusercontent.com/100888879/232946218-fd282aa4-b97b-4556-a815-9e8bb2098411.gif)
