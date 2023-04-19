@@ -44,7 +44,7 @@
 ### 사다리 인식
 ![사다리 인식](https://user-images.githubusercontent.com/100888879/232947578-d171d3ad-2fd7-44c1-aa1f-bb89d3e14a03.gif)
 ![사다리](https://user-images.githubusercontent.com/100888879/232947791-7fe5ccda-1950-4145-b45d-ee29ab8ad00d.gif)
-
+--------------------------------------
 ## <디자인> 캐릭터 & 지팡이 모델링
 ![캐릭터](https://user-images.githubusercontent.com/100888879/232951583-f3ca46d6-9b04-44f5-8dc3-9013d5cb370d.gif)
 ![지팡이2](https://user-images.githubusercontent.com/100888879/232950704-df0c85e4-c4c3-4652-bc48-7acd47c000c2.png)
@@ -59,7 +59,7 @@
 ![chest_gif](https://user-images.githubusercontent.com/100888879/232946223-e0c8c3f9-73f3-4775-8791-eb16fe7a2013.gif)
 ![lamp_gif](https://user-images.githubusercontent.com/100888879/232946230-a0904675-ac82-44a2-9ccd-6c4fd749ddfd.gif)
 ![table_set2_gif](https://user-images.githubusercontent.com/100888879/232946239-83a4676c-d5e9-4da5-bf1b-5389722877de.gif)
-
+------------------------------------------
 ## 일정관리 마일스톤
 ![image](https://user-images.githubusercontent.com/100888879/232976917-b128ce5b-da56-42a4-9499-5c7be20f27d5.png)
 ![image](https://user-images.githubusercontent.com/100888879/232977013-d1ade9a2-d167-498e-a57e-3504316da4c3.png)
