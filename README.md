@@ -1,8 +1,5 @@
 # Unity Game 개발 프로젝트 - AQUA - MENTI
-<div align=center>#Unity #C-Sharp #URP Shader<br/></div>
-
-![image](https://user-images.githubusercontent.com/100888879/232939805-6b139cad-b8a0-4600-8612-0d21e5c76f22.png) <br/>
-![image](https://user-images.githubusercontent.com/100888879/232939964-0f789404-8672-4d4e-ae4c-10c3c587626b.png) <br/>
+<img src="https://img.shields.io/badge/CSharp-239120?style=for-the-badge&logo=CSharp&logoColor=white">
 
 > + 개발 기간: 2023.03.22 ~ 2023.04.19<br/>
 > + 게임 제목 : AQUA - MENTI (아쿠아 멘티)<br/>
