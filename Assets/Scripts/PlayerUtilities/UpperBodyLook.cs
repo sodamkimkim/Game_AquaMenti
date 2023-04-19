@@ -42,18 +42,18 @@ public class UpperBodyLook : MonoBehaviour
 
     public void ConstrainRotationAngle()
     {
-        if (transform.localRotation.x > 0.22)
+        if (transform.localRotation.x > 0.40)
         {
             Quaternion q = transform.localRotation;
-            q.x = 0.22f;
+            q.x = 0.40f;
             transform.localRotation = q;
         }
 
         //Debug.Log("RotateUpperBodyAxisXDown()");
-        if (transform.localRotation.x < -0.31)
+        if (transform.localRotation.x < -0.40)
         {
             Quaternion q = transform.localRotation;
-            q.x = -0.31f;
+            q.x = -0.40f;
             transform.localRotation = q;
         }
         //if (transform.rotation.x > 22 && transform.rotation.x < 35)
@@ -73,17 +73,17 @@ public class UpperBodyLook : MonoBehaviour
         {
             //Debug.Log(transform.localRotation);
             //# 위로 보는 회전각도 제약
-            if (transform.localRotation.x >= 0.22)
+            if (transform.localRotation.x >= 0.40)
             {
                 Quaternion q = transform.localRotation;
-                q.x = 0.22f;
+                q.x = 0.40f;
                 transform.localRotation = q;
             }
             // # 아래로 보는 회전각도 제약
-            if (transform.localRotation.x <= -0.31)
+            if (transform.localRotation.x <= -0.40)
             {
                 Quaternion q = transform.localRotation;
-                q.x = -0.31f;
+                q.x = -0.40f;
                 transform.localRotation = q;
             }
             float mouseY = Input.GetAxis("Mouse Y");
