@@ -44,10 +44,12 @@
 ###### Mesh Paint 기술 테스트
 ![Shader 기술 테스트](https://user-images.githubusercontent.com/100888879/232954754-50bf16ea-7e4f-4e82-91ef-ca9d0edd93d3.gif)
 
-### Focus Mode) Fixed
+### Ray Target Focus 변경
+###### Focus Mode) Fixed
 ![Focus_Fixed](https://user-images.githubusercontent.com/100888879/232946782-52bbfcb4-3738-4882-8865-d2d0f72eb53b.gif)
-### Focus Mode) Move
+###### Focus Mode) Move
 ![Focus_Move](https://user-images.githubusercontent.com/100888879/232946807-3200493b-6fe0-4dd2-b549-9db8cca037f1.gif)
+
 ### Inventory
 ![인벤토리](https://user-images.githubusercontent.com/100888879/232946867-7860fcbc-79ba-4877-b722-fca1ebda6df3.gif)
 ### 주문서변경_마우스스크롤
