@@ -23,10 +23,11 @@
 
 
 ## (디자인) 배경 모델링
-![bench_gif](https://user-images.githubusercontent.com/100888879/232945763-ab0e8012-ef01-4e99-bb75-5a0deb017f60.gif)
-![box_gif](https://user-images.githubusercontent.com/100888879/232945779-213b94ac-df8b-4784-be6c-4bdbac053b15.gif)
-![callboard_gif](https://user-images.githubusercontent.com/100888879/232945790-1b9d374f-baed-4fc8-b89b-b1b4f4998b39.gif)
-![chest_gif](https://user-images.githubusercontent.com/100888879/232945814-c191c4e9-67d2-4a6a-8244-7932373e448a.gif)
-![lamp_gif](https://user-images.githubusercontent.com/100888879/232945832-e08d1e6a-7a00-4d1c-b88b-8edbc36bbb4d.gif)
-![modular](https://user-images.githubusercontent.com/100888879/232945847-40e81b31-8a60-4dde-a584-b466d511a046.png)
-![table_set2_gif](https://user-images.githubusercontent.com/100888879/232945857-829b3d46-928c-4ac6-82ec-dd7da8afc311.gif)
+<div align = center>![bench_gif](https://user-images.githubusercontent.com/100888879/232945763-ab0e8012-ef01-4e99-bb75-5a0deb017f60.gif) ![box_gif](https://user-images.githubusercontent.com/100888879/232945779-213b94ac-df8b-4784-be6c-4bdbac053b15.gif)</div>
+<div align = center>![callboard_gif](https://user-images.githubusercontent.com/100888879/232945790-1b9d374f-baed-4fc8-b89b-b1b4f4998b39.gif) ![chest_gif](https://user-images.githubusercontent.com/100888879/232945814-c191c4e9-67d2-4a6a-8244-7932373e448a.gif)</div>
+<div align = center>![lamp_gif](https://user-images.githubusercontent.com/100888879/232945832-e08d1e6a-7a00-4d1c-b88b-8edbc36bbb4d.gif) ![modular](https://user-images.githubusercontent.com/100888879/232945847-40e81b31-8a60-4dde-a584-b466d511a046.png)</div> 
+<div align = center>![table_set2_gif](https://user-images.githubusercontent.com/100888879/232945857-829b3d46-928c-4ac6-82ec-dd7da8afc311.gif)</div>
+
+
+
+
