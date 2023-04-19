@@ -22,9 +22,6 @@
   ㄴ Shader : 최홍석<br/>
   ㄴ 디자인 : 박윤미, 김경환<br/>
 ----------------------------------------
-## PBR로 작성된 Main Shader
-![image](https://user-images.githubusercontent.com/100888879/232958172-a3d8de49-42c4-4a85-993f-9a884918bce6.png)
-
 ## <기능> In & Out 게임
 ### UI
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
