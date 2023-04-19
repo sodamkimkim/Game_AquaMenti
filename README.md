@@ -31,7 +31,7 @@
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
 ### Shader) Target 별 Dirty부분 & 진행상황 & 완료 표시
 ![완료](https://user-images.githubusercontent.com/100888879/232955641-f622d58b-48da-42b2-aa63-9109038a0a0a.gif)
-### Shader) Dirty 제거 기술 테스트
+### Shader) Mesh Paint 기술 테스트
 ![Shader 기술 테스트](https://user-images.githubusercontent.com/100888879/232954754-50bf16ea-7e4f-4e82-91ef-ca9d0edd93d3.gif)
 
 ### Focus Mode) Fixed
