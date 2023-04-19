@@ -5,11 +5,11 @@
 <img src="https://img.shields.io/badge/URP Shader-000000?style=for-the-badge&logo=unity&logoColor=white">
 <img src="https://img.shields.io/badge/CSharp-239120?style=for-the-badge&logo=CSharp&logoColor=white">
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-</div><br/><br/>
+</div><br/>
 <div align = center>
 <img src="https://img.shields.io/badge/3Ds MAX-41b7b7?style=for-the-badge&logo=&logoColor=white">
 <img src="https://img.shields.io/badge/substance painter-d61f2d?style=for-the-badge&logo=&logoColor=white">
-</div>
+</div><br/>
 
 > + 개발 기간: 2023.03.22 ~ 2023.04.19<br/>
 > + 게임 제목 : AQUA - MENTI (아쿠아 멘티)<br/>
