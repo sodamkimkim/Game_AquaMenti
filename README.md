@@ -44,7 +44,7 @@
 ## (디자인) 캐릭터 & 지팡이 모델링
 ![지팡이1](https://user-images.githubusercontent.com/100888879/232950357-118d9137-f844-416f-9ab1-60529cf6fc57.gif)
 ![지팡이2](https://user-images.githubusercontent.com/100888879/232950704-df0c85e4-c4c3-4652-bc48-7acd47c000c2.png)
-
+![지팡이1](https://user-images.githubusercontent.com/100888879/232950988-2bc3617d-2e8c-495e-9738-4630a81a677e.png)
 
 ## (디자인) 배경 모델링
 ![배경2](https://user-images.githubusercontent.com/100888879/232950811-007d31bf-b1cc-479a-8c49-d0655e3694e7.gif)
