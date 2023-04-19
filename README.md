@@ -1,6 +1,8 @@
 # Unity Game 개발 프로젝트 - AQUA - MENTI
+<div align = center>
 <img src="https://img.shields.io/badge/CSharp-239120?style=for-the-badge&logo=CSharp&logoColor=white">
-
+<img src="https://img.shields.io/badge/Unity-FFFFFF?style=for-the-badge&logo=Unity&logoColor=white">
+</div>
 > + 개발 기간: 2023.03.22 ~ 2023.04.19<br/>
 > + 게임 제목 : AQUA - MENTI (아쿠아 멘티)<br/>
 > + 팀 : 어벤저스 (디자인 - 박윤미, 김경환, 프로그래밍 - 김태영, 김소담, Shader - 최홍석)<br/>
