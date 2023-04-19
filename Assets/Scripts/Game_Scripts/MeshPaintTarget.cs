@@ -203,7 +203,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false || IsClear() == true) return;
         // Brush의 Texture를 받아서 사용하고자 하였으나 문제가 발생하여 지금은 사용하지 않음
 #if UNITY_EDITOR
-        Debug.Log("DrawRender");
+        //Debug.Log("DrawRender");
 #endif
         /*
             RWTexture2D<float4> PaintMask;
@@ -240,7 +240,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelPaint, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Shader Dispatch");
+        //Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
