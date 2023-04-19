@@ -16,6 +16,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject sectionDetailGo_ = null;
     [SerializeField] private GameObject workDetailGo_ = null;
     [SerializeField] private GameObject popupGo_ = null;
+    [SerializeField] private GameObject keyInputGo_ = null;
 
     [SerializeField] private UI_MenuManager ui_menuManager_ = null;
     [SerializeField] private Button[] btns_ = null;
@@ -186,6 +187,13 @@ public class UI_Manager : MonoBehaviour
             }
 
         }
+    }
+
+    public void KeyHelper()
+    {
+        if (keyInputGo_.activeSelf)
+            keyInputGo_.SetActive(false);
+        else keyInputGo_.SetActive(true);
     }
 
     public void ExitGame()

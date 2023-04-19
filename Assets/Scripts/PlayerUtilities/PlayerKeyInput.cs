@@ -21,6 +21,8 @@ public class PlayerKeyInput : MonoBehaviour
     private GameManager gameManager_ = null;
     [SerializeField]
     private UsingToolManager usingToolManager_ = null;
+    [SerializeField]
+    private UI_Manager uiManager_ = null;
     private WaterPumpActivator nowWaterPumpActivator_ = null;
 
     private PlayerYRotate playerYRotate_ = null;
@@ -183,6 +185,13 @@ public class PlayerKeyInput : MonoBehaviour
             //   wandRaySpawner_.rayAngle_ += scroll * angleIncrement;
             //  sprayAngle = Mathf.Clamp(sprayAngle, minAngle, maxAngle);
         }
+
+        // KeyHelper
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            uiManager_.KeyHelper();
+        }
+
         //// ¿”Ω√ Ω∫∆Á ∫Ø∞Ê //
         //if (Input.GetKeyDown(KeyCode.Alpha1)) // 0µµ ≥Î¡Ò
         //{
