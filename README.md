@@ -26,9 +26,9 @@
 ### 맵 / WorkSection 선택 / 입장
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
 ### 세척 전 후비교 (오염 Texture 적용)
-######## 세척 전
+###### 세척 전
 ![image](https://user-images.githubusercontent.com/100888879/232980927-8d8792bb-9992-4f50-8d5a-3f94f1731ebf.png) 
-######## 세척 후
+###### 세척 후
 ![image](https://user-images.githubusercontent.com/100888879/232980901-7cdf15c9-005c-4e9e-bccf-97e4d881f283.png)
 
 ### Ray를 이용한 물체 인식 & 세척
