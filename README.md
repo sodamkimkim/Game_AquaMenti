@@ -11,7 +11,7 @@
 <img src="https://img.shields.io/badge/substance painter-d61f2d?style=for-the-badge&logo=&logoColor=white">
 </div><br/>
 
-> + 개발 기간: 2023.03.22 ~ 2023.04.19<br/>
+> + 개발 기간: 2023.03.24 ~ 2023.04.19<br/>
 > + 게임 제목 : AQUA - MENTI (아쿠아 멘티)<br/>
 > + 게임 설명 : 물 마법으로 마을 곳곳을 청소하는 힐링 게임<br/>
 > + 지원 플랫폼 : PC<br/>
