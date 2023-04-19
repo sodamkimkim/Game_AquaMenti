@@ -1,4 +1,4 @@
-# Unity Game 개발 프로젝트 - AQUA - MENTI
+# <Unity Game 개발 프로젝트> AQUA - MENTI
 <div align = center>
 <img src="https://img.shields.io/badge/unity-FFFFFF?style=for-the-badge&logo=unity&logoColor=black">
 <img src="https://img.shields.io/badge/URP Shader-000000?style=for-the-badge&logo=unity&logoColor=white">
