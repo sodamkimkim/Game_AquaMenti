@@ -26,7 +26,7 @@
 ### 맵 / WorkSection 선택 / 입장
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
 ### Ray를 이용한 물체 인식 & 세척
-![image](https://user-images.githubusercontent.com/100888879/232946723-50d275ad-320a-474e-a994-5b6e5af511ea.png)
+![image](https://user-images.githubusercontent.com/100888879/232980348-5854757a-4e6c-4f63-b27d-661fb1245199.png)
 ### Twinkle Shader) Dirty 표시
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
 ![TwinkleShader_작업남은영역표시](https://user-images.githubusercontent.com/100888879/232979555-a7a817cd-dce8-4c18-80cb-19bd79bd335a.gif)
