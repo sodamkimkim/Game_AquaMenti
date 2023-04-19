@@ -27,10 +27,13 @@
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
 ### Ray
 ![image](https://user-images.githubusercontent.com/100888879/232946723-50d275ad-320a-474e-a994-5b6e5af511ea.png)
-### Dirty 표시
+### Shader) Dirty 표시
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
+### Shader) Dirty 표시 & Target 별 완료 표시
+![완료](https://user-images.githubusercontent.com/100888879/232955641-f622d58b-48da-42b2-aa63-9109038a0a0a.gif)
 ### Shader) Dirty 제거 기술 테스트
 ![Shader 기술 테스트](https://user-images.githubusercontent.com/100888879/232954754-50bf16ea-7e4f-4e82-91ef-ca9d0edd93d3.gif)
+
 ### Focus Mode) Fixed
 ![Focus_Fixed](https://user-images.githubusercontent.com/100888879/232946782-52bbfcb4-3738-4882-8865-d2d0f72eb53b.gif)
 ### Focus Mode) Move
