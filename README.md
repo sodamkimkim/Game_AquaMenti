@@ -18,9 +18,9 @@
 > + Asset : Suntail Village
 
 > + 팀 : 어벤저스<br/>
->> ㄴ 프로그래밍 - 김태영, 김소담<br/>
->> ㄴ Shader - 최홍석<br/>
->> ㄴ 디자인 - 박윤미, 김경환<br/>
+  ㄴ 프로그래밍 - 김태영, 김소담<br/>
+  ㄴ Shader - 최홍석<br/>
+  ㄴ 디자인 - 박윤미, 김경환<br/>
 ----------------------------------------
 ## (기능) In & Out 게임
 ### UI
@@ -45,7 +45,6 @@
 
 ## (디자인) 캐릭터 & 지팡이 모델링
 ![캐릭터](https://user-images.githubusercontent.com/100888879/232951583-f3ca46d6-9b04-44f5-8dc3-9013d5cb370d.gif)
-![지팡이1](https://user-images.githubusercontent.com/100888879/232950357-118d9137-f844-416f-9ab1-60529cf6fc57.gif)
 ![지팡이2](https://user-images.githubusercontent.com/100888879/232950704-df0c85e4-c4c3-4652-bc48-7acd47c000c2.png)
 ![지팡이1](https://user-images.githubusercontent.com/100888879/232950988-2bc3617d-2e8c-495e-9738-4630a81a677e.png)
 
