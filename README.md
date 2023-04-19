@@ -23,6 +23,10 @@
   ㄴ 디자인 : 박윤미, 김경환<br/>
 ----------------------------------------
 <br/><br/>
+## 핵심 미리보기)
+![사다리이용한세척2](https://user-images.githubusercontent.com/100888879/232988906-0a9bb228-7930-4298-b96c-f48a08223a31.gif)
+<br/><br/>
+
 ## <기능> In & Out 게임
 ### 맵 / WorkSection 선택 / 입장
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
