@@ -154,7 +154,7 @@ public class UI_Manager : MonoBehaviour
             SetTapColor(2);
             currentContent_ = workSectionSelectGo_;
         }
-        else if (currentContent_ == workDetailGo_)
+/*        else if (currentContent_ == workDetailGo_)
         {
             ui_menuManager_.SetSectionDetailMenu();
             currentContent_.SetActive(false);
@@ -162,7 +162,7 @@ public class UI_Manager : MonoBehaviour
 
             SetTapColor(3);
             currentContent_ = sectionDetailGo_;
-        }
+        }*/
     }
 
     private void SetTapColor(int _index)

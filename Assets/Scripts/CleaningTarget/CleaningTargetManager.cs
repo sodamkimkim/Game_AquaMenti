@@ -51,7 +51,7 @@ public class CleaningTargetManager : MonoBehaviour
 
             //Debug.Log(1f - wandRaySpawner_.cleaningPercent_ * 0.01f);
             cleaningProgressPanUI.SetCleaningProgressImgFillAmt(1f - wandRaySpawner_.cleaningPercent_ * 0.01f);
-            cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);
+            //cleaningPercentageUI.SetCleaningPercentageUI(Mathf.Round(0.776345f*100)*0.01f);
 
             cleaningPercentageUI.SetActive(true);
         }
@@ -59,7 +59,7 @@ public class CleaningTargetManager : MonoBehaviour
         {
             objectNameUI_.SetObjectName(wandRaySpawner_.cleaningTargetName_);
             cleaningProgressPanUI.SetCleaningProgressImgFillAmt(0f);
-            cleaningPercentageUI.SetCleaningPercentageUI(100f);
+            //cleaningPercentageUI.SetCleaningPercentageUI(100f);
             cleaningPercentageUI.SetActive(false);
         }
     }
