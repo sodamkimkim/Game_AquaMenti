@@ -22,7 +22,7 @@
   ㄴ 디자인 : 박윤미, 김경환<br/>
 ----------------------------------------
 ## <기능> In & Out 게임
-### UI
+### 맵 / WorkSection 선택 / 입장
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
 ### Ray를 이용한 물체 인식 & 세척
 ![image](https://user-images.githubusercontent.com/100888879/232946723-50d275ad-320a-474e-a994-5b6e5af511ea.png)
