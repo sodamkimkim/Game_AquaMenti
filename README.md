@@ -1,4 +1,4 @@
-# <Unity Game 개발 프로젝트> AQUA - MENTI
+#                         <Unity Game 개발 프로젝트> AQUA - MENTI
 <div align = center>
 <img src="https://img.shields.io/badge/unity-FFFFFF?style=for-the-badge&logo=unity&logoColor=black">
 <img src="https://img.shields.io/badge/URP Shader-000000?style=for-the-badge&logo=unity&logoColor=white">
@@ -59,6 +59,11 @@
 ![chest_gif](https://user-images.githubusercontent.com/100888879/232946223-e0c8c3f9-73f3-4775-8791-eb16fe7a2013.gif)
 ![lamp_gif](https://user-images.githubusercontent.com/100888879/232946230-a0904675-ac82-44a2-9ccd-6c4fd749ddfd.gif)
 ![table_set2_gif](https://user-images.githubusercontent.com/100888879/232946239-83a4676c-d5e9-4da5-bf1b-5389722877de.gif)
+
+## 일정관리 마일스톤
+![image](https://user-images.githubusercontent.com/100888879/232976917-b128ce5b-da56-42a4-9499-5c7be20f27d5.png)
+![image](https://user-images.githubusercontent.com/100888879/232977013-d1ade9a2-d167-498e-a57e-3504316da4c3.png)
+![image](https://user-images.githubusercontent.com/100888879/232977070-d14f86b6-a31d-4f42-a24e-b22c6a466893.png)
 
 
 
