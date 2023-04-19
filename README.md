@@ -1,7 +1,7 @@
 # Unity Game 개발 프로젝트 - AQUA - MENTI
 <div align = center>
 <img src="https://img.shields.io/badge/CSharp-239120?style=for-the-badge&logo=CSharp&logoColor=white">
-<img src="https://img.shields.io/badge/https://user-images.githubusercontent.com/100888879/232942544-a501ff2f-2267-4936-826e-1070a87577ba.svg-FFFFFF?style=for-the-badge&logo=unity&logoColor=white">
+<img src="https://img.shields.io/badge/unity-FFFFFF?style=for-the-badge&logo=unity&logoColor=white">
 </div>
 > + 개발 기간: 2023.03.22 ~ 2023.04.19<br/>
 > + 게임 제목 : AQUA - MENTI (아쿠아 멘티)<br/>
