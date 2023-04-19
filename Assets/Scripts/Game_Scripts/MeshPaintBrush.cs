@@ -319,7 +319,7 @@ public class MeshPaintBrush : MonoBehaviour
     private IEnumerator SaveTargetProcessCoroutine()
     {
 #if UNITY_EDITOR
-        Debug.Log("[SaveTargetProcessCoroutine]");
+        //Debug.Log("[SaveTargetProcessCoroutine]");
 #endif
         while (true)
         {
