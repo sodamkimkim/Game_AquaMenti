@@ -27,17 +27,16 @@
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
 ### Ray를 이용한 물체 인식 & 세척
 ![image](https://user-images.githubusercontent.com/100888879/232946723-50d275ad-320a-474e-a994-5b6e5af511ea.png)
-### Shader) Dirty 표시
+### Twinkle Shader) Dirty 표시
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
-### Shader) Target 별 Dirty부분 & 진행상황 & 완료 표시
+![TwinkleShader_작업남은영역표시](https://user-images.githubusercontent.com/100888879/232979555-a7a817cd-dce8-4c18-80cb-19bd79bd335a.gif)
+
+### Twinkle Shader) Target 별 Dirty부분 & 진행상황 & 완료 표시
 ![완료](https://user-images.githubusercontent.com/100888879/232955641-f622d58b-48da-42b2-aa63-9109038a0a0a.gif)
+![TwinkleShader_작업완료](https://user-images.githubusercontent.com/100888879/232979794-366d446b-17e1-4072-aad6-f19f66fc9a44.gif)
 
 ### Shader) Mesh Paint 기술 테스트
 ![Shader 기술 테스트](https://user-images.githubusercontent.com/100888879/232954754-50bf16ea-7e4f-4e82-91ef-ca9d0edd93d3.gif)
-#### Twinkle Shader - 작업 남은영역 표시
-![TwinkleShader_작업남은영역표시](https://user-images.githubusercontent.com/100888879/232979555-a7a817cd-dce8-4c18-80cb-19bd79bd335a.gif)
-#### Twinkle Shader - 작업 완료
-![TwinkleShader_작업완료](https://user-images.githubusercontent.com/100888879/232979794-366d446b-17e1-4072-aad6-f19f66fc9a44.gif)
 
 ### Focus Mode) Fixed
 ![Focus_Fixed](https://user-images.githubusercontent.com/100888879/232946782-52bbfcb4-3738-4882-8865-d2d0f72eb53b.gif)
