@@ -13,7 +13,7 @@ public class MeshPaintManager : MonoBehaviour
         MeshPaintTarget[] targets = FindObjectsOfType<MeshPaintTarget>();
         meshTargetList_ = new List<MeshPaintTarget>(targets);
 #if UNITY_EDITOR
-        Debug.Log("[MeshPaintManager] target Count: " + meshTargetList_.Count);
+        // Debug.Log("[MeshPaintManager] target Count: " + meshTargetList_.Count);
 #endif
     }
 

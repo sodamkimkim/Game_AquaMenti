@@ -155,7 +155,7 @@ public class MeshPaintTarget : MonoBehaviour
             if (sampleTex == null)
             {
 #if UNITY_EDITOR
-                Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
+                // Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
 #endif
                 // 오염 텍스쳐를 생성하고 원본 UV를 복사함
                 dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
@@ -265,7 +265,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false) return;
 
 #if UNITY_EDITOR
-        Debug.Log("DrawWet");
+        // Debug.Log("DrawWet");
 #endif
         /*
             RWTexture2D<float4> WetMask;
@@ -294,7 +294,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelWet, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Shader Dispatch");
+        // Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
@@ -641,7 +641,7 @@ public class MeshPaintTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
 #if UNITY_EDITOR
-        Debug.Log("StartCoroutine");
+        // Debug.Log("StartCoroutine");
 #endif
         float t = 0f;
         while (t < 1f)
@@ -651,7 +651,7 @@ public class MeshPaintTarget : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 #if UNITY_EDITOR
-        Debug.Log("EndCoroutine");
+        // Debug.Log("EndCoroutine");
 #endif
         StopDryWetting();
     }

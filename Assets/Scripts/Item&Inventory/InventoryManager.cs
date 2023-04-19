@@ -151,7 +151,7 @@ public class InventoryManager : MonoBehaviour
         nowStaff_ = staffArr_[_idx].gameObject.GetComponent<Staff>();
         playerFocusManager_.SetStaff(nowStaff_);
         nowWaterPumpActivator_ = staffArr_[_idx].gameObject.GetComponent<WaterPumpActivator>();
-        Debug.Log("waterPumpActivator change? " + nowWaterPumpActivator_.gameObject.name);
+        //Debug.Log("waterPumpActivator change? " + nowWaterPumpActivator_.gameObject.name);
     }
     public WaterPumpActivator GetWaterPumpActivator()
     {
