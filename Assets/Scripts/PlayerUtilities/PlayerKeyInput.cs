@@ -126,7 +126,7 @@ public class PlayerKeyInput : MonoBehaviour
             }
 
         }
-        if (!isInventoryUIOpen && !isOutGameUIOpen && !usingToolManager_.IsLadderMoveable())
+        if (!isInventoryUIOpen && !usingToolManager_.IsLadderMoveable())
         {
             nowWaterPumpActivator_ = inventoryManager_.GetWaterPumpActivator();
             if (Input.GetMouseButtonDown(0))
