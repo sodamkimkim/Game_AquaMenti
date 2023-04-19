@@ -22,6 +22,9 @@
   ㄴ Shader : 최홍석<br/>
   ㄴ 디자인 : 박윤미, 김경환<br/>
 ----------------------------------------
+## PBR로 작성된 Main Shader
+![image](https://user-images.githubusercontent.com/100888879/232958172-a3d8de49-42c4-4a85-993f-9a884918bce6.png)
+
 ## <기능> In & Out 게임
 ### UI
 ![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
@@ -45,8 +48,6 @@
 ### 사다리 인식
 ![사다리 인식](https://user-images.githubusercontent.com/100888879/232947578-d171d3ad-2fd7-44c1-aa1f-bb89d3e14a03.gif)
 ![사다리](https://user-images.githubusercontent.com/100888879/232947791-7fe5ccda-1950-4145-b45d-ee29ab8ad00d.gif)
-
-
 
 ## <디자인> 캐릭터 & 지팡이 모델링
 ![캐릭터](https://user-images.githubusercontent.com/100888879/232951583-f3ca46d6-9b04-44f5-8dc3-9013d5cb370d.gif)
