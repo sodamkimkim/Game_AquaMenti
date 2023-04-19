@@ -46,7 +46,23 @@ public class StartManager : MonoBehaviour
         {
             playerMovement.SetPosition(GetSpwan_1Pos(), GetSpwan_1Rot());
         }
+        else if (selectedMapNum_ == 1 && selectedSectionNum_ == 4)
+        {
+            playerMovement.SetPosition(GetSpwan_1Pos(), GetSpwan_1Rot());
+        }
+        else if (selectedMapNum_ == 1 && selectedSectionNum_ == 5)
+        {
+            playerMovement.SetPosition(GetSpwan_1Pos(), GetSpwan_1Rot());
+        }
         else if (selectedMapNum_ == 2 && selectedSectionNum_ == 1)
+        {
+            playerMovement.SetPosition(GetSpwan_2Pos(), GetSpwan_2Rot());
+        }
+        else if (selectedMapNum_ == 2 && selectedSectionNum_ == 2)
+        {
+            playerMovement.SetPosition(GetSpwan_2Pos(), GetSpwan_2Rot());
+        }
+        else if (selectedMapNum_ == 2 && selectedSectionNum_ == 3)
         {
             playerMovement.SetPosition(GetSpwan_2Pos(), GetSpwan_2Rot());
         }
