@@ -29,7 +29,7 @@
 ![image](https://user-images.githubusercontent.com/100888879/232946723-50d275ad-320a-474e-a994-5b6e5af511ea.png)
 ### Dirty 표시
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
-### Shader 기술 테스트
+### Shader Dirty 제거 기술 테스트
 ![Shader 기술 테스트](https://user-images.githubusercontent.com/100888879/232954754-50bf16ea-7e4f-4e82-91ef-ca9d0edd93d3.gif)
 ### Focus Mode) Fixed
 ![Focus_Fixed](https://user-images.githubusercontent.com/100888879/232946782-52bbfcb4-3738-4882-8865-d2d0f72eb53b.gif)
