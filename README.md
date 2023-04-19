@@ -31,7 +31,7 @@
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
 ### Focus Mode) Fixed
 ![Focus_Fixed](https://user-images.githubusercontent.com/100888879/232946782-52bbfcb4-3738-4882-8865-d2d0f72eb53b.gif)
-### Focus Move) Mode
+### Focus Mode) Move
 ![Focus_Move](https://user-images.githubusercontent.com/100888879/232946807-3200493b-6fe0-4dd2-b549-9db8cca037f1.gif)
 ### Inventory
 ![인벤토리](https://user-images.githubusercontent.com/100888879/232946867-7860fcbc-79ba-4877-b722-fca1ebda6df3.gif)
