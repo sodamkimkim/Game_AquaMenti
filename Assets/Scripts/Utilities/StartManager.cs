@@ -31,7 +31,7 @@ public class StartManager : MonoBehaviour
         if (!gameManager_.isStartGame_)
             gameManager_.ActiveInGameObjects();
         gameManager_.ActiveInGameUi();
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
 
         uI_Manager_.GetMapSectionNumber(out selectedMapNum_, out selectedSectionNum_);
         if (selectedMapNum_ == 1 && selectedSectionNum_ == 1)

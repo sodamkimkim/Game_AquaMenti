@@ -8,6 +8,11 @@ public class Ladder : MonoBehaviour, IInteractableTool
 
     public Transform GetTransform() { return transform; }
     public Vector3 GetPos() { return transform.position; }
+
+    private void Awake()
+    {
+
+    }
     public string GetName()
     {
         return this.gameObject.name;
@@ -20,7 +25,8 @@ public class Ladder : MonoBehaviour, IInteractableTool
     public void SetLadderPos(Vector3 _newPos)
     {
         // GetTransform().position = _newPos;
-        GetTransform().position = Vector3.MoveTowards(GetPos(), _newPos, 0.1f);
+        GetTransform().position = Vector3.MoveTowards(GetPos(), _newPos,0.05f);
+
         
     }
     public void RotateLadderLeft()
