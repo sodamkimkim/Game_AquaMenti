@@ -31,14 +31,13 @@
 ###### 세척 후
 ![image](https://user-images.githubusercontent.com/100888879/232980901-7cdf15c9-005c-4e9e-bccf-97e4d881f283.png)
 
-### Ray를 이용한 물체 인식 & 세척
+### Ray를 이용한 Targetting 
 ![image](https://user-images.githubusercontent.com/100888879/232980348-5854757a-4e6c-4f63-b27d-661fb1245199.png)
-### Twinkle Shader) 남은 작업 영역 표시
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
-###### 남은 작업 영역 표시
-![TwinkleShader_작업남은영역표시](https://user-images.githubusercontent.com/100888879/232979555-a7a817cd-dce8-4c18-80cb-19bd79bd335a.gif)
 
 ### Twinkle Shader) Target 별 Dirty부분 & 진행상황 & 완료 표시
+###### 남은 작업 영역 표시
+![TwinkleShader_작업남은영역표시](https://user-images.githubusercontent.com/100888879/232979555-a7a817cd-dce8-4c18-80cb-19bd79bd335a.gif)
 ![완료](https://user-images.githubusercontent.com/100888879/232955641-f622d58b-48da-42b2-aa63-9109038a0a0a.gif)
 ###### 해당 Target 작업 완료 표시
 ![TwinkleShader_작업완료](https://user-images.githubusercontent.com/100888879/232979794-366d446b-17e1-4072-aad6-f19f66fc9a44.gif)
