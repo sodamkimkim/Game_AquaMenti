@@ -18,6 +18,7 @@
 > + 지원 플랫폼 : PC<br/>
 ----------------------------------------
 ## (기능) In & Out 게임
+![게임 ui](https://user-images.githubusercontent.com/100888879/232946412-c696c014-029b-47c5-8dd7-bffee9d42c3d.gif)
 
 ## (디자인) 캐릭터 모델링
 
