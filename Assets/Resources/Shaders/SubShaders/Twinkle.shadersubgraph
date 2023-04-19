@@ -483,31 +483,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "310f86095850447c869184c3fd6b522f",
-    "m_Id": 1,
-    "m_DisplayName": "Out_Vector4",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "OutVector4",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "39408e9d6fd14d858fd4bd31e99d4eb5",
     "m_Id": 0,
@@ -605,15 +580,15 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 575.9999389648438,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
+            "x": 554.9999389648438,
+            "y": -139.0,
+            "width": 96.0001220703125,
+            "height": 77.00001525878906
         }
     },
     "m_Slots": [
         {
-            "m_Id": "310f86095850447c869184c3fd6b522f"
+            "m_Id": "9dcf7b74dd9440e2a35f1b9a14804bcc"
         }
     ],
     "synonyms": [],
@@ -859,6 +834,31 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "9dcf7b74dd9440e2a35f1b9a14804bcc",
+    "m_Id": 1,
+    "m_DisplayName": "Twinkle",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Twinkle",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
 }
 
 {

@@ -102,10 +102,6 @@ public class MeshPaintBrush : MonoBehaviour
     // ÀÓ½Ã ¸íÄª
     public void PaintToTarget(Ray _ray)
     {
-#if UNITY_EDITOR
-        //Debug.Log("Try");
-
-#endif
         if (Physics.Raycast(_ray, out var hitInfo))
         {
 #if UNITY_EDITOR

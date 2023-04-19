@@ -24,6 +24,11 @@ public class MeshPaintManager : MonoBehaviour
         {
             SaveTargetMask();
         }
+        // 임시 Reset 버튼
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ResetTargetMask();
+        }
     }
 
 
@@ -31,7 +36,17 @@ public class MeshPaintManager : MonoBehaviour
     {
         if (meshTargetList_.Count <= 0) return;
 
+        InitTarget();
         LoadTargetMask();
+    }
+
+
+    private void InitTarget()
+    {
+        foreach (MeshPaintTarget target_ in meshTargetList_)
+        {
+            target_.Init();
+        }
     }
 
 
@@ -54,7 +69,21 @@ public class MeshPaintManager : MonoBehaviour
         {
             if (target_.LoadMask() == false)
             {
-                Debug.LogWarning("일부 대상의 Mask를 불러오는데 실패하였습니다.");
+                Debug.LogWarning("일부 대상의 Mask를 불러오는데 실패하였습니다." + target_.name);
+            }
+        }
+    }
+
+    public void ResetTargetMask()
+    {
+        foreach (MeshPaintTarget target_ in meshTargetList_)
+        {
+            if (target_.IsDrawable() && target_.IsClear() == false && target_.GetProcessPercent() > 0.0001f)
+            {
+                if (target_.ResetMask() == false)
+                {
+                    Debug.LogWarning("일부 대상의 Mask를 초기화하는데 실패하였습니다.");
+                }
             }
         }
     }

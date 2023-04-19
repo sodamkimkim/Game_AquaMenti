@@ -73,19 +73,18 @@ public class FileIO
     /// <param name="_overwrite"></param>
     public static void CopyFile(string _sourceDir, string _destinationDir, string _fileName, bool _overwrite = false)
     {
+        if (Directory.Exists(_sourceDir) == false) return;
+
         if (Directory.Exists(_destinationDir) == false)
             Directory.CreateDirectory(_destinationDir);
 
         var dir = new DirectoryInfo(_sourceDir);
-
+        
         foreach (FileInfo file in dir.GetFiles(_fileName))
         {
             if (file.Exists && file.Extension != ".meta")
             {
                 string path = Path.Combine(_destinationDir, file.Name);
-#if UNITY_EDITOR
-                //Debug.Log("FullName: " + file.FullName + " And.. Path: " + path);
-#endif
                 file.CopyTo(path, _overwrite);
             }
         }
@@ -103,10 +102,14 @@ public class FileIO
     /// <param name="_overwrite">덮어쓰기를 할 것인지 여부 | default: false</param>
     public static void CopyDirectory(string _sourceDir, string _destinationDir, string _fileType = "*", bool _recursive = false, bool _overwrite = false)
     {
+        if (Directory.Exists(_sourceDir) == false) return;
+
         if (Directory.Exists(_destinationDir) == false)
             Directory.CreateDirectory(_destinationDir);
 
-        var dir = new DirectoryInfo(_sourceDir);
+        //Debug.LogFormat("sour: {0}, dest: {1}, type: {2}", _sourceDir, _destinationDir, _fileType);
+
+        DirectoryInfo dir = new DirectoryInfo(_sourceDir);
 
         foreach (FileInfo file in dir.GetFiles(_fileType))
         {
@@ -116,10 +119,11 @@ public class FileIO
 
         if (_recursive)
         {
-            DirectoryInfo[] dirs = dir.GetDirectories(_sourceDir);
+            DirectoryInfo[] dirs = dir.GetDirectories();
             foreach (DirectoryInfo subDir in dirs)
             {
                 string newDestinationDir = Path.Combine(_destinationDir, subDir.Name);
+                //Debug.Log("dir: " + newDestinationDir);
                 CopyDirectory(_destinationDir, newDestinationDir, _fileType, true);
             }
         }
