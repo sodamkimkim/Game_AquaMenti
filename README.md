@@ -42,7 +42,8 @@
 ![더러움 표시](https://user-images.githubusercontent.com/100888879/232953197-d8279a72-512c-41b6-a752-d3151bd750de.gif)
 <br/><br/>
 ### Twinkle Shader) Target 별 Dirty부분 & 진행상황 & 완료 표시
-![완료](https://user-images.githubusercontent.com/100888879/232955641-f622d58b-48da-42b2-aa63-9109038a0a0a.gif)
+![작업완료](https://user-images.githubusercontent.com/100888879/233245742-4bc4c019-f69b-4185-b3b6-3d7018971f3b.gif)
+
 ###### 남은 작업 영역 표시
 ![TwinkleShader_작업남은영역표시](https://user-images.githubusercontent.com/100888879/232979555-a7a817cd-dce8-4c18-80cb-19bd79bd335a.gif)
 ###### 해당 Target 작업 완료 표시
