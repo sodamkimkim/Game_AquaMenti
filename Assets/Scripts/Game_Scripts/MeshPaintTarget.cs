@@ -36,7 +36,6 @@ public class MeshPaintTarget : MonoBehaviour
     private int kernelPaint;
     private int kernelWet;
     private int kernelDry;
-    private int kernelCopy;
     private int kernelClear;
 
     private int kernelInitCount;
@@ -46,7 +45,6 @@ public class MeshPaintTarget : MonoBehaviour
     private readonly string kernelPaintName = "CSPaint";
     private readonly string kernelWetName = "CSWet";
     private readonly string kernelDryName = "CSDry";
-    private readonly string kernelCopyName = "CSCopy";
     private readonly string kernelClearName = "CSClear";
 
     private readonly string kernelInitCountName = "CSInitCount";
@@ -115,10 +113,10 @@ public class MeshPaintTarget : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        Init();
-    }
+    //private void Start()
+    //{
+    //    Init();
+    //}
 
     private void Update()
     {
@@ -130,7 +128,7 @@ public class MeshPaintTarget : MonoBehaviour
     }
 
 
-    private void Init()
+    public void Init()
     {
         // _MainTex: 모델링의 Texture
         // _WetMask: 젖은 효과를 위한 Mask (default: none). 코드상에서 추가
@@ -147,25 +145,6 @@ public class MeshPaintTarget : MonoBehaviour
                 threadGroupX = Mathf.CeilToInt(originUvTex.width / 8);
             if (threadGroupY == -1)
                 threadGroupY = Mathf.CeilToInt(originUvTex.height / 8);
-
-            // 임시 //
-            Texture sampleTex = null;
-            sampleTex = mainMat.GetTexture(dirtyMask);
-            // Texture가 없다면 생성해서 넣어줍니다.
-            if (sampleTex == null)
-            {
-#if UNITY_EDITOR
-                // Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
-#endif
-                // 오염 텍스쳐를 생성하고 원본 UV를 복사함
-                dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
-                dirtyRTex.name = gameObject.name;
-                dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
-                Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
-
-                mainMat.SetTexture(dirtyMask, dirtyRTex);
-            }
-            // End 임시 //
 
             // !!현재 노이즈 텍스쳐는 생성을 하지만 셰이더에서 사용하고 있지는 않음!!
             // *Compute Shader에서 생성하는데 자연스럽게 뽑아내기 전까지는 Shader Graph의 노이즈를 사용
@@ -265,7 +244,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false) return;
 
 #if UNITY_EDITOR
-        // Debug.Log("DrawWet");
+        Debug.Log("DrawWet");
 #endif
         /*
             RWTexture2D<float4> WetMask;
@@ -294,7 +273,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelWet, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        // Debug.Log("Shader Dispatch");
+        Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
@@ -317,13 +296,27 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsClear() == true) return;
 
 #if UNITY_EDITOR
-        //Debug.LogFormat("current: {0}, Percent: {1}", GetProcessPercent(), GetPercent());
+        Debug.LogFormat("current: {0}, Percent: {1}", GetProcessPercent(), GetPercent());
 #endif
         if (clearPercent < GetProcessPercent())
         {
             ClearTexture();
             CompleteTwinkle();
         }
+    }
+
+    /// <summary>
+    /// 로드 중 진행도를 확인하여 100%에 도달한 대상은 Clear처리를 합니다.
+    /// </summary>
+    /// <returns></returns>
+    private bool CheckClear()
+    {
+        IsClear(GetPercent() >= 100);
+
+        if (IsClear())
+            ClearTexture();
+
+        return IsClear();
     }
 
 
@@ -356,6 +349,27 @@ public class MeshPaintTarget : MonoBehaviour
 
         return percent;
     }
+
+//    /// <summary>
+//    /// <paramref name="_tex"/>을 target으로 원본과 비교하여 총 픽셀 수를 구하고 남은 픽셀 수를 계산하여 백분율을 반환합니다.
+//    /// </summary>
+//    /// <param name="_tex"></param>
+//    /// <returns>float | ex) 50.12446...</returns>
+//    private float GetProcessPercent(Texture2D _tex)
+//    {
+//        Debug.LogFormat("dirtyRTex: {0}", dirtyRTex.name);
+//        if (_tex == null || originUvTex == null || dirtyRTex == null) return 0f;
+
+//        uint origin = PixelCount(originUvTex);
+//        uint target = PixelCount(_tex);
+
+//        float percent = (origin - target) / (float)origin * 100;
+//#if UNITY_EDITOR
+//        Debug.LogFormat("[CheckPercent] origin: {0}, target: {1}, percent: {2}", origin, target, percent);
+//#endif
+
+//        return percent;
+//    }
 
     private uint PixelCount(Texture _tex)
     {
@@ -390,7 +404,7 @@ public class MeshPaintTarget : MonoBehaviour
     #endregion Pixel Counter
 
 
-    #region Texture Function (Clear, Reset)
+    #region Texture Function (Clear)
     public void ClearTexture()
     {
         if ((dirtyRTex.width != originUvTex.width) &&
@@ -409,31 +423,6 @@ public class MeshPaintTarget : MonoBehaviour
         paintShader.Dispatch(kernelClear, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
         Debug.Log("Dirty Clear.");
-#endif
-    }
-
-    // 원본UV를 RenderTexture에 복사
-    public void ResetTexture()
-    {
-        if ((dirtyRTex.width != originUvTex.width) &&
-            (dirtyRTex.height != originUvTex.height))
-        {
-#if UNITY_EDITOR
-            Debug.LogWarning("RenderTexture is different in size from origin. Check RenderTexture width and height.");
-#endif
-            return;
-        }
-
-        kernelCopy = paintShader.FindKernel(kernelCopyName);
-
-        paintShader.SetTexture(kernelCopy, "Source", originUvTex);
-        paintShader.SetTexture(kernelCopy, "Destination", dirtyRTex);
-
-        paintShader.Dispatch(kernelCopy, threadGroupX, threadGroupY, 1);
-
-        IsClear(false); // 초기화 했으므로 Clear -> false
-#if UNITY_EDITOR
-        Debug.Log("Reset Mask with Origin Texture.");
 #endif
     }
 
@@ -495,7 +484,7 @@ public class MeshPaintTarget : MonoBehaviour
     {
         if (dirtyRTex == null) return;
 
-        SaveToPNG(ToTexture(dirtyRTex), GetPath());
+        SaveToPNG(ToTexture(dirtyRTex), GetPath(FilePath.EPathType.EXTERNAL));
     }
 
     /// <summary>
@@ -504,8 +493,7 @@ public class MeshPaintTarget : MonoBehaviour
     /// <returns>bool | 가져왔는지 여부</returns>
     public bool LoadMask()
     {
-        bool load = true;
-        string path = GetPath();
+        string path = GetPath(FilePath.EPathType.EXTERNAL);
 
         StringBuilder fileName = new StringBuilder();
         fileName.Append(gameObject.name);
@@ -514,15 +502,84 @@ public class MeshPaintTarget : MonoBehaviour
         byte[] bytes = FileIO.GetFileBinary(path, fileName.ToString());
 
 
-        if (bytes == null || bytes.Length <= 0) return load = false;
+        if (bytes == null || bytes.Length <= 0) return false;
 
         Texture2D tex = GenerateTexture2D(resolution, resolution);
         tex.LoadImage(bytes);
         tex.Apply();
 
         SetPaintMask(tex);
+        if (CheckClear()) // 클리어된 것인지 체크하고 클리어라면 IsClear(true) 처리
+        {
+#if UNITY_EDITOR
+            Debug.LogFormat("[LoadMask] Clear Target Name: {0}", gameObject.name);
+#endif
+        }
 
-        return load;
+        return true;
+    }
+
+    public bool ResetMask()
+    {
+        if (IsDrawable() == false && IsClear() && GetPercent() < 0.00001f) return true;
+
+        string sourcePath = GetPath(FilePath.EPathType.ASSETS);
+        string destinationPath = GetPath(FilePath.EPathType.EXTERNAL);
+
+        StringBuilder fileName = new StringBuilder();
+        fileName.Append(gameObject.name);
+        fileName.Append(".png");
+
+        FileIO.CopyFile(sourcePath, destinationPath, fileName.ToString(), _overwrite: true);
+
+        // 원본 Texture로 Reset이 되었다면 Mask를 Load
+        if (LoadMask())
+            return true;
+        else
+            return false;
+    }
+
+    /// <summary>
+    /// Mask 유무를 확인하여 없다면 Mask를 생성합니다.
+    /// </summary>
+    public void CheckExistMask()
+    {
+        Texture sampleTex = null;
+        sampleTex = mainMat.GetTexture(dirtyMask);
+
+        // Texture가 없다면 생성해서 넣어줍니다.
+        if (sampleTex == null)
+        {
+#if UNITY_EDITOR
+            //Debug.Log("[MeshPainterTarget] Object Name: " + gameObject.name);
+#endif
+            // 오염 텍스쳐를 생성하고 원본 UV를 복사함
+            dirtyRTex = GenerateRenderTexture(originUvTex.width, originUvTex.height);
+            dirtyRTex.name = gameObject.name;
+            dirtyRTex.enableRandomWrite = true; // Graphics.Blit을 하기 전에 접근할 수 있게 설정해줘야 적용됨
+            Graphics.Blit(originUvTex, dirtyRTex); // Texture를 RenderTexture에 복사
+
+            mainMat.SetTexture(dirtyMask, dirtyRTex);
+        }
+    }
+
+    /// <summary>
+    /// gameObject의 name에 있는 정보를 이용하여 Path를 가져옵니다.
+    /// </summary>
+    /// <returns></returns>
+    public string GetPath(FilePath.EPathType _pathType)
+    {
+        // gameObject Name을 이용하여 불러오는 방식
+        // ex) Fence_1_2_3 | 1: Map, 2: Section, 3: Numbering
+        string[] split = gameObject.name.Split('_');
+        int len = split.Length;
+        int mapNum = int.Parse(split[len - 3]) - 1;
+        int sectionNum = int.Parse(split[len - 2]) - 1;
+
+        string path = FilePath.GetPath(_pathType, (FilePath.EMapType)mapNum, (FilePath.ESection)sectionNum);
+        //Debug.LogErrorFormat("[MeshPaintTarget] GetPath - {0}", path);
+
+        return path;
     }
 
     // Mask Texture를 PNG로 저장하는 용도
@@ -551,25 +608,6 @@ public class MeshPaintTarget : MonoBehaviour
         RenderTexture.active = oldTex;
 
         return toTex;
-    }
-
-    /// <summary>
-    /// gameObject의 name에 있는 정보를 이용하여 Path를 가져옵니다.
-    /// </summary>
-    /// <returns></returns>
-    private string GetPath()
-    {
-        // gameObject Name을 이용하여 불러오는 방식
-        // ex) Fence_1_2_3 | 1: Map, 2: Section, 3: Numbering
-        string[] split = gameObject.name.Split('_');
-        int len = split.Length;
-        int mapNum = int.Parse(split[len - 3]) - 1;
-        int sectionNum = int.Parse(split[len - 2]) - 1;
-
-        string path = FilePath.GetPath(FilePath.EPathType.EXTERNAL, (FilePath.EMapType)mapNum, (FilePath.ESection)sectionNum);
-        //Debug.LogErrorFormat("[MeshPaintTarget] GetPath - {0}", path);
-
-        return path;
     }
 
     /// <summary>
@@ -641,7 +679,7 @@ public class MeshPaintTarget : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
 #if UNITY_EDITOR
-        // Debug.Log("StartCoroutine");
+        Debug.Log("StartCoroutine");
 #endif
         float t = 0f;
         while (t < 1f)
@@ -651,7 +689,7 @@ public class MeshPaintTarget : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 #if UNITY_EDITOR
-        // Debug.Log("EndCoroutine");
+        Debug.Log("EndCoroutine");
 #endif
         StopDryWetting();
     }

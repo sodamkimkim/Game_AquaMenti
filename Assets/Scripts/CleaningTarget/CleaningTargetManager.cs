@@ -10,11 +10,11 @@ using UnityEngine;
 /// </summary>
 public class CleaningTargetManager : MonoBehaviour
 {
-    [SerializeField]
-    private InGameAllItemInfo inGameAllItemInfo_ = null;
+/*    [SerializeField]
+    private InGameAllItemInfo inGameAllItemInfo_ = null;*/
     private TargetObjectData targetObjectData_ = null;
-    [SerializeField]
-    private GameObject playerGo_ = null;
+/*    [SerializeField]
+    private GameObject playerGo_ = null;*/
     private WandRaySpawner wandRaySpawner_ = null;
 
     [SerializeField]

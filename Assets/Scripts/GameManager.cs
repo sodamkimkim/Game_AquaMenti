@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject inGameUiGo_ = null;
 
-    [SerializeField]
-    private UI_Manager uI_Manager_ = null;
+/*    [SerializeField]
+    private UI_Manager uI_Manager_ = null;*/
 
     public bool isStartGame_ { get; set; }
     public bool isInGame_ { get; set; }

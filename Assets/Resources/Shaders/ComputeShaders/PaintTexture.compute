@@ -3,9 +3,7 @@
 #pragma kernel CSPaint
 #pragma kernel CSWet
 #pragma kernel CSDry
-#pragma kernel CSCopy
 #pragma kernel CSClear
-#pragma kernel CSCombine
 //#pragma kernel CSAlpha
 
 // Create a RenderTexture with enableRandomWrite flag and set it
@@ -141,34 +139,6 @@ void CSDry(uint3 id : SV_DispatchThreadID)
     if (c.w <= 0) c = float4(1, 1, 1, 0);
 
     WetMask[id.xy] = c;
-}
-
-
-// Combine //
-//Texture2D<float4> Sour1;
-Texture2D<float4> Sour2;
-// End //
-
-[numthreads(8, 8, 1)]
-void CSCombine(uint3 id : SV_DispatchThreadID)
-{
-    // TODO: insert actual code here!
-    float4 c = Result[id.xy];
-    if (Sour2[id.xy].w > 0)
-        c *= Sour2[id.xy];
-    Result[id.xy] = c;
-}
-
-
-// Copy Property //
-Texture2D<float4> Source;
-RWTexture2D<float4> Destination;
-// End //
-
-[numthreads(8, 8, 1)]
-void CSCopy (uint3 id : SV_DispatchThreadID)
-{
-    Destination[id.xy] = Source[id.xy];
 }
 
 

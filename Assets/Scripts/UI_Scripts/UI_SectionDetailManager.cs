@@ -6,7 +6,7 @@ using UnityEngine;
 public class UI_SectionDetailManager : MonoBehaviour
 {
     [SerializeField] private GameDataManager gameDataManager_ = null;
-    [SerializeField] private UI_Manager uI_Manager_ = null;
+    /*[SerializeField] private UI_Manager uI_Manager_ = null;*/
 
     [SerializeField] private TextMeshProUGUI intermediaryTMPGUI_ = null;
     [SerializeField] private TextMeshProUGUI storyDescriptionTMPGUI_ = null;

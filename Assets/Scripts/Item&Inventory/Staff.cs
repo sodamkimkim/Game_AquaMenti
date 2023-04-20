@@ -32,7 +32,7 @@ public class Staff : Item
         //{
             //Debug.Log("LookAtCenter");
            // isLookAtRay_ = false;
-            Quaternion qt = Quaternion.EulerAngles(originRotation_);
+            Quaternion qt = Quaternion.Euler(originRotation_);
             this.transform.localRotation = qt;
         //}
     }

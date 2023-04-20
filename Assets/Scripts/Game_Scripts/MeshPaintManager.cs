@@ -5,6 +5,7 @@ using UnityEngine;
 public class MeshPaintManager : MonoBehaviour
 {
     private List<MeshPaintTarget> meshTargetList_ = null;
+    [SerializeField] GameManager gameManager_;
 
 
     private void Awake()
@@ -13,16 +14,22 @@ public class MeshPaintManager : MonoBehaviour
         MeshPaintTarget[] targets = FindObjectsOfType<MeshPaintTarget>();
         meshTargetList_ = new List<MeshPaintTarget>(targets);
 #if UNITY_EDITOR
-        // Debug.Log("[MeshPaintManager] target Count: " + meshTargetList_.Count);
+        Debug.Log("[MeshPaintManager] target Count: " + meshTargetList_.Count);
 #endif
     }
 
     private void Update()
     {
-        // 임시 Save 버튼
-        if (Input.GetKeyDown(KeyCode.O))
+        if (!gameManager_.isInGame_) return;
+        /*        // 임시 Save 버튼
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    SaveTargetMask();
+                }*/
+        // 임시 Reset 버튼
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            SaveTargetMask();
+            ResetTargetMask();
         }
     }
 
@@ -31,7 +38,17 @@ public class MeshPaintManager : MonoBehaviour
     {
         if (meshTargetList_.Count <= 0) return;
 
+        InitTarget();
         LoadTargetMask();
+    }
+
+
+    private void InitTarget()
+    {
+        foreach (MeshPaintTarget target_ in meshTargetList_)
+        {
+            target_.Init();
+        }
     }
 
 
@@ -54,7 +71,21 @@ public class MeshPaintManager : MonoBehaviour
         {
             if (target_.LoadMask() == false)
             {
-                Debug.LogWarning("일부 대상의 Mask를 불러오는데 실패하였습니다.");
+                Debug.LogWarning("일부 대상의 Mask를 불러오는데 실패하였습니다." + target_.name);
+            }
+        }
+    }
+
+    public void ResetTargetMask()
+    {
+        foreach (MeshPaintTarget target_ in meshTargetList_)
+        {
+            if (target_.IsDrawable() && target_.IsClear() == false && target_.GetProcessPercent() > 0.0001f)
+            {
+                if (target_.ResetMask() == false)
+                {
+                    Debug.LogWarning("일부 대상의 Mask를 초기화하는데 실패하였습니다.");
+                }
             }
         }
     }

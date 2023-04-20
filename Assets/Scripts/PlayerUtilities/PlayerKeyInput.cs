@@ -25,7 +25,7 @@ public class PlayerKeyInput : MonoBehaviour
     private UI_Manager uiManager_ = null;
     private WaterPumpActivator nowWaterPumpActivator_ = null;
 
-    private PlayerYRotate playerYRotate_ = null;
+/*    private PlayerYRotate playerYRotate_ = null;*/
 
     private bool useWand { get; set; }
     private bool isOutGameUIOpen { get; set; }
