@@ -26,6 +26,9 @@
 ## 핵심 미리보기)
 ###### 사다리 올라가서 집 세척하기
 ![사다리이용한세척2](https://user-images.githubusercontent.com/100888879/232988906-0a9bb228-7930-4298-b96c-f48a08223a31.gif)
+###### Target 작업 완료
+![작업완료](https://user-images.githubusercontent.com/100888879/233251550-65e7ba4f-d413-4b20-9728-c062ba95c5c7.gif)
+
 <br/><br/>
 
 ## <기능> In & Out 게임
