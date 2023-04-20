@@ -52,9 +52,11 @@
 <br/><br/>
 ### Ray Target Focus 변경
 ###### Focus Mode) Fixed
-![Focus_Fixed](https://user-images.githubusercontent.com/100888879/232946782-52bbfcb4-3738-4882-8865-d2d0f72eb53b.gif)
+![Focus_Fixed](https://user-images.githubusercontent.com/100888879/233244679-14f66b66-5db1-4972-bc15-446a423cf8f5.gif)
+
 ###### Focus Mode) Move
-![Focus_Move](https://user-images.githubusercontent.com/100888879/232946807-3200493b-6fe0-4dd2-b549-9db8cca037f1.gif)
+![Focus_Move](https://user-images.githubusercontent.com/100888879/233244711-4b76cf7b-57ef-463f-b7f5-9f2ad64dd968.gif)
+
 <br/><br/>
 ### Inventory
 ![인벤토리](https://user-images.githubusercontent.com/100888879/232946867-7860fcbc-79ba-4877-b722-fca1ebda6df3.gif)
