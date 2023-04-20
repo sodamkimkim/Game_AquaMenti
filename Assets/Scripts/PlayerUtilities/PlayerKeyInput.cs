@@ -129,14 +129,14 @@ public class PlayerKeyInput : MonoBehaviour
                 playerFocusManager_.isInventoryOpen_ = false;
             }
         }
-        if (!inventoryManager_.isInventoryPanOpen_)
+/*        if (!inventoryManager_.isInventoryPanOpen_)
         {
             Cursor.visible = false;                     //마우스 커서가 보이지 않게 함
         }
         else
         {
             Cursor.visible = true;                     //마우스 커서가 보이지 않게 함
-        }
+        }*/
         if (!isInventoryUIOpen && !usingToolManager_.IsLadderMoveable())
         {
             nowWaterPumpActivator_ = inventoryManager_.GetWaterPumpActivator();
