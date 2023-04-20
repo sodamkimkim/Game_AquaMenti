@@ -28,7 +28,7 @@ public class UI_Manager : MonoBehaviour
     private int selectedMapNum_ = 0;
     private int selectedSectionNum_ = 0;
 
-    private string nickName_ = string.Empty;
+    public string nickName_ {  get; private set; }
     private Color defaultNomalColor_;
     private void Awake()
     {

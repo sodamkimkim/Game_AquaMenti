@@ -144,7 +144,7 @@ public class InventoryManager : MonoBehaviour
         {
             go.SetActive(true);
             go.transform.SetParent(staffArr_[_idx].transform);
-            go.transform.localPosition = new Vector3(0f, 0f, 0f);
+            go.transform.localPosition = new Vector3(-0.3f, 0f, 0.3f);
             go.transform.localRotation = Quaternion.identity;
 
         }

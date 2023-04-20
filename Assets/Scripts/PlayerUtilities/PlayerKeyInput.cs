@@ -74,6 +74,8 @@ public class PlayerKeyInput : MonoBehaviour
         }
         if (!gameManager_.isInGame_) return;
         // walk상태 일때 달릴 수 있음
+
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             playerMovement_.isLeftShiftKeyInput_ = true;
@@ -105,7 +107,9 @@ public class PlayerKeyInput : MonoBehaviour
         // 마법영역 Rotate
         if (Input.GetKeyDown(KeyCode.R) && !playerFocusManager_.isInventoryOpen_)
         {
+            Debug.Log("ABC");
             playerFocusManager_.RotateWaterMagic();
+            nowWaterPumpActivator_.RotateParticle();
         }
         // inventory on / off
         if (Input.GetKeyDown(KeyCode.I))
@@ -124,7 +128,14 @@ public class PlayerKeyInput : MonoBehaviour
                 isInventoryUIOpen = false;
                 playerFocusManager_.isInventoryOpen_ = false;
             }
-
+        }
+        if (!inventoryManager_.isInventoryPanOpen_)
+        {
+            Cursor.visible = false;                     //마우스 커서가 보이지 않게 함
+        }
+        else
+        {
+            Cursor.visible = true;                     //마우스 커서가 보이지 않게 함
         }
         if (!isInventoryUIOpen && !usingToolManager_.IsLadderMoveable())
         {
@@ -178,6 +189,22 @@ public class PlayerKeyInput : MonoBehaviour
             }
             Debug.Log(spellIdx_);
             inventoryManager_.SelectItem(spellList_[spellIdx_]);
+            if (spellIdx_ == 0)
+            {
+                nowWaterPumpActivator_.AngleParticle(0f);
+            }
+            else if (spellIdx_ == 1)
+            {
+                nowWaterPumpActivator_.AngleParticle(15f);
+            }
+            else if (spellIdx_ == 2)
+            {
+                nowWaterPumpActivator_.AngleParticle(25f);
+            }
+            else if (spellIdx_ == 3)
+            {
+                nowWaterPumpActivator_.AngleParticle(45f);
+            }
             foreach (var spell in spellList_)
             {
                 Debug.Log(spell.ToString());
