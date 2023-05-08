@@ -17,6 +17,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject workDetailGo_ = null;
     [SerializeField] private GameObject popupGo_ = null;
     [SerializeField] private GameObject keyInputGo_ = null;
+    [SerializeField] private GameObject loadScreenGo_ = null;
 
     [SerializeField] private UI_MenuManager ui_menuManager_ = null;
     [SerializeField] private Button[] btns_ = null;
@@ -24,6 +25,7 @@ public class UI_Manager : MonoBehaviour
     private UI_WorkAreaManager uI_WorkAreaManager_ = null;
     private UI_SectionDetailManager uI_SectionDetailManager_ = null;
     private GameObject currentContent_ = null;
+    private TextMeshProUGUI loadScreenText_ = null;
 
     private int selectedMapNum_ = 0;
     private int selectedSectionNum_ = 0;
@@ -34,6 +36,7 @@ public class UI_Manager : MonoBehaviour
     {
         uI_WorkAreaManager_ = workSectionSelectGo_.GetComponent<UI_WorkAreaManager>();
         uI_SectionDetailManager_ = sectionDetailGo_.GetComponent<UI_SectionDetailManager>();
+        loadScreenText_ = loadScreenGo_.GetComponentInChildren<TextMeshProUGUI>();
     }
     private void Start()
     {
@@ -187,6 +190,20 @@ public class UI_Manager : MonoBehaviour
             }
 
         }
+    }
+
+    public void LoadingStart(string _text)
+    {
+        if (_text == null || _text == string.Empty) _text = "...";
+
+        loadScreenText_.text = _text;
+        loadScreenGo_.SetActive(true);
+    }
+
+    public void LoadingEnd()
+    {
+        loadScreenText_.text = string.Empty;
+        loadScreenGo_.SetActive(false);
     }
 
     public void KeyHelper()

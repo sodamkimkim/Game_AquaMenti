@@ -163,21 +163,25 @@ public class InventoryManager : MonoBehaviour
         if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg0MagicSpell.ToString())
         { // # AmberStaff 难扁
             wandRaySpawner_.rayAngle_ = 0f;
+            nowWaterPumpActivator_.AngleParticle(0f);
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg15MagicSpell.ToString())
         { // # RubyStaff 难扁
             wandRaySpawner_.rayAngle_ = 15f;
+            nowWaterPumpActivator_.AngleParticle(15f);
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg25MagicSpell.ToString())
         { // # RubyStaff 难扁
             wandRaySpawner_.rayAngle_ = 25f;
+            nowWaterPumpActivator_.AngleParticle(25f);
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
         else if (_selectItem.itemName_ == InGameAllItemInfo.ESpellName.Deg45MagicSpell.ToString())
         { // # RubyStaff 难扁
             wandRaySpawner_.rayAngle_ = 45f;
+            nowWaterPumpActivator_.AngleParticle(45f);
             SetBottomUISpellImg(_selectItem.itemImgFileName_);
         }
 

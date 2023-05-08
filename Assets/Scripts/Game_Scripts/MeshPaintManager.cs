@@ -1,11 +1,20 @@
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MeshPaintManager : MonoBehaviour
 {
-    private List<MeshPaintTarget> meshTargetList_ = null;
+    public delegate void LoadingStartUICallback_(string _text);
+    public delegate void LoadingEndUICallback_();
+
+    private LoadingStartUICallback_ loadingStartCallback_;
+    private LoadingEndUICallback_ loadingEndCallback_;
+
     [SerializeField] GameManager gameManager_;
+
+    private List<MeshPaintTarget> meshTargetList_ = null;
 
 
     private void Awake()
@@ -34,9 +43,12 @@ public class MeshPaintManager : MonoBehaviour
     }
 
 
-    public void Init()
+    public void Init(LoadingStartUICallback_ _loadStartCallback, LoadingEndUICallback_ _loadEndCallback)
     {
         if (meshTargetList_.Count <= 0) return;
+
+        loadingStartCallback_ = _loadStartCallback;
+        loadingEndCallback_ = _loadEndCallback;
 
         InitTarget();
         LoadTargetMask();
@@ -45,10 +57,12 @@ public class MeshPaintManager : MonoBehaviour
 
     private void InitTarget()
     {
-        foreach (MeshPaintTarget target_ in meshTargetList_)
-        {
-            target_.Init();
-        }
+        //foreach (MeshPaintTarget target_ in meshTargetList_)
+        //{
+        //    target_.Init();
+        //}
+        StopCoroutine("InitTargetCoroutine");
+        StartCoroutine("InitTargetCoroutine");
     }
 
 
@@ -57,7 +71,7 @@ public class MeshPaintManager : MonoBehaviour
         // 현재 Section의 그리는 대상만이 저장 대상이 됨
         foreach (MeshPaintTarget target_ in meshTargetList_)
         {
-            if (target_.IsDrawable())
+            if (target_.IsDrawable() && target_.IsClear() == false)
             {
                 target_.SaveMask();
             }
@@ -66,18 +80,110 @@ public class MeshPaintManager : MonoBehaviour
 
     public void LoadTargetMask()
     {
-        // 그리는 대상이 아니어도 다른 세션의 진행도도 볼 수 있도록 하기 위해 조건 해제
+        //// 그리는 대상이 아니어도 다른 세션의 진행도도 볼 수 있도록 하기 위해 조건 해제
+        //foreach (MeshPaintTarget target_ in meshTargetList_)
+        //{
+        //    if (target_.LoadMask() == false)
+        //    {
+        //        Debug.LogWarning("일부 대상의 Mask를 불러오는데 실패하였습니다." + target_.name);
+        //    }
+        //}
+        StopCoroutine("LoadTargetMaskCoroutine");
+        StartCoroutine("LoadTargetMaskCoroutine");
+    }
+
+    public void ResetTargetMask()
+    {
+        //foreach (MeshPaintTarget target_ in meshTargetList_)
+        //{
+        //    if (target_.IsDrawable() && target_.IsClear() == false && target_.GetProcessPercent() > 0.0001f)
+        //    {
+        //        if (target_.ResetMask() == false)
+        //        {
+        //            Debug.LogWarning("일부 대상의 Mask를 초기화하는데 실패하였습니다.");
+        //        }
+        //    }
+        //}
+        StopCoroutine("ResetTargetMaskCoroutine");
+        StartCoroutine("ResetTargetMaskCoroutine");
+    }
+
+
+    private void SetLoadScreen(string _type, int _cnt, int _total)
+    {
+        StringBuilder sb = new StringBuilder();
+        int percent = Mathf.FloorToInt(_cnt / float.Parse(_total.ToString()) * 100);
+
+        string text = string.Empty;
+        switch (_type)
+        {
+            case "init":
+                sb.Append("초기화하는 중");
+                sb.Append("...");
+                break;
+            case "load":
+                sb.Append("불러오는 중");
+                sb.Append("...");
+                break;
+            case "reset":
+                sb.Append("리셋하는 중");
+                sb.Append("...");
+                loadingStartCallback_?.Invoke(sb.ToString());
+                return;
+            default:
+                sb.Append("...");
+                loadingStartCallback_?.Invoke(sb.ToString());
+                return;
+        }
+        //sb.Append(_cnt);
+        //sb.Append("/");
+        //sb.Append(_total);
+        sb.Append("(");
+        sb.Append(percent);
+        sb.Append("%)");
+
+        loadingStartCallback_?.Invoke(sb.ToString());
+    }
+
+    private IEnumerator InitTargetCoroutine()
+    {
+        int count = 0;
+        string type = "init";
+        SetLoadScreen(type, count, meshTargetList_.Count);
+        foreach (MeshPaintTarget target_ in meshTargetList_)
+        {
+            target_.Init();
+            ++count;
+            SetLoadScreen(type, count, meshTargetList_.Count);
+            yield return null;
+        }
+        loadingEndCallback_?.Invoke();
+    }
+    private IEnumerator LoadTargetMaskCoroutine()
+    {
+        int count = 0;
+        string type = "load";
+        SetLoadScreen(type, count, meshTargetList_.Count);
         foreach (MeshPaintTarget target_ in meshTargetList_)
         {
             if (target_.LoadMask() == false)
             {
                 Debug.LogWarning("일부 대상의 Mask를 불러오는데 실패하였습니다." + target_.name);
             }
+            else
+            {
+                ++count;
+                SetLoadScreen(type, count, meshTargetList_.Count);
+            }
+            yield return null;
         }
+        loadingEndCallback_?.Invoke();
     }
-
-    public void ResetTargetMask()
+    private IEnumerator ResetTargetMaskCoroutine()
     {
+        int count = 0;
+        string type = "reset";
+        SetLoadScreen(type, count, meshTargetList_.Count);
         foreach (MeshPaintTarget target_ in meshTargetList_)
         {
             if (target_.IsDrawable() && target_.IsClear() == false && target_.GetProcessPercent() > 0.0001f)
@@ -86,8 +192,10 @@ public class MeshPaintManager : MonoBehaviour
                 {
                     Debug.LogWarning("일부 대상의 Mask를 초기화하는데 실패하였습니다.");
                 }
+                SetLoadScreen(type, count, meshTargetList_.Count);
             }
+            yield return null;
         }
+        loadingEndCallback_?.Invoke();
     }
-
 }

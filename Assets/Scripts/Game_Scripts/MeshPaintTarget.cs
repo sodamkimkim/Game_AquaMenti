@@ -302,6 +302,7 @@ public class MeshPaintTarget : MonoBehaviour
         {
             ClearTexture();
             CompleteTwinkle();
+            SaveMask();
         }
     }
 
@@ -677,7 +678,7 @@ public class MeshPaintTarget : MonoBehaviour
 
     private IEnumerator DryWettingCoroutine()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.001f);
 #if UNITY_EDITOR
         //Debug.Log("StartCoroutine");
 #endif
@@ -686,7 +687,7 @@ public class MeshPaintTarget : MonoBehaviour
         {
             t += Time.deltaTime;
             DryWetting(mainMat, Time.deltaTime * dryTimeMultiply);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
 #if UNITY_EDITOR
         //Debug.Log("EndCoroutine");
