@@ -21,6 +21,7 @@ public class PlayerFocusManager : MonoBehaviour
 
     private MagicRotate magicRotate_;
     // Flag
+    public bool isFocusLock_ { get; set; }
     public bool isFocusFixed_ { get; set; }
     public bool isInventoryOpen_ { get; set; }
 
@@ -31,6 +32,7 @@ public class PlayerFocusManager : MonoBehaviour
         upperBodyLook_ = playerGo_.GetComponentInChildren<UpperBodyLook>();
         //screenSideManager_ = GameObject.FindWithTag("Canvas_ScreenSide").GetComponent<ScreenSideManager>();
 
+        isFocusLock_ = false;
         isFocusFixed_ = true;
         isInventoryOpen_ = false;
     }
@@ -43,7 +45,8 @@ public class PlayerFocusManager : MonoBehaviour
     private void Update()
     {
         if (!gameManager_.isInGame_) return;
-        // # FocusFixed 모드 or FocusMove 모드
+        if (isFocusLock_) return;
+
         // # FocusFixed 모드 or FocusMove 모드
         if (isFocusFixed_)
         { // # FocusFixed 모드

@@ -13,6 +13,8 @@ public class MeshPaintManager : MonoBehaviour
     private LoadingEndUICallback_ loadingEndCallback_;
 
     [SerializeField] GameManager gameManager_;
+    [SerializeField] PlayerKeyInput keyInput_;
+    [SerializeField] PlayerFocusManager focusManager_;
 
     private List<MeshPaintTarget> meshTargetList_ = null;
 
@@ -144,6 +146,20 @@ public class MeshPaintManager : MonoBehaviour
 
         loadingStartCallback_?.Invoke(sb.ToString());
     }
+    
+    private void IsPlayerInputKeyLock(bool _lock)
+    {
+        if (_lock)
+        {
+            keyInput_.useKey = false; // 리셋 중에는 키 입력 방지
+            focusManager_.isFocusLock_ = true;
+        }
+        else
+        {
+            keyInput_.useKey = true;
+            focusManager_.isFocusLock_ = false;
+        }
+    }
 
     private IEnumerator InitTargetCoroutine()
     {
@@ -178,11 +194,13 @@ public class MeshPaintManager : MonoBehaviour
             yield return null;
         }
         loadingEndCallback_?.Invoke();
+        SoundManager.Instance.Play("BirdSound");
     }
     private IEnumerator ResetTargetMaskCoroutine()
     {
         int count = 0;
         string type = "reset";
+        IsPlayerInputKeyLock(true);
         SetLoadScreen(type, count, meshTargetList_.Count);
         foreach (MeshPaintTarget target_ in meshTargetList_)
         {
@@ -197,5 +215,6 @@ public class MeshPaintManager : MonoBehaviour
             yield return null;
         }
         loadingEndCallback_?.Invoke();
+        IsPlayerInputKeyLock(false);
     }
 }

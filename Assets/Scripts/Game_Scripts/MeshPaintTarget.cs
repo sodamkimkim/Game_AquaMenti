@@ -303,6 +303,7 @@ public class MeshPaintTarget : MonoBehaviour
             ClearTexture();
             CompleteTwinkle();
             SaveMask();
+            SoundManager.Instance.Play("ClearBell");
         }
     }
 

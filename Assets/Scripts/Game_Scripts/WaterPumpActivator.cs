@@ -27,44 +27,6 @@ public class WaterPumpActivator : MonoBehaviour
         PlayPump(false);
     }
 
-    private void Update()
-    {
-/*        if (Input.GetMouseButtonDown(0))
-        {
-            PlayPump(true);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            PlayPump(false);
-        }
-
-        // 추가 작업 //
-        // 가로 세로 변경
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RotateParticle();
-        }
-
-        // 각도 변경
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            AngleParticle(0f);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            AngleParticle(15f);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            AngleParticle(25f);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            AngleParticle(45f);
-        }*/
-        // End //
-    }
-
 
     public void PlayPump(bool _play)
     {
@@ -84,9 +46,15 @@ public class WaterPumpActivator : MonoBehaviour
         if (waterParticle_ == null) return;
 
         if (_active)
+        {
             waterParticle_.Play(true);
+            SoundManager.Instance.Play("WaterFluid");
+        }
         else
+        {
             waterParticle_.Stop(true);
+            SoundManager.Instance.Stop("WaterFluid");
+        }
     }
 
     public void RotateParticle()

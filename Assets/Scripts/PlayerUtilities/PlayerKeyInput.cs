@@ -27,6 +27,7 @@ public class PlayerKeyInput : MonoBehaviour
 
 /*    private PlayerYRotate playerYRotate_ = null;*/
 
+    public bool useKey { get; set; }
     private bool useWand { get; set; }
     private bool isOutGameUIOpen { get; set; }
     private bool isInventoryUIOpen { get; set; }
@@ -42,12 +43,12 @@ public class PlayerKeyInput : MonoBehaviour
         playerMovement_ = GetComponent<PlayerMovement>();
         wandRaySpawner_ = GetComponentInChildren<WandRaySpawner>();
 
+        useKey = true;
         isOutGameUIOpen = false;
         isInventoryUIOpen = false;
 
         spellList_.Clear();
         playerAnimation_ = GetComponent<PlayerAnimation>();
-
 
     }
     private void Start()
@@ -57,6 +58,9 @@ public class PlayerKeyInput : MonoBehaviour
     }
     private void Update()
     {
+        // Block Input Key
+        if (useKey == false) return;
+
         playerAnimation_.IsWalk(false);
         // OutGameUI on / off
         if (Input.GetKeyDown(KeyCode.Escape))
