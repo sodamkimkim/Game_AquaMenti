@@ -146,7 +146,7 @@ public class PlayerKeyInput : MonoBehaviour
             nowWaterPumpActivator_ = inventoryManager_.GetWaterPumpActivator();
             if (Input.GetMouseButtonDown(0))
             {
-                gameManager_.MouseLock(!(isInventoryUIOpen || isOutGameUIOpen), isInventoryUIOpen || isOutGameUIOpen);
+                gameManager_.MouseLock(playerFocusManager_.isFocusFixed_ || isOutGameUIOpen, isInventoryUIOpen || isOutGameUIOpen);
                 nowWaterPumpActivator_.PlayPump(true);
             }
             if (Input.GetMouseButtonUp(0))
