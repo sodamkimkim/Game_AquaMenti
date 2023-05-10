@@ -78,7 +78,6 @@ public class PlayerFocusManager : MonoBehaviour
                 }
             }
         }
-
     }
     /// <summary>
     /// ScreenSide¿¡ Mouse hover µÇ¸é RotateBodyAxisY of RotateUpperBodyAxisX
@@ -101,7 +100,6 @@ public class PlayerFocusManager : MonoBehaviour
         if (screenSideManager_.isScreenSideRight) playerYRotate_.RotateBodyAxisYRight(true);
         else playerYRotate_.RotateBodyAxisYLeft(false);
     }
-
 
     public void RotateWaterMagic()
     {

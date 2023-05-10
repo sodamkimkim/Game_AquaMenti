@@ -54,7 +54,6 @@ public class PlayerKeyInput : MonoBehaviour
     private void Start()
     {
         inGameAllItemInfo_.GetSpellItemList(out spellList_);
-
     }
     private void Update()
     {
@@ -75,6 +74,7 @@ public class PlayerKeyInput : MonoBehaviour
                 gameManager_.ActiveInGameUi();
                 isOutGameUIOpen = false;
             }
+            gameManager_.MouseLock(!isOutGameUIOpen, isOutGameUIOpen);
         }
         if (!gameManager_.isInGame_) return;
         // walk상태 일때 달릴 수 있음
@@ -107,11 +107,11 @@ public class PlayerKeyInput : MonoBehaviour
         {
             if (playerFocusManager_.isFocusFixed_ == true) { playerFocusManager_.isFocusFixed_ = false; Debug.Log("isFocusFixed_ = false"); }
             else if (playerFocusManager_.isFocusFixed_ == false) { playerFocusManager_.isFocusFixed_ = true; Debug.Log("isFocusFixed_ = true"); }
+            gameManager_.MouseLock(playerFocusManager_.isFocusFixed_, false);
         }
         // 마법영역 Rotate
         if (Input.GetKeyDown(KeyCode.R) && !playerFocusManager_.isInventoryOpen_)
         {
-            Debug.Log("ABC");
             playerFocusManager_.RotateWaterMagic();
             nowWaterPumpActivator_.RotateParticle();
         }
@@ -123,7 +123,6 @@ public class PlayerKeyInput : MonoBehaviour
                 playerFocusManager_.isInventoryOpen_ = true;
                 inventoryManager_.OpenInventoryPan();
                 isInventoryUIOpen = true;
-                Debug.Log("?????????????? " + gameManager_.isInGame_);
             }
             else if (inventoryManager_.isInventoryPanOpen_ == true)
             {
@@ -132,20 +131,22 @@ public class PlayerKeyInput : MonoBehaviour
                 isInventoryUIOpen = false;
                 playerFocusManager_.isInventoryOpen_ = false;
             }
+            gameManager_.MouseLock(!isInventoryUIOpen, isInventoryUIOpen);
         }
-/*        if (!inventoryManager_.isInventoryPanOpen_)
-        {
-            Cursor.visible = false;                     //마우스 커서가 보이지 않게 함
-        }
-        else
-        {
-            Cursor.visible = true;                     //마우스 커서가 보이지 않게 함
-        }*/
+        /*        if (!inventoryManager_.isInventoryPanOpen_)
+                {
+                    Cursor.visible = false;                     //마우스 커서가 보이지 않게 함
+                }
+                else
+                {
+                    Cursor.visible = true;                     //마우스 커서가 보이지 않게 함
+                }*/
         if (!isInventoryUIOpen && !usingToolManager_.IsLadderMoveable())
         {
             nowWaterPumpActivator_ = inventoryManager_.GetWaterPumpActivator();
             if (Input.GetMouseButtonDown(0))
             {
+                gameManager_.MouseLock(!(isInventoryUIOpen || isOutGameUIOpen), isInventoryUIOpen || isOutGameUIOpen);
                 nowWaterPumpActivator_.PlayPump(true);
             }
             if (Input.GetMouseButtonUp(0))
