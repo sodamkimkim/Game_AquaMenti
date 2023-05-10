@@ -90,7 +90,7 @@ public class StartManager : MonoBehaviour
             SetSectionDraw(selectedMapNum_, selectedSectionNum_);
             playerMovement.SetPosition(GetSpwan_2Pos(), GetSpwan_2Rot());
         }
-        uI_Manager_.GoToWorkDetailGo();
+        //uI_Manager_.GoToWorkDetailGo();
 
     }
     private Vector3 GetSpwan_1Pos()

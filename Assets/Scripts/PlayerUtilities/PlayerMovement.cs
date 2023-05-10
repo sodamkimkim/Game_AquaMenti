@@ -115,6 +115,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     {
         this.transform.position = _direction;
         this.transform.rotation = _rotation;
+        Physics.SyncTransforms();
     }
     public void OnCollisionEnter(Collision _collision)
     {

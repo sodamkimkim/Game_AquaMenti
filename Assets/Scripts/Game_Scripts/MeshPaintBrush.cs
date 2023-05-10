@@ -157,10 +157,19 @@ public class MeshPaintBrush : MonoBehaviour
 #endif
                         if (target_.IsClear() == false)
                             target_.DrawRender(isPainting_, uvPos_, color_, size_, distance);
-                        target_.DrawWet(isPainting_, uvPos_, size_, distance);
                         CheckTargetProcess();
                         SaveTargetProcess();
                     }
+                }
+                if (effective_)
+                {
+                    float distance;
+                    if (hitInfo.distance <= effectiveDistance_)
+                        distance = 1f;
+                    else
+                        distance = 1 - ((hitInfo.distance - effectiveDistance_) / (maxDistance_ - effectiveDistance_));
+
+                    target_.DrawWet(isPainting_, uvPos_, size_, distance);
                 }
             }
         }

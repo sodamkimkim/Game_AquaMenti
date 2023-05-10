@@ -12,8 +12,8 @@ public class WandRaySpawner : MonoBehaviour
     private MeshPaintBrush[] sideRayBrushArr = new MeshPaintBrush[5];
 
     // # side rays endPosition구할 필드
-    [SerializeField]
-    private float rayPosDefaultOffset_ = 0.05f; // 5개 각 ray의 offset, center를 기준으로 해당 값만큼 떨어져서 생성 (Rotate전 기본 축 : X)
+    /*[SerializeField]
+    private float rayPosDefaultOffset_ = 0.05f; // 5개 각 ray의 offset, center를 기준으로 해당 값만큼 떨어져서 생성 (Rotate전 기본 축 : X)*/
     [SerializeField]
     private float mainRayMaxDistance_ = 10f;
     [SerializeField]

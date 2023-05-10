@@ -244,7 +244,7 @@ public class MeshPaintTarget : MonoBehaviour
         if (IsDrawable() == false) return;
 
 #if UNITY_EDITOR
-        Debug.Log("DrawWet");
+        //Debug.Log("DrawWet");
 #endif
         /*
             RWTexture2D<float4> WetMask;
@@ -273,7 +273,7 @@ public class MeshPaintTarget : MonoBehaviour
         // 현재 Shader는 numthreads(8, 8, 1)이면 shader.Dispatch(kernel, width / 8, height / 8, 1);
         paintShader.Dispatch(kernelWet, threadGroupX, threadGroupY, 1);
 #if UNITY_EDITOR
-        Debug.Log("Shader Dispatch");
+        //Debug.Log("Shader Dispatch");
 #endif
 
         // 5) 처리된 정보를 가공하는 부분
@@ -302,6 +302,8 @@ public class MeshPaintTarget : MonoBehaviour
         {
             ClearTexture();
             CompleteTwinkle();
+            SaveMask();
+            SoundManager.Instance.Play("ClearBell");
         }
     }
 
@@ -464,7 +466,7 @@ public class MeshPaintTarget : MonoBehaviour
         _mat.SetFloat("_TwinkleSpeed", _onlyDirty ? 3f : 4f); // 반짝임 속도
         _mat.SetColor("_TwinkleColor", color); // 색상
 #if UNITY_EDITOR
-        Debug.Log("[SetTwinkleProperties] Before Return");
+        //Debug.Log("[SetTwinkleProperties] Before Return");
 #endif
     }
     private void StopTwinkleProperties(Material _mat)
@@ -677,19 +679,19 @@ public class MeshPaintTarget : MonoBehaviour
 
     private IEnumerator DryWettingCoroutine()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.001f);
 #if UNITY_EDITOR
-        Debug.Log("StartCoroutine");
+        //Debug.Log("StartCoroutine");
 #endif
         float t = 0f;
         while (t < 1f)
         {
             t += Time.deltaTime;
             DryWetting(mainMat, Time.deltaTime * dryTimeMultiply);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
 #if UNITY_EDITOR
-        Debug.Log("EndCoroutine");
+        //Debug.Log("EndCoroutine");
 #endif
         StopDryWetting();
     }

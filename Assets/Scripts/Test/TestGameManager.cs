@@ -5,6 +5,8 @@ using UnityEngine;
 public class TestGameManager : MonoBehaviour
 {
     [SerializeField]
+    private UI_Manager uI_Manager_ = null;
+    [SerializeField]
     private MeshPaintManager meshPaintManager_ = null;
 
     private List<string> missFileList_ = null;
@@ -45,12 +47,14 @@ public class TestGameManager : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
         // 누락된 파일들 확인용
         PrintList(missFileList_);
+#endif
 
         // 4) 누락되거나 손실된 파일을 복구하였다면 기초 준비가 끝난 상태로 판단합니다.
         // Scene에 있는 모든 MeshPaintTarget을 가진 Object에 대해 Mask Texture를 불러옵니다.
-        meshPaintManager_.Init();
+        meshPaintManager_.Init(uI_Manager_.LoadingStart, uI_Manager_.LoadingEnd);
     }
 
 

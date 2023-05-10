@@ -27,7 +27,7 @@ public class PlayerYRotate : MonoBehaviour
     {
         if (_para)
         {
-            Debug.Log("RotateBodyAxisYLeft()");
+            //Debug.Log("RotateBodyAxisYLeft()");
             float rotAngle = 0f;
             rotAngle += -focusMoveModeOffsetAngle_;
             transform.Rotate(0f, rotAngle, 0f, Space.World);
@@ -41,7 +41,7 @@ public class PlayerYRotate : MonoBehaviour
     {
         if (_para)
         {
-            Debug.Log("RotateBodyAxisYRight()");
+            //Debug.Log("RotateBodyAxisYRight()");
             float rotAngle = 0f;
             rotAngle += focusMoveModeOffsetAngle_;
             transform.Rotate(0f, rotAngle, 0f, Space.World);
